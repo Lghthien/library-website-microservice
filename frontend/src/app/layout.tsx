@@ -1,18 +1,12 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+// import { Geist, Geist_Mono } from "next/font/google"; // Tạm tắt để build Docker không lỗi
 import { Toaster } from "sonner";
 import { ToastProvider } from "@/components/ui/ToastContext";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+// Sử dụng font hệ thống để tránh lỗi tải font khi build Docker
+const geistSansVariable = "--font-geist-sans";
+const geistMonoVariable = "--font-geist-mono";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -28,7 +22,7 @@ export default function RootLayout({
     // Thêm suppressHydrationWarning vào đây
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSansVariable} ${geistMonoVariable} antialiased font-sans`}
         suppressHydrationWarning // Thêm vào đây nữa để chắc chắn
       >
         <ToastProvider>
