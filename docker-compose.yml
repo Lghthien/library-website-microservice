@@ -1,0 +1,162 @@
+version: '3.8'
+
+services:
+  gateway:
+    build:
+      context: ./gateway
+      dockerfile: Dockerfile
+    ports:
+      - "4000:4000"
+    environment:
+      - PORT=4000
+      - FRONTEND_URL=http://localhost:3000
+      - AUTH_SERVICE_URL=http://auth-service:4001
+      - CATALOG_SERVICE_URL=http://catalog-service:4002
+      - REPORT_SERVICE_URL=http://report-service:4003
+      - NOTIFICATION_SERVICE_URL=http://notification-service:4004
+      - READER_SERVICE_URL=http://reader-service:4005
+      - LOAN_SERVICE_URL=http://loan-service:4006
+      - PARAMETER_SERVICE_URL=http://parameter-service:4007
+    depends_on:
+      - auth-service
+      - catalog-service
+      - report-service
+      - notification-service
+      - reader-service
+      - loan-service
+      - parameter-service
+    networks:
+      - library-net
+    restart: unless-stopped
+
+  auth-service:
+    build:
+      context: ./auth-service
+      dockerfile: Dockerfile
+    ports:
+      - "4001:4001"
+    environment:
+      - PORT=4001
+      - MONGODB_URI=${MONGODB_URI}
+      - JWT_SECRET=${JWT_SECRET}
+      - MAIL_HOST=${MAIL_HOST}
+      - MAIL_PORT=${MAIL_PORT}
+      - MAIL_USER=${MAIL_USER}
+      - MAIL_PASS=${MAIL_PASS}
+      - MAIL_FROM=${MAIL_FROM}
+    networks:
+      - library-net
+    restart: unless-stopped
+
+  catalog-service:
+    build:
+      context: ./catalog-service
+      dockerfile: Dockerfile
+    ports:
+      - "4002:4002"
+    environment:
+      - PORT=4002
+      - MONGODB_URI=${MONGODB_URI}
+      - JWT_SECRET=${JWT_SECRET}
+    volumes:
+      - uploads_data:/app/uploads
+    networks:
+      - library-net
+    restart: unless-stopped
+
+  reader-service:
+    build:
+      context: ./reader-service
+      dockerfile: Dockerfile
+    ports:
+      - "4005:4005"
+    environment:
+      - PORT=4005
+      - MONGODB_URI=${MONGODB_URI}
+      - JWT_SECRET=${JWT_SECRET}
+    networks:
+      - library-net
+    restart: unless-stopped
+
+  loan-service:
+    build:
+      context: ./loan-service
+      dockerfile: Dockerfile
+    ports:
+      - "4006:4006"
+    environment:
+      - PORT=4006
+      - MONGODB_URI=${MONGODB_URI}
+      - JWT_SECRET=${JWT_SECRET}
+    networks:
+      - library-net
+    restart: unless-stopped
+
+  parameter-service:
+    build:
+      context: ./parameter-service
+      dockerfile: Dockerfile
+    ports:
+      - "4007:4007"
+    environment:
+      - PORT=4007
+      - MONGODB_URI=${MONGODB_URI}
+      - JWT_SECRET=${JWT_SECRET}
+    networks:
+      - library-net
+    restart: unless-stopped
+
+  report-service:
+    build:
+      context: ./report-service
+      dockerfile: Dockerfile
+    ports:
+      - "4003:4003"
+    environment:
+      - PORT=4003
+      - MONGODB_URI=${MONGODB_URI}
+      - JWT_SECRET=${JWT_SECRET}
+    networks:
+      - library-net
+    restart: unless-stopped
+
+  notification-service:
+    build:
+      context: ./notification-service
+      dockerfile: Dockerfile
+    ports:
+      - "4004:4004"
+    environment:
+      - PORT=4004
+      - MONGODB_URI=${MONGODB_URI}
+      - JWT_SECRET=${JWT_SECRET}
+      - MAIL_HOST=${MAIL_HOST}
+      - MAIL_PORT=${MAIL_PORT}
+      - MAIL_USER=${MAIL_USER}
+      - MAIL_PASS=${MAIL_PASS}
+      - MAIL_FROM=${MAIL_FROM}
+    networks:
+      - library-net
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:4000
+    depends_on:
+      - gateway
+    networks:
+      - library-net
+    restart: unless-stopped
+
+volumes:
+
+  uploads_data:
+
+networks:
+  library-net:
+    driver: bridge
