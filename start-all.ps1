@@ -20,6 +20,20 @@ Write-Host "  Library Management - Microservices   " -ForegroundColor Cyan
 Write-Host "=======================================" -ForegroundColor Cyan
 Write-Host ""
 
+# Sync .env to services if missing
+foreach ($svc in $services) {
+  $svcPath = Join-Path $root $svc.name
+  $targetEnv = Join-Path $svcPath ".env"
+  $rootEnv = Join-Path $root ".env"
+  
+  if (Test-Path $rootEnv) {
+    if (-not (Test-Path $targetEnv)) {
+      Write-Host "🔑 Syncing .env to $($svc.name)..." -ForegroundColor Magenta
+      Copy-Item $rootEnv $targetEnv
+    }
+  }
+}
+
 # Install dependencies if node_modules missing
 foreach ($svc in $services) {
   $svcPath = Join-Path $root $svc.name

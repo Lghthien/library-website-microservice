@@ -56,9 +56,12 @@ graph TD
 
 ### 1. Cấu hình Biến môi trường
 Dự án sử dụng các biến môi trường để bảo mật thông tin liên kết:
-1.  **Sao chép file mẫu**: Chạy lệnh `cp .env.example .env` (hoặc copy-paste tay).
-2.  **Cấu hình Database**: Mở file `.env` và điền `MONGODB_URI` (đã được đồng bộ hóa trên toàn bộ hệ thống).
-3.  **JWT Secret**: Mặc định là `lght` để kiểm tra nhanh.
+1.  **Tạo file gốc**: Sao chép file mẫu: `cp .env.example .env` và điền thông tin Database của bạn.
+2.  **Đồng bộ hóa các service**: Vì mỗi Microservice chạy độc lập, chúng cần file `.env` riêng. Bạn có thể dùng lệnh sau để copy nhanh từ file gốc vào tất cả các thư mục:
+    ```powershell
+    Get-ChildItem -Directory | ForEach-Object { copy .env $_.FullName }
+    ```
+    *(Ghi chú: Script `start-all.ps1` cũng đã được tích hợp để tự động làm việc này cho bạn).*
 
 ### 2. Khởi chạy toàn dự án (One-Click Start)
 Chúng tôi cung cấp script PowerShell thông minh để khởi chạy toàn bộ 9 dịch vụ:
