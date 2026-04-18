@@ -17,7 +17,7 @@ graph TD
     Gateway --> Notif["Notification Service - Emails & Logs"]
     Gateway --> Report["Report Service - Analytics"]
     
-    Auth --- DB[( "MongoDB" )]
+    Auth --- DB[(MongoDB)]
     Catalog --- DB
     Reader --- DB
     Loan --- DB
