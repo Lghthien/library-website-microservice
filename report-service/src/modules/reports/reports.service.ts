@@ -129,7 +129,7 @@ export class ReportsService {
     // but usually report viewing implies "current status" unless specific point-in-time is requested.
     // Let's default to NOW if viewDate is missing, to keep consistent with "System Date".
     const comparisonDate = viewDate ? new Date(viewDate) : new Date();
-    
+
     // Ensure comparison includes the whole day (set to 23:59:59 if it's a date-only input, or just keep exact if it has time)
     // Actually, usually "Overdue on date X" checks status at END of date X.
     // So let's force comparisonDate to end of that day if it looks like a date-boundary.
@@ -170,10 +170,10 @@ export class ReportsService {
       { $unwind: '$loanDetail' },
       {
         $match: {
-            $or: [
-                { 'loanDetail.returnDate': null }, // Chưa trả
-                { 'loanDetail.returnDate': { $gt: comparisonDate } } // Hoặc trả SAU ngày xem báo cáo
-            ]
+          $or: [
+            { 'loanDetail.returnDate': null }, // Chưa trả
+            { 'loanDetail.returnDate': { $gt: comparisonDate } }, // Hoặc trả SAU ngày xem báo cáo
+          ],
         },
       },
       {
@@ -228,7 +228,10 @@ export class ReportsService {
         $addFields: {
           overdueDays: {
             $floor: {
-              $divide: [{ $subtract: [comparisonDate, '$dueDate'] }, 1000 * 60 * 60 * 24],
+              $divide: [
+                { $subtract: [comparisonDate, '$dueDate'] },
+                1000 * 60 * 60 * 24,
+              ],
             },
           },
         },
@@ -586,7 +589,7 @@ export class ReportsService {
   // Reader Age Distribution: Phân bố độ tuổi độc giả (Histogram)
   async getReaderAgeDistribution(): Promise<any[]> {
     const today = new Date();
-    
+
     const ageDistribution = await this.readerModel.aggregate([
       {
         $addFields: {
@@ -594,11 +597,11 @@ export class ReportsService {
             $floor: {
               $divide: [
                 { $subtract: [today, '$dateOfBirth'] },
-                365.25 * 24 * 60 * 60 * 1000
-              ]
-            }
-          }
-        }
+                365.25 * 24 * 60 * 60 * 1000,
+              ],
+            },
+          },
+        },
       },
       {
         $bucket: {
@@ -606,14 +609,14 @@ export class ReportsService {
           boundaries: [0, 18, 25, 35, 100],
           default: 'Khác',
           output: {
-            count: { $sum: 1 }
-          }
-        }
-      }
+            count: { $sum: 1 },
+          },
+        },
+      },
     ]);
 
     // Format lại kết quả
-    const result = ageDistribution.map(item => {
+    const result = ageDistribution.map((item) => {
       let ageGroup = '';
       if (item._id === 0) ageGroup = 'Dưới 18';
       else if (item._id === 18) ageGroup = '18-25';
@@ -623,7 +626,7 @@ export class ReportsService {
 
       return {
         ageGroup,
-        count: item.count
+        count: item.count,
       };
     });
 
@@ -638,14 +641,14 @@ export class ReportsService {
           from: 'readertypes',
           localField: 'readerTypeId',
           foreignField: '_id',
-          as: 'readerType'
-        }
+          as: 'readerType',
+        },
       },
-      { 
+      {
         $unwind: {
           path: '$readerType',
-          preserveNullAndEmptyArrays: false
-        }
+          preserveNullAndEmptyArrays: false,
+        },
       },
       {
         $addFields: {
@@ -656,19 +659,19 @@ export class ReportsService {
                 { case: { $lt: ['$totalDebt', 50000] }, then: 'Dưới 50k' },
                 { case: { $lt: ['$totalDebt', 100000] }, then: '50k-100k' },
               ],
-              default: 'Trên 100k'
-            }
-          }
-        }
+              default: 'Trên 100k',
+            },
+          },
+        },
       },
       {
         $group: {
           _id: {
             readerType: '$readerType.readerTypeName',
-            debtCategory: '$debtCategory'
+            debtCategory: '$debtCategory',
           },
-          count: { $sum: 1 }
-        }
+          count: { $sum: 1 },
+        },
       },
       {
         $group: {
@@ -676,27 +679,27 @@ export class ReportsService {
           debts: {
             $push: {
               category: '$_id.debtCategory',
-              count: '$count'
-            }
-          }
-        }
+              count: '$count',
+            },
+          },
+        },
       },
-      { $sort: { _id: 1 } }
+      { $sort: { _id: 1 } },
     ]);
 
     // Format lại dữ liệu cho stacked bar chart
     const debtOrder = ['Không nợ', 'Dưới 50k', '50k-100k', 'Trên 100k'];
-    const result = debtCategories.map(item => {
+    const result = debtCategories.map((item) => {
       const formatted: any = { readerType: item._id };
-      
+
       // Khởi tạo tất cả categories với 0
-      debtOrder.forEach(cat => formatted[cat] = 0);
-      
+      debtOrder.forEach((cat) => (formatted[cat] = 0));
+
       // Điền dữ liệu thực tế
       item.debts.forEach((debt: any) => {
         formatted[debt.category] = debt.count;
       });
-      
+
       return formatted;
     });
 

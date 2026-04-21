@@ -17,20 +17,20 @@ import {
 
 interface ExcelImporterProps {
     buttonLabel?: string;
-    onImport: (data: any[]) => Promise<void>;
+    onImport: (data: unknown[]) => Promise<void>;
     templateHeaders: string[]; // List of expected headers for validation
     sampleFileName?: string; // For downloading template (optional feature for future)
 }
 
 export function ExcelImporter({ 
-    buttonLabel = "Nhập Excel", 
+    buttonLabel = "Nháº­p Excel", 
     onImport, 
     templateHeaders 
 }: ExcelImporterProps) {
     const [isOpen, setIsOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [fileName, setFileName] = useState<string | null>(null);
-    const [parsedData, setParsedData] = useState<any[] | null>(null);
+    const [parsedData, setParsedData] = useState<unknown[] | null>(null);
     const [error, setError] = useState<string | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
     const { showToast } = useToast();
@@ -53,26 +53,26 @@ export function ExcelImporter({
                 const ws = wb.worksheets[0];
 
                 if (!ws || ws.rowCount === 0) {
-                    throw new Error("File rỗng.");
+                    throw new Error("File rá»—ng.");
                 }
 
                 // Get headers from first row
-                const headerRow = ws.getRow(1).values as any[];
-                const headers = headerRow.slice(1).map((h: any) => String(h ?? '').trim().toLowerCase());
+                const headerRow = ws.getRow(1).values as unknown[];
+                const headers = headerRow.slice(1).map((h: unknown) => String(h ?? '').trim().toLowerCase());
                 const expected = templateHeaders.map(h => h.trim().toLowerCase());
 
                 const missingHeaders = expected.filter(eh => !headers.includes(eh));
                 if (missingHeaders.length > 0) {
-                    throw new Error(`File thiếu các cột bắt buộc: ${missingHeaders.join(", ")}`);
+                    throw new Error(`File thiáº¿u cÃ¡c cá»™t báº¯t buá»™c: ${missingHeaders.join(", ")}`);
                 }
 
                 // Convert rows to objects
-                const jsonData: any[] = [];
+                const jsonData: unknown[] = [];
                 ws.eachRow((row, rowNumber) => {
                     if (rowNumber === 1) return; // skip header
-                    const rowValues = row.values as any[];
-                    const obj: any = {};
-                    headerRow.slice(1).forEach((h: any, i: number) => {
+                    const rowValues = row.values as unknown[];
+                    const obj: unknown = {};
+                    headerRow.slice(1).forEach((h: unknown, i: number) => {
                         obj[h] = rowValues[i + 1] ?? '';
                     });
                     jsonData.push(obj);
@@ -83,7 +83,7 @@ export function ExcelImporter({
 
             } catch (err) {
                 console.error("Excel parse error:", err);
-                setError(err instanceof Error ? err.message : "Không thể đọc file Excel.");
+                setError(err instanceof Error ? err.message : "KhÃ´ng thá»ƒ Ä‘á»c file Excel.");
                 setIsLoading(false);
             }
         };
@@ -119,12 +119,12 @@ export function ExcelImporter({
             </DialogTrigger>
             <DialogContent className="sm:max-w-md">
                 <DialogHeader>
-                    <DialogTitle>Nhập dữ liệu từ Excel</DialogTitle>
+                    <DialogTitle>Nháº­p dá»¯ liá»‡u tá»« Excel</DialogTitle>
                     <DialogDescription>
-                        Chọn file Excel (.xlsx, .xls) chứa dữ liệu cần nhập.
+                        Chá»n file Excel (.xlsx, .xls) chá»©a dá»¯ liá»‡u cáº§n nháº­p.
                         <br />
                         <span className="text-xs text-slate-500">
-                            Cột yêu cầu: {templateHeaders.join(", ")}
+                            Cá»™t yÃªu cáº§u: {templateHeaders.join(", ")}
                         </span>
                     </DialogDescription>
                 </DialogHeader>
@@ -136,8 +136,8 @@ export function ExcelImporter({
                             onClick={() => fileInputRef.current?.click()}
                         >
                             <Upload className="h-8 w-8 mb-2 text-slate-400" />
-                            <p className="text-sm font-medium">Click để chọn file</p>
-                            <p className="text-xs text-slate-400">hoặc kéo thả vào đây</p>
+                            <p className="text-sm font-medium">Click Ä‘á»ƒ chá»n file</p>
+                            <p className="text-xs text-slate-400">hoáº·c kÃ©o tháº£ vÃ o Ä‘Ã¢y</p>
                         </div>
                     ) : (
                         <div className="flex items-center gap-3 p-3 bg-slate-50 border rounded-md">
@@ -145,7 +145,7 @@ export function ExcelImporter({
                             <div className="flex-1 min-w-0">
                                 <p className="text-sm font-medium truncate">{fileName}</p>
                                 <p className="text-xs text-slate-500">
-                                    {parsedData ? `${parsedData.length} dòng dữ liệu` : "Đang xử lý..."}
+                                    {parsedData ? `${parsedData.length} dÃ²ng dá»¯ liá»‡u` : "Äang xá»­ lÃ½..."}
                                 </p>
                             </div>
                             <Button variant="ghost" size="sm" onClick={() => {
@@ -153,7 +153,7 @@ export function ExcelImporter({
                                 setParsedData(null);
                                 setError(null);
                             }} disabled={isLoading}>
-                                Xóa
+                                XÃ³a
                             </Button>
                         </div>
                     )}
@@ -181,7 +181,7 @@ export function ExcelImporter({
                         onClick={() => setIsOpen(false)}
                         disabled={isLoading}
                     >
-                        Đóng
+                        ÄÃ³ng
                     </Button>
                     <Button
                         type="button"
@@ -190,7 +190,7 @@ export function ExcelImporter({
                         disabled={!parsedData || !!error || isLoading}
                     >
                         {isLoading ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}
-                        Tiến hành nhập
+                        Tiáº¿n hÃ nh nháº­p
                     </Button>
                 </DialogFooter>
             </DialogContent>

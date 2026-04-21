@@ -12,13 +12,18 @@ import {
 } from '../parameters/schema/parameter.schema';
 import { Loan, LoanDocument } from '../loans/schema/loan.schema';
 import { BookSchema, Book } from '../books/schema/book.schema';
-import { TitleBookSchema, TitleBook } from '../title_books/schema/title-book.schema';
+import {
+  TitleBookSchema,
+  TitleBook,
+} from '../title_books/schema/title-book.schema';
 
 // Helper function to create Date in Vietnam timezone (UTC+7)
 function getVietnamDate(dateInput?: string | Date): Date {
   const date = dateInput ? new Date(dateInput) : new Date();
   // Convert to Vietnam timezone
-  const vietnamTimeString = date.toLocaleString('en-US', { timeZone: 'Asia/Ho_Chi_Minh' });
+  const vietnamTimeString = date.toLocaleString('en-US', {
+    timeZone: 'Asia/Ho_Chi_Minh',
+  });
   return new Date(vietnamTimeString);
 }
 
@@ -44,7 +49,10 @@ export class LoansDetailsService {
       console.log('Manually registering TitleBook schema...');
       this.connection.model(TitleBook.name, TitleBookSchema);
     }
-    console.log('Registered Mongoose models after fallback:', this.connection.modelNames());
+    console.log(
+      'Registered Mongoose models after fallback:',
+      this.connection.modelNames(),
+    );
   }
 
   async create(createLoansDetailDto: CreateLoansDetailDto) {
@@ -144,12 +152,12 @@ export class LoansDetailsService {
       const borrowDate = getVietnamDate(loan.borrowDate);
       const dueDateTemp = new Date(borrowDate);
       dueDateTemp.setDate(dueDateTemp.getDate() + maxDays);
-      
+
       // Tạo Date object chỉ từ year/month/day (không có giờ)
       const dueDate = new Date(
         dueDateTemp.getFullYear(),
         dueDateTemp.getMonth(),
-        dueDateTemp.getDate()
+        dueDateTemp.getDate(),
       );
 
       // Tạo ngày trả chỉ từ year/month/day
@@ -157,7 +165,7 @@ export class LoansDetailsService {
       const returnDateOnly = new Date(
         returnDateTemp.getFullYear(),
         returnDateTemp.getMonth(),
-        returnDateTemp.getDate()
+        returnDateTemp.getDate(),
       );
 
       // 3. Tính số ngày trễ (chỉ dựa trên ngày, không tính giờ)

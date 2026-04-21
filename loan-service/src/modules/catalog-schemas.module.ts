@@ -1,11 +1,20 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Book, BookSchema } from './books/schema/book.schema';
-import { BookCopy, BookCopySchema } from './book_copies/schema/book-copy.schema';
-import { TitleBook, TitleBookSchema } from './title_books/schema/title-book.schema';
+import {
+  BookCopy,
+  BookCopySchema,
+} from './book_copies/schema/book-copy.schema';
+import {
+  TitleBook,
+  TitleBookSchema,
+} from './title_books/schema/title-book.schema';
 import { Author, AuthorSchema } from './authors/schema/author.schema';
 import { Category, CategorySchema } from './categories/schema/category.schema';
-import { TitleAuthor, TitleAuthorSchema } from './title_authors/schema/title-author.schema';
+import {
+  TitleAuthor,
+  TitleAuthorSchema,
+} from './title_authors/schema/title-author.schema';
 
 @Module({
   imports: [

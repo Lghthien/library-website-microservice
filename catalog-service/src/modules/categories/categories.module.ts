@@ -8,10 +8,7 @@ import { Category, CategorySchema } from './schema/category.schema';
 import { CatalogSchemasModule } from '../catalog-schemas.module';
 
 @Module({
-  imports: [
-    CatalogSchemasModule,
-    AuthModule,
-  ],
+  imports: [CatalogSchemasModule, AuthModule],
   controllers: [CategoriesController],
   providers: [CategoriesService],
   exports: [CatalogSchemasModule],

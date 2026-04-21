@@ -101,12 +101,16 @@ export class ReadersService {
 
   async bulkCreate(bulkData: BulkCreateReaderDto[]) {
     const results = [];
-    
+
     // Pre-fetch params for efficiency (optimistic) or fetch inside loop?
     // Inside loop is safer if params change, but slower. Outside is fine for batch.
-    
-    const minAgeParam = await this.parameterModel.findOne({ paramName: 'QD1_MIN_AGE' });
-    const maxAgeParam = await this.parameterModel.findOne({ paramName: 'QD1_MAX_AGE' });
+
+    const minAgeParam = await this.parameterModel.findOne({
+      paramName: 'QD1_MIN_AGE',
+    });
+    const maxAgeParam = await this.parameterModel.findOne({
+      paramName: 'QD1_MAX_AGE',
+    });
     const minAge = parseInt(minAgeParam?.paramValue || '18');
     const maxAge = parseInt(maxAgeParam?.paramValue || '55');
     const now = new Date();
@@ -121,38 +125,51 @@ export class ReadersService {
           phoneNumber: item.phoneNumber,
         });
         if (existing) {
-             results.push({ 
-               fullName: item.fullName, 
-               status: 'error', 
-               message: 'Độc giả này đã tồn tại với cùng họ tên, ngày sinh, email và số điện thoại.' 
-             });
-             continue;
+          results.push({
+            fullName: item.fullName,
+            status: 'error',
+            message:
+              'Độc giả này đã tồn tại với cùng họ tên, ngày sinh, email và số điện thoại.',
+          });
+          continue;
         }
 
         // Find Reader Type
-        let readerType = await this.readerTypeModel.findOne({ 
-             typeName: { $regex: new RegExp(`^${item.readerType}$`, 'i') } 
+        let readerType = await this.readerTypeModel.findOne({
+          typeName: { $regex: new RegExp(`^${item.readerType}$`, 'i') },
         });
-        
+
         if (!readerType) {
-             // Fallback: If type not found, use the first available type (e.g., "Loại X")
-             readerType = await this.readerTypeModel.findOne();
-             if (!readerType) {
-                results.push({ email: item.email, status: 'error', message: `Reader Type '${item.readerType}' not found and no default available` });
-                continue;
-             }
+          // Fallback: If type not found, use the first available type (e.g., "Loại X")
+          readerType = await this.readerTypeModel.findOne();
+          if (!readerType) {
+            results.push({
+              email: item.email,
+              status: 'error',
+              message: `Reader Type '${item.readerType}' not found and no default available`,
+            });
+            continue;
+          }
         }
 
         // Age Check
         const birthDate = new Date(item.dateOfBirth);
         let age = now.getFullYear() - birthDate.getFullYear();
-        if (now.getMonth() < birthDate.getMonth() || (now.getMonth() === birthDate.getMonth() && now.getDate() < birthDate.getDate())) {
-            age--;
+        if (
+          now.getMonth() < birthDate.getMonth() ||
+          (now.getMonth() === birthDate.getMonth() &&
+            now.getDate() < birthDate.getDate())
+        ) {
+          age--;
         }
 
         if (age < minAge || age > maxAge) {
-             results.push({ email: item.email, status: 'error', message: `Invalid Age: ${age}` });
-             continue;
+          results.push({
+            email: item.email,
+            status: 'error',
+            message: `Invalid Age: ${age}`,
+          });
+          continue;
         }
 
         // Calculate Expiry
@@ -170,20 +187,26 @@ export class ReadersService {
           readerTypeId: readerType._id,
           createdDate: now,
           expiryDate: expiryDate,
-          totalDebt: 0
+          totalDebt: 0,
         });
 
         results.push({ email: item.email, status: 'success' });
-
       } catch (err) {
-         results.push({ email: item.email, status: 'error', message: err.message });
+        results.push({
+          email: item.email,
+          status: 'error',
+          message: err.message,
+        });
       }
     }
     return results;
   }
 
   async findAll() {
-    return this.readerModel.find({ isDeleted: { $ne: true } }).populate('readerTypeId').exec();
+    return this.readerModel
+      .find({ isDeleted: { $ne: true } })
+      .populate('readerTypeId')
+      .exec();
   }
 
   async findOne(id: string) {
@@ -383,12 +406,12 @@ export class ReadersService {
     if (!reader) {
       return null;
     }
-    
+
     // Soft delete: mark as deleted instead of removing from database
     reader.isDeleted = true;
     reader.deletedAt = new Date();
     await reader.save();
-    
+
     return reader;
   }
 }

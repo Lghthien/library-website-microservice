@@ -9,7 +9,10 @@ import { TitleBooksModule } from './modules/title_books/title_books.module';
 import { BooksModule } from './modules/books/books.module';
 import { BookCopiesModule } from './modules/book_copies/book_copies.module';
 import { Book, BookSchema } from './modules/books/schema/book.schema';
-import { TitleBook, TitleBookSchema } from './modules/title_books/schema/title-book.schema';
+import {
+  TitleBook,
+  TitleBookSchema,
+} from './modules/title_books/schema/title-book.schema';
 
 @Module({
   imports: [

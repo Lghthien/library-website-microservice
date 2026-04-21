@@ -7,14 +7,14 @@ import {
     PieChart, Pie, Cell, Legend
 } from 'recharts';
 import {
-    Users, BookOpen, ArrowUpRight, Wallet, MoreHorizontal, Bell
+    Users, BookOpen, ArrowUpRight, Wallet, Bell
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { TabsTrigger } from "@/components/ui/tabs";
 
 type DashboardStats = {
     readers: { active: number; expired: number; total: number };
@@ -25,19 +25,19 @@ type DashboardStats = {
 
 type CategoryStat = { categoryName: string; borrowCount: number; uniqueReaders: number };
 
-// Dá»¯ liá»‡u trend Ä‘Æ°á»£c láº¥y tá»« API /reports/trend - Ä‘áº¿m tá»« báº£ng loansdetail Ä‘á»ƒ chÃ­nh xÃ¡c sá»‘ lÆ°á»£ng sÃ¡ch
+// DÃ¡Â»Â¯ liÃ¡Â»â€¡u trend Ã„â€˜Ã†Â°Ã¡Â»Â£c lÃ¡ÂºÂ¥y tÃ¡Â»Â« API /reports/trend - Ã„â€˜Ã¡ÂºÂ¿m tÃ¡Â»Â« bÃ¡ÂºÂ£ng loansdetail Ã„â€˜Ã¡Â»Æ’ chÃƒÂ­nh xÃƒÂ¡c sÃ¡Â»â€˜ lÃ†Â°Ã¡Â»Â£ng sÃƒÂ¡ch
 type TrendStat = { month: string; fullDate: string; loans: number; returns: number; overdue: number };
 
-// PhÃ¢n bá»‘ Ä‘á»™ tuá»•i Ä‘á»™c giáº£
+// PhÃƒÂ¢n bÃ¡Â»â€˜ Ã„â€˜Ã¡Â»â„¢ tuÃ¡Â»â€¢i Ã„â€˜Ã¡Â»â„¢c giÃ¡ÂºÂ£
 type ReaderAgeDistribution = { ageGroup: string; count: number };
 
-// TÃ¬nh tráº¡ng ná»£ theo loáº¡i Ä‘á»™c giáº£
+// TÃƒÂ¬nh trÃ¡ÂºÂ¡ng nÃ¡Â»Â£ theo loÃ¡ÂºÂ¡i Ã„â€˜Ã¡Â»â„¢c giÃ¡ÂºÂ£
 type ReaderDebtStatus = { 
     readerType: string; 
-    'KhÃ´ng ná»£': number; 
-    'DÆ°á»›i 50k': number; 
+    'KhÃƒÂ´ng nÃ¡Â»Â£': number; 
+    'DÃ†Â°Ã¡Â»â€ºi 50k': number; 
     '50k-100k': number; 
-    'TrÃªn 100k': number; 
+    'TrÃƒÂªn 100k': number; 
 };
 
 type AuditLog = {
@@ -53,7 +53,7 @@ type AuditLog = {
 const chartColors = ['#2563eb', '#10b981', '#f59e0b', '#a855f7', '#ef4444', '#06b6d4', '#8b5cf6'];
 
 // ====================================================================================
-// 1. ADMIN DASHBOARD (VÄ© mÃ´ - PhÃ¢n tÃ­ch - Xu hÆ°á»›ng)
+// 1. ADMIN DASHBOARD (VÃ„Â© mÃƒÂ´ - PhÃƒÂ¢n tÃƒÂ­ch - Xu hÃ†Â°Ã¡Â»â€ºng)
 // ====================================================================================
 const AdminDashboardView = ({ 
     stats, 
@@ -81,10 +81,10 @@ const AdminDashboardView = ({
 
     const getActionIcon = (action: string) => {
         switch (action) {
-            case 'INSERT': return 'âž•';
-            case 'UPDATE': return 'âœï¸';
-            case 'DELETE': return 'ðŸ—‘ï¸';
-            default: return 'ðŸ“';
+            case 'INSERT': return 'Ã¢Å¾â€¢';
+            case 'UPDATE': return 'Ã¢Å“ÂÃ¯Â¸Â';
+            case 'DELETE': return 'Ã°Å¸â€”â€˜Ã¯Â¸Â';
+            default: return 'Ã°Å¸â€œÂ';
         }
     };
 
@@ -105,71 +105,71 @@ const AdminDashboardView = ({
         const hours = Math.floor(diff / 3600000);
         const days = Math.floor(diff / 86400000);
 
-        if (minutes < 1) return 'Vá»«a xong';
-        if (minutes < 60) return `${minutes} phÃºt trÆ°á»›c`;
-        if (hours < 24) return `${hours} giá» trÆ°á»›c`;
-        if (days < 7) return `${days} ngÃ y trÆ°á»›c`;
+        if (minutes < 1) return 'VÃ¡Â»Â«a xong';
+        if (minutes < 60) return `${minutes} phÃƒÂºt trÃ†Â°Ã¡Â»â€ºc`;
+        if (hours < 24) return `${hours} giÃ¡Â»Â trÃ†Â°Ã¡Â»â€ºc`;
+        if (days < 7) return `${days} ngÃƒÂ y trÃ†Â°Ã¡Â»â€ºc`;
         return date.toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric' });
     };
 
     return (
         <div className="space-y-6 animate-in fade-in duration-500">
 
-            {/* --- KHá»I KPI CAO Cáº¤P --- */}
+            {/* --- KHÃ¡Â»ÂI KPI CAO CÃ¡ÂºÂ¤P --- */}
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                 <Card className="border-l-4 border-l-blue-600 shadow-sm">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium text-muted-foreground">Tá»•ng Äá»™c giáº£</CardTitle>
+                        <CardTitle className="text-sm font-medium text-muted-foreground">TÃ¡Â»â€¢ng Ã„ÂÃ¡Â»â„¢c giÃ¡ÂºÂ£</CardTitle>
                         <Users className="h-4 w-4 text-blue-600" />
                     </CardHeader>
                     <CardContent>
                         <div className="text-2xl font-bold">{stats.readers.total.toLocaleString('vi-VN')}</div>
-                        <p className="text-xs text-muted-foreground mt-1">Hoáº¡t Ä‘á»™ng: {stats.readers.active.toLocaleString('vi-VN')} â€¢ Háº¿t háº¡n: {stats.readers.expired.toLocaleString('vi-VN')}</p>
+                        <p className="text-xs text-muted-foreground mt-1">HoÃ¡ÂºÂ¡t Ã„â€˜Ã¡Â»â„¢ng: {stats.readers.active.toLocaleString('vi-VN')} Ã¢â‚¬Â¢ HÃ¡ÂºÂ¿t hÃ¡ÂºÂ¡n: {stats.readers.expired.toLocaleString('vi-VN')}</p>
                     </CardContent>
                 </Card>
 
                 <Card className="border-l-4 border-l-purple-600 shadow-sm">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium text-muted-foreground">Tá»•ng SÃ¡ch</CardTitle>
+                        <CardTitle className="text-sm font-medium text-muted-foreground">TÃ¡Â»â€¢ng SÃƒÂ¡ch</CardTitle>
                         <BookOpen className="h-4 w-4 text-purple-600" />
                     </CardHeader>
                     <CardContent>
                         <div className="text-2xl font-bold">{stats.books.total.toLocaleString('vi-VN')}</div>
-                        <p className="text-xs text-muted-foreground mt-1">Äang cÃ³ sáºµn: {stats.books.available.toLocaleString('vi-VN')} | Äang mÆ°á»£n: {stats.books.borrowed.toLocaleString('vi-VN')}</p>
+                        <p className="text-xs text-muted-foreground mt-1">Ã„Âang cÃƒÂ³ sÃ¡ÂºÂµn: {stats.books.available.toLocaleString('vi-VN')} | Ã„Âang mÃ†Â°Ã¡Â»Â£n: {stats.books.borrowed.toLocaleString('vi-VN')}</p>
                     </CardContent>
                 </Card>
 
                 <Card className="border-l-4 border-l-orange-500 shadow-sm">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium text-muted-foreground">SÃ¡ch mÆ°á»£n/tráº£ (thÃ¡ng gáº§n nháº¥t)</CardTitle>
+                        <CardTitle className="text-sm font-medium text-muted-foreground">SÃƒÂ¡ch mÃ†Â°Ã¡Â»Â£n/trÃ¡ÂºÂ£ (thÃƒÂ¡ng gÃ¡ÂºÂ§n nhÃ¡ÂºÂ¥t)</CardTitle>
                         <ArrowUpRight className="h-4 w-4 text-orange-600" />
                     </CardHeader>
                     <CardContent>
                         <div className="text-2xl font-bold">{latestMonth ? latestMonth.loans.toLocaleString('vi-VN') : '-'}</div>
-                        <p className="text-xs text-muted-foreground mt-1">Tráº£: {latestMonth ? latestMonth.returns.toLocaleString('vi-VN') : '-'}</p>
+                        <p className="text-xs text-muted-foreground mt-1">TrÃ¡ÂºÂ£: {latestMonth ? latestMonth.returns.toLocaleString('vi-VN') : '-'}</p>
                     </CardContent>
                 </Card>
 
                 <Card className="border-l-4 border-l-emerald-600 shadow-sm">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium text-muted-foreground">Tiá»n pháº¡t chÆ°a thu</CardTitle>
+                        <CardTitle className="text-sm font-medium text-muted-foreground">TiÃ¡Â»Ân phÃ¡ÂºÂ¡t chÃ†Â°a thu</CardTitle>
                         <Wallet className="h-4 w-4 text-emerald-600" />
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-bold">{stats.fines.unpaidTotal.toLocaleString('vi-VN')} â‚«</div>
-                        <p className="text-[11px] text-muted-foreground mt-1">{stats.fines.unpaidCount} phiáº¿u thu</p>
+                        <div className="text-2xl font-bold">{stats.fines.unpaidTotal.toLocaleString('vi-VN')} Ã¢â€šÂ«</div>
+                        <p className="text-[11px] text-muted-foreground mt-1">{stats.fines.unpaidCount} phiÃ¡ÂºÂ¿u thu</p>
                     </CardContent>
                 </Card>
             </div>
 
-            {/* --- KHá»I BIá»‚U Äá»’ TRUNG TÃ‚M --- */}
+            {/* --- KHÃ¡Â»ÂI BIÃ¡Â»â€šU Ã„ÂÃ¡Â»â€™ TRUNG TÃƒâ€šM --- */}
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
 
-                {/* Biá»ƒu Ä‘á»“ Cá»™t (Bar Chart) - Thá»‘ng kÃª MÆ°á»£n/Tráº£ */}
+                {/* BiÃ¡Â»Æ’u Ã„â€˜Ã¡Â»â€œ CÃ¡Â»â„¢t (Bar Chart) - ThÃ¡Â»â€˜ng kÃƒÂª MÃ†Â°Ã¡Â»Â£n/TrÃ¡ÂºÂ£ */}
                 <Card className="col-span-4 shadow-sm">
                     <CardHeader>
-                        <CardTitle>Thá»‘ng kÃª LÆ°u thÃ´ng</CardTitle>
-                        <CardDescription>Sá»‘ lÆ°á»£ng sÃ¡ch mÆ°á»£n vÃ  tráº£ 7 thÃ¡ng gáº§n nháº¥t.</CardDescription>
+                        <CardTitle>ThÃ¡Â»â€˜ng kÃƒÂª LÃ†Â°u thÃƒÂ´ng</CardTitle>
+                        <CardDescription>SÃ¡Â»â€˜ lÃ†Â°Ã¡Â»Â£ng sÃƒÂ¡ch mÃ†Â°Ã¡Â»Â£n vÃƒÂ  trÃ¡ÂºÂ£ 7 thÃƒÂ¡ng gÃ¡ÂºÂ§n nhÃ¡ÂºÂ¥t.</CardDescription>
                     </CardHeader>
                     <CardContent className="pl-2">
                         <ResponsiveContainer width="100%" height={350}>
@@ -179,18 +179,18 @@ const AdminDashboardView = ({
                                 <YAxis fontSize={12} tickLine={false} axisLine={false} tickFormatter={(value) => `${value}`} />
                                 <Tooltip cursor={{ fill: '#f1f5f9' }} contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }} />
                                 <Legend />
-                                <Bar dataKey="loans" name="SÃ¡ch MÆ°á»£n" fill="#3b82f6" radius={[4, 4, 0, 0]} />
-                                <Bar dataKey="returns" name="SÃ¡ch Tráº£" fill="#10b981" radius={[4, 4, 0, 0]} />
+                                <Bar dataKey="loans" name="SÃƒÂ¡ch MÃ†Â°Ã¡Â»Â£n" fill="#3b82f6" radius={[4, 4, 0, 0]} />
+                                <Bar dataKey="returns" name="SÃƒÂ¡ch TrÃ¡ÂºÂ£" fill="#10b981" radius={[4, 4, 0, 0]} />
                             </BarChart>
                         </ResponsiveContainer>
                     </CardContent>
                 </Card>
 
-                {/* Biá»ƒu Ä‘á»“ TrÃ²n (Pie Chart) - Tá»· lá»‡ Thá»ƒ loáº¡i */}
+                {/* BiÃ¡Â»Æ’u Ã„â€˜Ã¡Â»â€œ TrÃƒÂ²n (Pie Chart) - TÃ¡Â»Â· lÃ¡Â»â€¡ ThÃ¡Â»Æ’ loÃ¡ÂºÂ¡i */}
                 <Card className="col-span-3 shadow-sm">
                     <CardHeader>
-                        <CardTitle>PhÃ¢n bá»‘ Thá»ƒ loáº¡i</CardTitle>
-                        <CardDescription>Tá»· lá»‡ lÆ°á»£t mÆ°á»£n theo danh má»¥c.</CardDescription>
+                        <CardTitle>PhÃƒÂ¢n bÃ¡Â»â€˜ ThÃ¡Â»Æ’ loÃ¡ÂºÂ¡i</CardTitle>
+                        <CardDescription>TÃ¡Â»Â· lÃ¡Â»â€¡ lÃ†Â°Ã¡Â»Â£t mÃ†Â°Ã¡Â»Â£n theo danh mÃ¡Â»Â¥c.</CardDescription>
                     </CardHeader>
                     <CardContent>
                         <ResponsiveContainer width="100%" height={250}>
@@ -212,7 +212,7 @@ const AdminDashboardView = ({
                         </ResponsiveContainer>
 
                         <div className="mt-4 space-y-3">
-                            <h4 className="text-sm font-semibold text-foreground">Danh má»¥c ná»•i báº­t</h4>
+                            <h4 className="text-sm font-semibold text-foreground">Danh mÃ¡Â»Â¥c nÃ¡Â»â€¢i bÃ¡ÂºÂ­t</h4>
                             <div className="space-y-2">
                                 {topCats.map((cat, i) => (
                                     <div key={cat.categoryName} className="flex items-center gap-2 text-sm">
@@ -220,7 +220,7 @@ const AdminDashboardView = ({
                                         <div className="flex-1">
                                             <div className="flex justify-between mb-1">
                                                 <span className="font-medium text-foreground">{cat.categoryName}</span>
-                                                <span className="text-muted-foreground">{cat.borrowCount} lÆ°á»£t</span>
+                                                <span className="text-muted-foreground">{cat.borrowCount} lÃ†Â°Ã¡Â»Â£t</span>
                                             </div>
                                             <Progress value={cat.borrowCount ? Math.min(100, (cat.borrowCount / (topCats[0]?.borrowCount || 1)) * 100) : 0} className="h-1.5" />
                                         </div>
@@ -232,14 +232,14 @@ const AdminDashboardView = ({
                 </Card>
             </div>
 
-            {/* --- KHá»I PHÃ‚N TÃCH Äá»˜C GIáº¢ --- */}
+            {/* --- KHÃ¡Â»ÂI PHÃƒâ€šN TÃƒÂCH Ã„ÂÃ¡Â»ËœC GIÃ¡ÂºÂ¢ --- */}
             <div className="grid gap-4 md:grid-cols-2">
 
-                {/* Biá»ƒu Ä‘á»“ Histogram - PhÃ¢n bá»‘ Äá»™ tuá»•i */}
+                {/* BiÃ¡Â»Æ’u Ã„â€˜Ã¡Â»â€œ Histogram - PhÃƒÂ¢n bÃ¡Â»â€˜ Ã„ÂÃ¡Â»â„¢ tuÃ¡Â»â€¢i */}
                 <Card className="shadow-sm">
                     <CardHeader>
-                        <CardTitle>PhÃ¢n bá»‘ Äá»™ tuá»•i</CardTitle>
-                        <CardDescription>NhÃ³m tuá»•i cá»§a Ä‘á»™c giáº£.</CardDescription>
+                        <CardTitle>PhÃƒÂ¢n bÃ¡Â»â€˜ Ã„ÂÃ¡Â»â„¢ tuÃ¡Â»â€¢i</CardTitle>
+                        <CardDescription>NhÃƒÂ³m tuÃ¡Â»â€¢i cÃ¡Â»Â§a Ã„â€˜Ã¡Â»â„¢c giÃ¡ÂºÂ£.</CardDescription>
                     </CardHeader>
                     <CardContent className="pl-2">
                         <ResponsiveContainer width="100%" height={280}>
@@ -248,17 +248,17 @@ const AdminDashboardView = ({
                                 <XAxis type="number" fontSize={12} tickLine={false} axisLine={false} />
                                 <YAxis type="category" dataKey="ageGroup" fontSize={12} tickLine={false} axisLine={false} width={60} />
                                 <Tooltip cursor={{ fill: '#f1f5f9' }} contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }} />
-                                <Bar dataKey="count" name="Sá»‘ lÆ°á»£ng" fill="#8b5cf6" radius={[0, 4, 4, 0]} />
+                                <Bar dataKey="count" name="SÃ¡Â»â€˜ lÃ†Â°Ã¡Â»Â£ng" fill="#8b5cf6" radius={[0, 4, 4, 0]} />
                             </BarChart>
                         </ResponsiveContainer>
                     </CardContent>
                 </Card>
 
-                {/* Biá»ƒu Ä‘á»“ Stacked Bar - TÃ¬nh tráº¡ng Ná»£ */}
+                {/* BiÃ¡Â»Æ’u Ã„â€˜Ã¡Â»â€œ Stacked Bar - TÃƒÂ¬nh trÃ¡ÂºÂ¡ng NÃ¡Â»Â£ */}
                 <Card className="shadow-sm">
                     <CardHeader>
-                        <CardTitle>TÃ¬nh tráº¡ng Ná»£</CardTitle>
-                        <CardDescription>PhÃ¢n bá»‘ ná»£ theo loáº¡i Ä‘á»™c giáº£.</CardDescription>
+                        <CardTitle>TÃƒÂ¬nh trÃ¡ÂºÂ¡ng NÃ¡Â»Â£</CardTitle>
+                        <CardDescription>PhÃƒÂ¢n bÃ¡Â»â€˜ nÃ¡Â»Â£ theo loÃ¡ÂºÂ¡i Ã„â€˜Ã¡Â»â„¢c giÃ¡ÂºÂ£.</CardDescription>
                     </CardHeader>
                     <CardContent className="pl-2">
                         <ResponsiveContainer width="100%" height={280}>
@@ -268,30 +268,30 @@ const AdminDashboardView = ({
                                 <YAxis fontSize={12} tickLine={false} axisLine={false} />
                                 <Tooltip cursor={{ fill: '#f1f5f9' }} contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }} />
                                 <Legend />
-                                <Bar dataKey="KhÃ´ng ná»£" stackId="a" fill="#10b981" radius={[0, 0, 0, 0]} />
-                                <Bar dataKey="DÆ°á»›i 50k" stackId="a" fill="#f59e0b" radius={[0, 0, 0, 0]} />
+                                <Bar dataKey="KhÃƒÂ´ng nÃ¡Â»Â£" stackId="a" fill="#10b981" radius={[0, 0, 0, 0]} />
+                                <Bar dataKey="DÃ†Â°Ã¡Â»â€ºi 50k" stackId="a" fill="#f59e0b" radius={[0, 0, 0, 0]} />
                                 <Bar dataKey="50k-100k" stackId="a" fill="#ef4444" radius={[0, 0, 0, 0]} />
-                                <Bar dataKey="TrÃªn 100k" stackId="a" fill="#dc2626" radius={[4, 4, 0, 0]} />
+                                <Bar dataKey="TrÃƒÂªn 100k" stackId="a" fill="#dc2626" radius={[4, 4, 0, 0]} />
                             </BarChart>
                         </ResponsiveContainer>
                     </CardContent>
                 </Card>
             </div>
 
-            {/* --- DANH SÃCH HOáº T Äá»˜NG Gáº¦N ÄÃ‚Y --- */}
+            {/* --- DANH SÃƒÂCH HOÃ¡ÂºÂ T Ã„ÂÃ¡Â»ËœNG GÃ¡ÂºÂ¦N Ã„ÂÃƒâ€šY --- */}
             <Card className="shadow-sm">
                 <CardHeader className="flex flex-row items-center justify-between">
                     <div>
-                        <CardTitle>Nháº­t kÃ½ Há»‡ thá»‘ng</CardTitle>
-                        <CardDescription>Hoáº¡t Ä‘á»™ng gáº§n Ä‘Ã¢y trong há»‡ thá»‘ng</CardDescription>
+                        <CardTitle>NhÃ¡ÂºÂ­t kÃƒÂ½ HÃ¡Â»â€¡ thÃ¡Â»â€˜ng</CardTitle>
+                        <CardDescription>HoÃ¡ÂºÂ¡t Ã„â€˜Ã¡Â»â„¢ng gÃ¡ÂºÂ§n Ã„â€˜ÃƒÂ¢y trong hÃ¡Â»â€¡ thÃ¡Â»â€˜ng</CardDescription>
                     </div>
                     <Badge variant="secondary" className="bg-slate-100 text-slate-600">
-                        {auditLogs.length} hoáº¡t Ä‘á»™ng
+                        {auditLogs.length} hoÃ¡ÂºÂ¡t Ã„â€˜Ã¡Â»â„¢ng
                     </Badge>
                 </CardHeader>
                 <CardContent>
                     {auditLogs.length === 0 ? (
-                        <p className="text-sm text-muted-foreground text-center py-8">ChÆ°a cÃ³ hoáº¡t Ä‘á»™ng nÃ o Ä‘Æ°á»£c ghi nháº­n.</p>
+                        <p className="text-sm text-muted-foreground text-center py-8">ChÃ†Â°a cÃƒÂ³ hoÃ¡ÂºÂ¡t Ã„â€˜Ã¡Â»â„¢ng nÃƒÂ o Ã„â€˜Ã†Â°Ã¡Â»Â£c ghi nhÃ¡ÂºÂ­n.</p>
                     ) : (
                         <div className="space-y-3">
                             {auditLogs.map((log) => (
@@ -301,15 +301,15 @@ const AdminDashboardView = ({
                                     </div>
                                     <div className="flex-1 min-w-0">
                                         <p className="text-sm font-medium text-slate-800">
-                                            {log.description || `${log.action} trÃªn ${log.tableName}`}
+                                            {log.description || `${log.action} trÃƒÂªn ${log.tableName}`}
                                         </p>
                                         <div className="flex items-center gap-2 mt-1 text-xs text-slate-500">
-                                            <span className="font-medium">{log.userId?.fullName || 'Há»‡ thá»‘ng'}</span>
-                                            <span>â€¢</span>
+                                            <span className="font-medium">{log.userId?.fullName || 'HÃ¡Â»â€¡ thÃ¡Â»â€˜ng'}</span>
+                                            <span>Ã¢â‚¬Â¢</span>
                                             <span>{log.tableName}</span>
                                             {log.recordId && (
                                                 <>
-                                                    <span>â€¢</span>
+                                                    <span>Ã¢â‚¬Â¢</span>
                                                     <span className="font-mono">#{log.recordId.slice(-6)}</span>
                                                 </>
                                             )}
@@ -329,7 +329,7 @@ const AdminDashboardView = ({
 };
 
 // ====================================================================================
-// 2. LIBRARIAN DASHBOARD (Giá»‘ng Admin nhÆ°ng khÃ´ng cÃ³ Nháº­t kÃ½ Há»‡ thá»‘ng)
+// 2. LIBRARIAN DASHBOARD (GiÃ¡Â»â€˜ng Admin nhÃ†Â°ng khÃƒÂ´ng cÃƒÂ³ NhÃ¡ÂºÂ­t kÃƒÂ½ HÃ¡Â»â€¡ thÃ¡Â»â€˜ng)
 // ====================================================================================
 const LibrarianDashboardView = ({ stats, categories, trend }: { stats: DashboardStats; categories: CategoryStat[]; trend: TrendStat[]; }) => {
     const barData = useMemo(() => trend?.map(t => ({ name: t.month, loans: t.loans, returns: t.returns })) ?? [], [trend]);
@@ -340,61 +340,61 @@ const LibrarianDashboardView = ({ stats, categories, trend }: { stats: Dashboard
     return (
         <div className="space-y-6 animate-in fade-in duration-500">
 
-            {/* --- KHá»I KPI CAO Cáº¤P --- */}
+            {/* --- KHÃ¡Â»ÂI KPI CAO CÃ¡ÂºÂ¤P --- */}
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                 <Card className="border-l-4 border-l-blue-600 shadow-sm">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium text-muted-foreground">Tá»•ng Äá»™c giáº£</CardTitle>
+                        <CardTitle className="text-sm font-medium text-muted-foreground">TÃ¡Â»â€¢ng Ã„ÂÃ¡Â»â„¢c giÃ¡ÂºÂ£</CardTitle>
                         <Users className="h-4 w-4 text-blue-600" />
                     </CardHeader>
                     <CardContent>
                         <div className="text-2xl font-bold">{stats.readers.total.toLocaleString('vi-VN')}</div>
-                        <p className="text-xs text-muted-foreground mt-1">Hoáº¡t Ä‘á»™ng: {stats.readers.active.toLocaleString('vi-VN')} â€¢ Háº¿t háº¡n: {stats.readers.expired.toLocaleString('vi-VN')}</p>
+                        <p className="text-xs text-muted-foreground mt-1">HoÃ¡ÂºÂ¡t Ã„â€˜Ã¡Â»â„¢ng: {stats.readers.active.toLocaleString('vi-VN')} Ã¢â‚¬Â¢ HÃ¡ÂºÂ¿t hÃ¡ÂºÂ¡n: {stats.readers.expired.toLocaleString('vi-VN')}</p>
                     </CardContent>
                 </Card>
 
                 <Card className="border-l-4 border-l-purple-600 shadow-sm">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium text-muted-foreground">Tá»•ng SÃ¡ch</CardTitle>
+                        <CardTitle className="text-sm font-medium text-muted-foreground">TÃ¡Â»â€¢ng SÃƒÂ¡ch</CardTitle>
                         <BookOpen className="h-4 w-4 text-purple-600" />
                     </CardHeader>
                     <CardContent>
                         <div className="text-2xl font-bold">{stats.books.total.toLocaleString('vi-VN')}</div>
-                        <p className="text-xs text-muted-foreground mt-1">Äang cÃ³ sáºµn: {stats.books.available.toLocaleString('vi-VN')} | Äang mÆ°á»£n: {stats.books.borrowed.toLocaleString('vi-VN')}</p>
+                        <p className="text-xs text-muted-foreground mt-1">Ã„Âang cÃƒÂ³ sÃ¡ÂºÂµn: {stats.books.available.toLocaleString('vi-VN')} | Ã„Âang mÃ†Â°Ã¡Â»Â£n: {stats.books.borrowed.toLocaleString('vi-VN')}</p>
                     </CardContent>
                 </Card>
 
                 <Card className="border-l-4 border-l-orange-500 shadow-sm">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium text-muted-foreground">SÃ¡ch mÆ°á»£n/tráº£ (thÃ¡ng gáº§n nháº¥t)</CardTitle>
+                        <CardTitle className="text-sm font-medium text-muted-foreground">SÃƒÂ¡ch mÃ†Â°Ã¡Â»Â£n/trÃ¡ÂºÂ£ (thÃƒÂ¡ng gÃ¡ÂºÂ§n nhÃ¡ÂºÂ¥t)</CardTitle>
                         <ArrowUpRight className="h-4 w-4 text-orange-600" />
                     </CardHeader>
                     <CardContent>
                         <div className="text-2xl font-bold">{latestMonth ? latestMonth.loans.toLocaleString('vi-VN') : '-'}</div>
-                        <p className="text-xs text-muted-foreground mt-1">Tráº£: {latestMonth ? latestMonth.returns.toLocaleString('vi-VN') : '-'}</p>
+                        <p className="text-xs text-muted-foreground mt-1">TrÃ¡ÂºÂ£: {latestMonth ? latestMonth.returns.toLocaleString('vi-VN') : '-'}</p>
                     </CardContent>
                 </Card>
 
                 <Card className="border-l-4 border-l-emerald-600 shadow-sm">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium text-muted-foreground">Tiá»n pháº¡t chÆ°a thu</CardTitle>
+                        <CardTitle className="text-sm font-medium text-muted-foreground">TiÃ¡Â»Ân phÃ¡ÂºÂ¡t chÃ†Â°a thu</CardTitle>
                         <Wallet className="h-4 w-4 text-emerald-600" />
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-bold">{stats.fines.unpaidTotal.toLocaleString('vi-VN')} â‚«</div>
-                        <p className="text-[11px] text-muted-foreground mt-1">{stats.fines.unpaidCount} phiáº¿u thu</p>
+                        <div className="text-2xl font-bold">{stats.fines.unpaidTotal.toLocaleString('vi-VN')} Ã¢â€šÂ«</div>
+                        <p className="text-[11px] text-muted-foreground mt-1">{stats.fines.unpaidCount} phiÃ¡ÂºÂ¿u thu</p>
                     </CardContent>
                 </Card>
             </div>
 
-            {/* --- KHá»I BIá»‚U Äá»’ TRUNG TÃ‚M --- */}
+            {/* --- KHÃ¡Â»ÂI BIÃ¡Â»â€šU Ã„ÂÃ¡Â»â€™ TRUNG TÃƒâ€šM --- */}
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
 
-                {/* Biá»ƒu Ä‘á»“ Cá»™t (Bar Chart) - Thá»‘ng kÃª MÆ°á»£n/Tráº£ */}
+                {/* BiÃ¡Â»Æ’u Ã„â€˜Ã¡Â»â€œ CÃ¡Â»â„¢t (Bar Chart) - ThÃ¡Â»â€˜ng kÃƒÂª MÃ†Â°Ã¡Â»Â£n/TrÃ¡ÂºÂ£ */}
                 <Card className="col-span-4 shadow-sm">
                     <CardHeader>
-                        <CardTitle>Thá»‘ng kÃª LÆ°u thÃ´ng</CardTitle>
-                        <CardDescription>Sá»‘ lÆ°á»£ng sÃ¡ch mÆ°á»£n vÃ  tráº£ 7 thÃ¡ng gáº§n nháº¥t.</CardDescription>
+                        <CardTitle>ThÃ¡Â»â€˜ng kÃƒÂª LÃ†Â°u thÃƒÂ´ng</CardTitle>
+                        <CardDescription>SÃ¡Â»â€˜ lÃ†Â°Ã¡Â»Â£ng sÃƒÂ¡ch mÃ†Â°Ã¡Â»Â£n vÃƒÂ  trÃ¡ÂºÂ£ 7 thÃƒÂ¡ng gÃ¡ÂºÂ§n nhÃ¡ÂºÂ¥t.</CardDescription>
                     </CardHeader>
                     <CardContent className="pl-2">
                         <ResponsiveContainer width="100%" height={350}>
@@ -404,18 +404,18 @@ const LibrarianDashboardView = ({ stats, categories, trend }: { stats: Dashboard
                                 <YAxis fontSize={12} tickLine={false} axisLine={false} tickFormatter={(value) => `${value}`} />
                                 <Tooltip cursor={{ fill: '#f1f5f9' }} contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }} />
                                 <Legend />
-                                <Bar dataKey="loans" name="SÃ¡ch MÆ°á»£n" fill="#3b82f6" radius={[4, 4, 0, 0]} />
-                                <Bar dataKey="returns" name="SÃ¡ch Tráº£" fill="#10b981" radius={[4, 4, 0, 0]} />
+                                <Bar dataKey="loans" name="SÃƒÂ¡ch MÃ†Â°Ã¡Â»Â£n" fill="#3b82f6" radius={[4, 4, 0, 0]} />
+                                <Bar dataKey="returns" name="SÃƒÂ¡ch TrÃ¡ÂºÂ£" fill="#10b981" radius={[4, 4, 0, 0]} />
                             </BarChart>
                         </ResponsiveContainer>
                     </CardContent>
                 </Card>
 
-                {/* Biá»ƒu Ä‘á»“ TrÃ²n (Pie Chart) - Tá»· lá»‡ Thá»ƒ loáº¡i */}
+                {/* BiÃ¡Â»Æ’u Ã„â€˜Ã¡Â»â€œ TrÃƒÂ²n (Pie Chart) - TÃ¡Â»Â· lÃ¡Â»â€¡ ThÃ¡Â»Æ’ loÃ¡ÂºÂ¡i */}
                 <Card className="col-span-3 shadow-sm">
                     <CardHeader>
-                        <CardTitle>PhÃ¢n bá»‘ Thá»ƒ loáº¡i</CardTitle>
-                        <CardDescription>Tá»· lá»‡ lÆ°á»£t mÆ°á»£n theo danh má»¥c.</CardDescription>
+                        <CardTitle>PhÃƒÂ¢n bÃ¡Â»â€˜ ThÃ¡Â»Æ’ loÃ¡ÂºÂ¡i</CardTitle>
+                        <CardDescription>TÃ¡Â»Â· lÃ¡Â»â€¡ lÃ†Â°Ã¡Â»Â£t mÃ†Â°Ã¡Â»Â£n theo danh mÃ¡Â»Â¥c.</CardDescription>
                     </CardHeader>
                     <CardContent>
                         <ResponsiveContainer width="100%" height={250}>
@@ -437,7 +437,7 @@ const LibrarianDashboardView = ({ stats, categories, trend }: { stats: Dashboard
                         </ResponsiveContainer>
 
                         <div className="mt-4 space-y-3">
-                            <h4 className="text-sm font-semibold text-foreground">Danh má»¥c ná»•i báº­t</h4>
+                            <h4 className="text-sm font-semibold text-foreground">Danh mÃ¡Â»Â¥c nÃ¡Â»â€¢i bÃ¡ÂºÂ­t</h4>
                             <div className="space-y-2">
                                 {topCats.map((cat, i) => (
                                     <div key={cat.categoryName} className="flex items-center gap-2 text-sm">
@@ -445,7 +445,7 @@ const LibrarianDashboardView = ({ stats, categories, trend }: { stats: Dashboard
                                         <div className="flex-1">
                                             <div className="flex justify-between mb-1">
                                                 <span className="font-medium text-foreground">{cat.categoryName}</span>
-                                                <span className="text-muted-foreground">{cat.borrowCount} lÆ°á»£t</span>
+                                                <span className="text-muted-foreground">{cat.borrowCount} lÃ†Â°Ã¡Â»Â£t</span>
                                             </div>
                                             <Progress value={cat.borrowCount ? Math.min(100, (cat.borrowCount / (topCats[0]?.borrowCount || 1)) * 100) : 0} className="h-1.5" />
                                         </div>
@@ -474,7 +474,7 @@ export default function DashboardPage() {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [role] = useState<'ADMIN' | 'LIBRARIAN' | null>(() => {
-        // Äá»c role tá»« cookie (hoáº·c láº¥y tá»« context)
+        // Ã„ÂÃ¡Â»Âc role tÃ¡Â»Â« cookie (hoÃ¡ÂºÂ·c lÃ¡ÂºÂ¥y tÃ¡Â»Â« context)
         const savedRole = Cookies.get('user_role') as 'ADMIN' | 'LIBRARIAN';
         return savedRole || null;
     });
@@ -487,7 +487,7 @@ export default function DashboardPage() {
             try {
                 const token = Cookies.get('access_token');
                 if (!token) {
-                    setError('PhiÃªn Ä‘Äƒng nháº­p Ä‘Ã£ háº¿t háº¡n. Vui lÃ²ng Ä‘Äƒng nháº­p láº¡i.');
+                    setError('PhiÃƒÂªn Ã„â€˜Ã„Æ’ng nhÃ¡ÂºÂ­p Ã„â€˜ÃƒÂ£ hÃ¡ÂºÂ¿t hÃ¡ÂºÂ¡n. Vui lÃƒÂ²ng Ã„â€˜Ã„Æ’ng nhÃ¡ÂºÂ­p lÃ¡ÂºÂ¡i.');
                     setIsLoading(false);
                     return;
                 }
@@ -511,7 +511,7 @@ export default function DashboardPage() {
                 if (statsRes.ok) {
                     setStats(await statsRes.json());
                 } else {
-                    setError('KhÃ´ng táº£i Ä‘Æ°á»£c thá»‘ng kÃª tá»•ng quan.');
+                    setError('KhÃƒÂ´ng tÃ¡ÂºÂ£i Ã„â€˜Ã†Â°Ã¡Â»Â£c thÃ¡Â»â€˜ng kÃƒÂª tÃ¡Â»â€¢ng quan.');
                 }
 
                 if (catRes.ok) {
@@ -550,7 +550,7 @@ export default function DashboardPage() {
                 }
             } catch (err) {
                 console.error('Dashboard fetch error', err);
-                setError('KhÃ´ng thá»ƒ táº£i dá»¯ liá»‡u dashboard.');
+                setError('KhÃƒÂ´ng thÃ¡Â»Æ’ tÃ¡ÂºÂ£i dÃ¡Â»Â¯ liÃ¡Â»â€¡u dashboard.');
             } finally {
                 setIsLoading(false);
             }
@@ -559,25 +559,25 @@ export default function DashboardPage() {
         fetchData();
     }, []);
 
-    if (!role) return null; // Hoáº·c Loading Skeleton
+    if (!role) return null; // HoÃ¡ÂºÂ·c Loading Skeleton
 
     return (
         <div className="space-y-6 pb-10">
-            {/* Header ChÃ o má»«ng */}
+            {/* Header ChÃƒÂ o mÃ¡Â»Â«ng */}
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-6 rounded-xl border border-slate-100 shadow-sm">
                 <div>
                     <h1 className="text-2xl font-bold text-slate-800 tracking-tight">
-                        {role === 'ADMIN' ? 'Tá»•ng quan Há»‡ thá»‘ng' : 'BÃ n lÃ m viá»‡c'}
+                        {role === 'ADMIN' ? 'TÃ¡Â»â€¢ng quan HÃ¡Â»â€¡ thÃ¡Â»â€˜ng' : 'BÃƒÂ n lÃƒÂ m viÃ¡Â»â€¡c'}
                     </h1>
                     <p className="text-sm text-slate-500 mt-1">
                         {role === 'ADMIN'
-                            ? 'ChÃ o Admin, Ä‘Ã¢y lÃ  bÃ¡o cÃ¡o hiá»‡u suáº¥t toÃ n há»‡ thá»‘ng.'
-                            : `Xin chÃ o, chÃºc báº¡n má»™t ngÃ y lÃ m viá»‡c nÄƒng suáº¥t!`
+                            ? 'ChÃƒÂ o Admin, Ã„â€˜ÃƒÂ¢y lÃƒÂ  bÃƒÂ¡o cÃƒÂ¡o hiÃ¡Â»â€¡u suÃ¡ÂºÂ¥t toÃƒÂ n hÃ¡Â»â€¡ thÃ¡Â»â€˜ng.'
+                            : `Xin chÃƒÂ o, chÃƒÂºc bÃ¡ÂºÂ¡n mÃ¡Â»â„¢t ngÃƒÂ y lÃƒÂ m viÃ¡Â»â€¡c nÃ„Æ’ng suÃ¡ÂºÂ¥t!`
                         }
                     </p>
                 </div>
                 <div className="text-right hidden sm:block">
-                    <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Thá»i gian há»‡ thá»‘ng</p>
+                    <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">ThÃ¡Â»Âi gian hÃ¡Â»â€¡ thÃ¡Â»â€˜ng</p>
                     <p className="text-xl font-mono text-slate-700 font-medium">
                         {new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })}
                     </p>
@@ -587,11 +587,11 @@ export default function DashboardPage() {
                 </div>
             </div>
 
-            {/* Render ná»™i dung tÆ°Æ¡ng á»©ng */}
+            {/* Render nÃ¡Â»â„¢i dung tÃ†Â°Ã†Â¡ng Ã¡Â»Â©ng */}
             <div className="mt-6">
                 {isLoading && (
                     <Card className="shadow-sm">
-                        <CardContent className="p-6 text-sm text-muted-foreground">Äang táº£i dá»¯ liá»‡u dashboard...</CardContent>
+                        <CardContent className="p-6 text-sm text-muted-foreground">Ã„Âang tÃ¡ÂºÂ£i dÃ¡Â»Â¯ liÃ¡Â»â€¡u dashboard...</CardContent>
                     </Card>
                 )}
 

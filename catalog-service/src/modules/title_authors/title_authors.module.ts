@@ -7,9 +7,7 @@ import { TitleAuthor, TitleAuthorSchema } from './schema/title-author.schema';
 import { CatalogSchemasModule } from '../catalog-schemas.module';
 
 @Module({
-  imports: [
-    CatalogSchemasModule,
-  ],
+  imports: [CatalogSchemasModule],
   controllers: [TitleAuthorsController],
   providers: [TitleAuthorsService],
   exports: [CatalogSchemasModule],

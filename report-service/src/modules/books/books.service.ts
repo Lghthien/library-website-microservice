@@ -1,4 +1,4 @@
-import {
+﻿import {
   BadRequestException,
   Injectable,
   NotFoundException,
@@ -12,7 +12,10 @@ import {
   Parameter,
   ParameterDocument,
 } from '../parameters/schema/parameter.schema';
-import { TitleBook, TitleBookDocument } from '../title_books/schema/title-book.schema';
+import {
+  TitleBook,
+  TitleBookDocument,
+} from '../title_books/schema/title-book.schema';
 
 @Injectable()
 export class BooksService {
@@ -20,40 +23,41 @@ export class BooksService {
     @InjectModel(Book.name) private bookModel: Model<BookDocument>,
     @InjectModel(Parameter.name)
     private parameterModel: Model<ParameterDocument>,
-    @InjectModel(TitleBook.name) private titleBookModel: Model<TitleBookDocument>,
+    @InjectModel(TitleBook.name)
+    private titleBookModel: Model<TitleBookDocument>,
   ) {}
 
   async create(createBookDto: CreateBookDto) {
-    // 1. KiÃ¡Â»Æ’m tra bÃ¡ÂºÂ¯t buÃ¡Â»â„¢c phÃ¡ÂºÂ£i cÃƒÂ³ publishYear
+    // 1. KiÃƒÂ¡Ã‚Â»Ã†â€™m tra bÃƒÂ¡Ã‚ÂºÃ‚Â¯t buÃƒÂ¡Ã‚Â»Ã¢â€žÂ¢c phÃƒÂ¡Ã‚ÂºÃ‚Â£i cÃƒÆ’Ã‚Â³ publishYear
     if (!createBookDto.publishYear) {
       throw new BadRequestException(
-        'NÃ„Æ’m xuÃ¡ÂºÂ¥t bÃ¡ÂºÂ£n lÃƒÂ  bÃ¡ÂºÂ¯t buÃ¡Â»â„¢c Ã„â€˜Ã¡Â»Æ’ kiÃ¡Â»Æ’m tra Quy Ã„â€˜Ã¡Â»â€¹nh 2',
+        'NÃƒâ€žÃ†â€™m xuÃƒÂ¡Ã‚ÂºÃ‚Â¥t bÃƒÂ¡Ã‚ÂºÃ‚Â£n lÃƒÆ’Ã‚Â  bÃƒÂ¡Ã‚ÂºÃ‚Â¯t buÃƒÂ¡Ã‚Â»Ã¢â€žÂ¢c Ãƒâ€žÃ¢â‚¬ËœÃƒÂ¡Ã‚Â»Ã†â€™ kiÃƒÂ¡Ã‚Â»Ã†â€™m tra Quy Ãƒâ€žÃ¢â‚¬ËœÃƒÂ¡Ã‚Â»Ã¢â‚¬Â¹nh 2',
       );
     }
 
     const now = new Date();
     const currentYear = now.getFullYear();
 
-    // 2. LÃ¡ÂºÂ¥y tham sÃ¡Â»â€˜ (8 nÃ„Æ’m)
+    // 2. LÃƒÂ¡Ã‚ÂºÃ‚Â¥y tham sÃƒÂ¡Ã‚Â»Ã¢â‚¬Ëœ (8 nÃƒâ€žÃ†â€™m)
     const maxIntervalParam = await this.parameterModel.findOne({
       paramName: 'QD2_PUBLISH_YEAR_DISTANCE',
     });
     const maxInterval = parseInt(maxIntervalParam?.paramValue || '8');
 
-    // 3. ThÃ¡Â»Â±c hiÃ¡Â»â€¡n kiÃ¡Â»Æ’m tra QÃ„Â2
+    // 3. ThÃƒÂ¡Ã‚Â»Ã‚Â±c hiÃƒÂ¡Ã‚Â»Ã¢â‚¬Â¡n kiÃƒÂ¡Ã‚Â»Ã†â€™m tra QÃƒâ€žÃ‚Â2
     if (currentYear - createBookDto.publishYear > maxInterval) {
       throw new BadRequestException(
-        `NÃ„Æ’m xuÃ¡ÂºÂ¥t bÃ¡ÂºÂ£n khÃƒÂ´ng Ã„â€˜Ã†Â°Ã¡Â»Â£c vÃ†Â°Ã¡Â»Â£t quÃƒÂ¡ ${maxInterval} nÃ„Æ’m so vÃ¡Â»â€ºi nÃ„Æ’m hiÃ¡Â»â€¡n tÃ¡ÂºÂ¡i (${currentYear})`,
+        `NÃƒâ€žÃ†â€™m xuÃƒÂ¡Ã‚ÂºÃ‚Â¥t bÃƒÂ¡Ã‚ÂºÃ‚Â£n khÃƒÆ’Ã‚Â´ng Ãƒâ€žÃ¢â‚¬ËœÃƒâ€ Ã‚Â°ÃƒÂ¡Ã‚Â»Ã‚Â£c vÃƒâ€ Ã‚Â°ÃƒÂ¡Ã‚Â»Ã‚Â£t quÃƒÆ’Ã‚Â¡ ${maxInterval} nÃƒâ€žÃ†â€™m so vÃƒÂ¡Ã‚Â»Ã¢â‚¬Âºi nÃƒâ€žÃ†â€™m hiÃƒÂ¡Ã‚Â»Ã¢â‚¬Â¡n tÃƒÂ¡Ã‚ÂºÃ‚Â¡i (${currentYear})`,
       );
     }
 
-    // 4. LÃ†Â°u sÃƒÂ¡ch (Ã„ÂÃ¡ÂºÂ£m bÃ¡ÂºÂ£o cÃƒÂ¡c trÃ†Â°Ã¡Â»Âng Ã„â€˜Ã†Â°Ã¡Â»Â£c gÃƒÂ¡n Ã„â€˜ÃƒÂºng)
+    // 4. LÃƒâ€ Ã‚Â°u sÃƒÆ’Ã‚Â¡ch (Ãƒâ€žÃ‚ÂÃƒÂ¡Ã‚ÂºÃ‚Â£m bÃƒÂ¡Ã‚ÂºÃ‚Â£o cÃƒÆ’Ã‚Â¡c trÃƒâ€ Ã‚Â°ÃƒÂ¡Ã‚Â»Ã‚Âng Ãƒâ€žÃ¢â‚¬ËœÃƒâ€ Ã‚Â°ÃƒÂ¡Ã‚Â»Ã‚Â£c gÃƒÆ’Ã‚Â¡n Ãƒâ€žÃ¢â‚¬ËœÃƒÆ’Ã‚Âºng)
     const createdBook = new this.bookModel({
       titleId: new Types.ObjectId(createBookDto.titleId),
       publisher: createBookDto.publisher,
       publishYear: createBookDto.publishYear,
       price: createBookDto.price,
-      importDate: createBookDto.importDate || now, // Ã†Â¯u tiÃƒÂªn ngÃƒÂ y gÃ¡Â»Â­i lÃƒÂªn hoÃ¡ÂºÂ·c ngÃƒÂ y hiÃ¡Â»â€¡n tÃ¡ÂºÂ¡i
+      importDate: createBookDto.importDate || now, // Ãƒâ€ Ã‚Â¯u tiÃƒÆ’Ã‚Âªn ngÃƒÆ’Ã‚Â y gÃƒÂ¡Ã‚Â»Ã‚Â­i lÃƒÆ’Ã‚Âªn hoÃƒÂ¡Ã‚ÂºÃ‚Â·c ngÃƒÆ’Ã‚Â y hiÃƒÂ¡Ã‚Â»Ã¢â‚¬Â¡n tÃƒÂ¡Ã‚ÂºÃ‚Â¡i
     });
 
     const savedBook = await createdBook.save();
@@ -63,7 +67,7 @@ export class BooksService {
   async findAll() {
     const books = await this.bookModel.find().populate('titleId').exec();
     // Filter out books whose titleId is deleted
-    return books.filter(book => {
+    return books.filter((book) => {
       if (book.titleId && typeof book.titleId === 'object') {
         return !(book.titleId as any).isDeleted;
       }
@@ -152,7 +156,6 @@ export class BooksService {
 
   async findByAvailability(isAvailable: boolean) {
     // This would require checking book copies, so we'll use aggregation
-    const status = isAvailable ? 'available' : 'borrowed';
     return this.bookModel.aggregate([
       {
         $lookup: {
@@ -201,12 +204,15 @@ export class BooksService {
   }
 
   async update(id: string, updateBookDto: UpdateBookDto) {
-    // LÃ¡ÂºÂ¥y dÃ¡Â»Â¯ liÃ¡Â»â€¡u hiÃ¡Â»â€¡n tÃ¡ÂºÂ¡i cÃ¡Â»Â§a sÃƒÂ¡ch trong DB
+    // LÃƒÂ¡Ã‚ÂºÃ‚Â¥y dÃƒÂ¡Ã‚Â»Ã‚Â¯ liÃƒÂ¡Ã‚Â»Ã¢â‚¬Â¡u hiÃƒÂ¡Ã‚Â»Ã¢â‚¬Â¡n tÃƒÂ¡Ã‚ÂºÃ‚Â¡i cÃƒÂ¡Ã‚Â»Ã‚Â§a sÃƒÆ’Ã‚Â¡ch trong DB
     const currentBook = await this.bookModel.findById(id);
-    if (!currentBook) throw new NotFoundException('KhÃƒÂ´ng tÃƒÂ¬m thÃ¡ÂºÂ¥y sÃƒÂ¡ch');
+    if (!currentBook)
+      throw new NotFoundException(
+        'KhÃƒÆ’Ã‚Â´ng tÃƒÆ’Ã‚Â¬m thÃƒÂ¡Ã‚ÂºÃ‚Â¥y sÃƒÆ’Ã‚Â¡ch',
+      );
 
-    // CHÃ¡Â»Ë† KIÃ¡Â»â€šM TRA QÃ„Â2 NÃ¡ÂºÂ¾U:
-    // NgÃ†Â°Ã¡Â»Âi dÃƒÂ¹ng gÃ¡Â»Â­i lÃƒÂªn publishYear MÃ¡Â»Å¡I vÃƒÂ  nÃƒÂ³ KHÃƒÂC vÃ¡Â»â€ºi publishYear cÃ…Â© trong DB
+    // CHÃƒÂ¡Ã‚Â»Ã‹â€  KIÃƒÂ¡Ã‚Â»Ã¢â‚¬Å¡M TRA QÃƒâ€žÃ‚Â2 NÃƒÂ¡Ã‚ÂºÃ‚Â¾U:
+    // NgÃƒâ€ Ã‚Â°ÃƒÂ¡Ã‚Â»Ã‚Âi dÃƒÆ’Ã‚Â¹ng gÃƒÂ¡Ã‚Â»Ã‚Â­i lÃƒÆ’Ã‚Âªn publishYear MÃƒÂ¡Ã‚Â»Ã…Â¡I vÃƒÆ’Ã‚Â  nÃƒÆ’Ã‚Â³ KHÃƒÆ’Ã‚ÂC vÃƒÂ¡Ã‚Â»Ã¢â‚¬Âºi publishYear cÃƒâ€¦Ã‚Â© trong DB
     if (
       updateBookDto.publishYear &&
       updateBookDto.publishYear !== currentBook.publishYear
@@ -219,7 +225,7 @@ export class BooksService {
 
       if (currentYear - updateBookDto.publishYear > maxInterval) {
         throw new BadRequestException(
-          `NÃ„Æ’m xuÃ¡ÂºÂ¥t bÃ¡ÂºÂ£n mÃ¡Â»â€ºi (${updateBookDto.publishYear}) vi phÃ¡ÂºÂ¡m quy Ã„â€˜Ã¡Â»â€¹nh ${maxInterval} nÃ„Æ’m.`,
+          `NÃƒâ€žÃ†â€™m xuÃƒÂ¡Ã‚ÂºÃ‚Â¥t bÃƒÂ¡Ã‚ÂºÃ‚Â£n mÃƒÂ¡Ã‚Â»Ã¢â‚¬Âºi (${updateBookDto.publishYear}) vi phÃƒÂ¡Ã‚ÂºÃ‚Â¡m quy Ãƒâ€žÃ¢â‚¬ËœÃƒÂ¡Ã‚Â»Ã¢â‚¬Â¹nh ${maxInterval} nÃƒâ€žÃ†â€™m.`,
         );
       }
     }

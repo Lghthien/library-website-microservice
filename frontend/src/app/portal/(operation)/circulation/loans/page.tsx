@@ -132,7 +132,7 @@ interface ApiBook {
         categoryId?: {
             categoryName: string;
         };
-        authors?: any[];
+        authors?: unknown[];
     };
 }
 
@@ -209,7 +209,7 @@ interface ReturnPreviewData {
     books: LoanDetail[];
     overdueDays: number;
     estimatedFine: number;
-    currentDebt: number; // Nợ hiện tại của độc giả
+    currentDebt: number; // Ná»£ hiá»‡n táº¡i cá»§a Ä‘á»™c giáº£
     readerInfo: {
         fullName: string;
         totalDebt: number;
@@ -304,19 +304,19 @@ export default function CirculationPage() {
     const [loans, setLoans] = useState<Loan[]>([]);
     const [loanDetailsMap, setLoanDetailsMap] = useState<Record<string, LoanDetail[]>>({});
 
-    // State Lập phiếu
+    // State Láº­p phiáº¿u
     const [borrowReaderId, setBorrowReaderId] = useState("");
     const [borrowReaderDisplayName, setBorrowReaderDisplayName] = useState("");
     const [borrowReaderInfo, setBorrowReaderInfo] = useState<ReaderInfo | null>(null);
     const [borrowRows, setBorrowRows] = useState<BorrowRow[]>([{ id: 1, title: "", author: "", category: "" }]);
     const [isBorrowing, setIsBorrowing] = useState(false);
 
-    // State Xử lý Trả sách
+    // State Xá»­ lÃ½ Tráº£ sÃ¡ch
     const [returnQuery, setReturnQuery] = useState("");
     const [returnPreview, setReturnPreview] = useState<ReturnPreviewData | null>(null);
     const [isReturning, setIsReturning] = useState(false);
     const [lostBookIds, setLostBookIds] = useState<Set<string>>(new Set()); // NEW: Track lost books
-    const [selectedBookToReturn, setSelectedBookToReturn] = useState<any>(null); // NEW
+    const [selectedBookToReturn, setSelectedBookToReturn] = useState<unknown>(null); // NEW
     const [returnOverdueDays, setReturnOverdueDays] = useState(0); // NEW
     const [returnFineAmount, setReturnFineAmount] = useState(0); // NEW
 
@@ -336,7 +336,7 @@ export default function CirculationPage() {
     const [returnedReturnDateFrom, setReturnedReturnDateFrom] = useState("");
     const [returnedReturnDateTo, setReturnedReturnDateTo] = useState("");
 
-    // System Parameters (QĐ4 & Fine)
+    // System Parameters (QÄ4 & Fine)
     const [maxBorrowQuantity, setMaxBorrowQuantity] = useState(5);
     const [maxBorrowDays, setMaxBorrowDays] = useState(4);
     const [finePerDay, setFinePerDay] = useState(1000);
@@ -376,28 +376,28 @@ export default function CirculationPage() {
             let localMaxBorrowDays = 4; // Default value
             if (pRes.ok) {
                 const pData = await pRes.json();
-                const q4Qty = pData.find((p: any) => p.paramName === 'QD4_MAX_BORROW_QUANTITY');
+                const q4Qty = pData.find((p: unknown) => p.paramName === 'QD4_MAX_BORROW_QUANTITY');
                 if (q4Qty) setMaxBorrowQuantity(parseInt(q4Qty.paramValue));
                 
-                const q4Days = pData.find((p: any) => p.paramName === 'QD4_MAX_BORROW_DAYS');
+                const q4Days = pData.find((p: unknown) => p.paramName === 'QD4_MAX_BORROW_DAYS');
                 if (q4Days) {
                     localMaxBorrowDays = parseInt(q4Days.paramValue);
                     setMaxBorrowDays(localMaxBorrowDays);
                 }
                 
-                const fineP = pData.find((p: any) => p.paramName === 'QD_FINE_PER_DAY');
+                const fineP = pData.find((p: unknown) => p.paramName === 'QD_FINE_PER_DAY');
                 if (fineP) setFinePerDay(parseInt(fineP.paramValue));
                 
-                const lostFineP = pData.find((p: any) => p.paramName === 'QD_FINE_LOST_BOOK');
+                const lostFineP = pData.find((p: unknown) => p.paramName === 'QD_FINE_LOST_BOOK');
                 if (lostFineP) setLostBookFine(parseInt(lostFineP.paramValue));
             }
 
             setReaders(Array.isArray(readersData) ? readersData : []);
-            setAvailableCopies(Array.isArray(copiesData) ? copiesData.filter((c: any) => c.status === 1) : []);
+            setAvailableCopies(Array.isArray(copiesData) ? copiesData.filter((c: unknown) => c.status === 1) : []);
 
             // Map Details
             const detailsMap: Record<string, LoanDetail[]> = {};
-            (Array.isArray(loadDetailsData) ? loadDetailsData : []).forEach((d: any) => {
+            (Array.isArray(loadDetailsData) ? loadDetailsData : []).forEach((d: unknown) => {
                 const loanId = typeof d.loanId === 'object' ? d.loanId._id : d.loanId;
                 if (!detailsMap[loanId]) detailsMap[loanId] = [];
 
@@ -409,7 +409,7 @@ export default function CirculationPage() {
                     bookCode: d.copyId?._id,
                     title: title?.title || 'Unknown',
                     category: category?.categoryName || 'Unknown',
-                    status: d.returnDate ? 'Đã trả' : 'Đang mượn',
+                    status: d.returnDate ? 'ÄÃ£ tráº£' : 'Äang mÆ°á»£n',
                     returnDate: d.returnDate ? new Date(d.returnDate).toLocaleDateString('vi-VN') : undefined,
                     fine: d.fineAmount,
                     copyId: d.copyId?._id,
@@ -419,7 +419,7 @@ export default function CirculationPage() {
             });
 
             // Use loans data directly from backend - already calculated
-            const mappedLoans = (Array.isArray(loansData) ? loansData : []).map((l: any) => {
+            const mappedLoans = (Array.isArray(loansData) ? loansData : []).map((l: unknown) => {
                 const details = detailsMap[l._id] || [];
                 
                 return {
@@ -478,13 +478,13 @@ export default function CirculationPage() {
         const reader = readers.find(r => getReaderDisplayName(r, readers) === displayName);
 
         if (reader) {
-            // Tính số sách độc giả đang mượn
+            // TÃ­nh sá»‘ sÃ¡ch Ä‘á»™c giáº£ Ä‘ang mÆ°á»£n
             const readerActiveLoans = loans.filter(l => 
                 l.readerId === reader._id && 
                 (l.status === 'active' || l.status === 'overdue')
             );
             const currentBorrowedBooks = readerActiveLoans.reduce((sum, loan) => {
-                const activeBooks = (loan.details || []).filter(d => d.status !== 'Đã trả');
+                const activeBooks = (loan.details || []).filter(d => d.status !== 'ÄÃ£ tráº£');
                 return sum + activeBooks.length;
             }, 0);
 
@@ -493,7 +493,7 @@ export default function CirculationPage() {
             const isExpired = getVietnamDate() > expiryDate;
 
             if (isExpired) {
-                showToast(`Thẻ độc giả đã hết hạn từ ${expiryDate.toLocaleDateString('vi-VN')}. Vui lòng gia hạn thẻ trước khi mượn sách!`, 'error');
+                showToast(`Tháº» Ä‘á»™c giáº£ Ä‘Ã£ háº¿t háº¡n tá»« ${expiryDate.toLocaleDateString('vi-VN')}. Vui lÃ²ng gia háº¡n tháº» trÆ°á»›c khi mÆ°á»£n sÃ¡ch!`, 'error');
             }
 
             setBorrowReaderId(reader._id);
@@ -504,7 +504,7 @@ export default function CirculationPage() {
                 class: typeof reader.readerTypeId === 'object' ? reader.readerTypeId.readerTypeName : '',
                 email: reader.email,
                 dob: new Date(reader.dateOfBirth).toLocaleDateString('vi-VN'),
-                phone: (reader as any).phoneNumber || '',
+                phone: (reader as unknown).phoneNumber || '',
                 address: reader.address || '',
                 currentBorrowedBooks: currentBorrowedBooks,
                 maxBorrowLimit: typeof reader.readerTypeId === 'object' ? reader.readerTypeId.maxBorrowLimit : maxBorrowQuantity,
@@ -525,7 +525,7 @@ export default function CirculationPage() {
             if (activeLoansSearch) {
                 const searchLower = activeLoansSearch.toLowerCase();
                 
-                // Lấy reader info để search email
+                // Láº¥y reader info Ä‘á»ƒ search email
                 const reader = readers.find(r => r._id === l.readerId);
                 const readerEmail = reader?.email || '';
                 
@@ -557,7 +557,7 @@ export default function CirculationPage() {
             if (returnedLoansSearch) {
                 const searchLower = returnedLoansSearch.toLowerCase();
                 
-                // Lấy reader info để search email
+                // Láº¥y reader info Ä‘á»ƒ search email
                 const reader = readers.find(r => r._id === l.readerId);
                 const readerEmail = reader?.email || '';
                 
@@ -604,7 +604,7 @@ export default function CirculationPage() {
         setReturnedReturnDateTo("");
     };
 
-    // --- LOGIC TRẢ SÁCH ---
+    // --- LOGIC TRáº¢ SÃCH ---
     // Unified function to prepare return preview
     const handlePrepareReturnPreview = async (loan: Loan) => {
         const reader = readers.find(r => r._id === loan.readerId);
@@ -689,9 +689,9 @@ export default function CirculationPage() {
             };
 
             // Process return for each book in the loan that is not yet returned
-            const activeDetails = returnPreview.books.filter(b => b.status !== 'Đã trả');
+            const activeDetails = returnPreview.books.filter(b => b.status !== 'ÄÃ£ tráº£');
             
-            let totalFines = 0;
+            const totalFines = 0;
             // We use Promise.all to return all books
             // NEW: Use POST /return-book endpoint which handles isLost logic
             const results = await Promise.all(activeDetails.map(detail => {
@@ -726,9 +726,9 @@ export default function CirculationPage() {
             const updatedDebt = updatedReader?.totalDebt || 0;
 
             if (totalFines > 0) {
-                showToast(`Đã trả sách! Độc giả bị phạt thêm ${totalFines.toLocaleString('vi-VN')} đ. Tổng nợ hiện tại: ${updatedDebt?.toLocaleString('vi-VN')} đ`, 'warning');
+                showToast(`ÄÃ£ tráº£ sÃ¡ch! Äá»™c giáº£ bá»‹ pháº¡t thÃªm ${totalFines.toLocaleString('vi-VN')} Ä‘. Tá»•ng ná»£ hiá»‡n táº¡i: ${updatedDebt?.toLocaleString('vi-VN')} Ä‘`, 'warning');
             } else {
-                showToast("Đã xử lý trả sách thành công!", 'success');
+                showToast("ÄÃ£ xá»­ lÃ½ tráº£ sÃ¡ch thÃ nh cÃ´ng!", 'success');
             }
 
             setIsReturnModalOpen(false);
@@ -737,7 +737,7 @@ export default function CirculationPage() {
             await fetchData(); // Refresh data
         } catch (error) {
             console.error("Error returning books:", error);
-            showToast("Có lỗi xảy ra khi trả sách!", 'error');
+            showToast("CÃ³ lá»—i xáº£y ra khi tráº£ sÃ¡ch!", 'error');
         } finally {
             setIsReturning(false);
         }
@@ -752,25 +752,25 @@ export default function CirculationPage() {
         const realReaderId = reader ? reader._id : borrowReaderId;
 
         if (!realReaderId || borrowRows.length === 0 || !borrowRows[0].title) {
-            showToast("Vui lòng nhập đầy đủ thông tin!", 'warning');
+            showToast("Vui lÃ²ng nháº­p Ä‘áº§y Ä‘á»§ thÃ´ng tin!", 'warning');
             return;
         }
 
         // Check if reader card is expired
         if (borrowReaderInfo?.isExpired) {
-            showToast(`Thẻ độc giả đã hết hạn. Vui lòng gia hạn thẻ trước khi mượn sách!`, 'error');
+            showToast(`Tháº» Ä‘á»™c giáº£ Ä‘Ã£ háº¿t háº¡n. Vui lÃ²ng gia háº¡n tháº» trÆ°á»›c khi mÆ°á»£n sÃ¡ch!`, 'error');
             return;
         }
 
         // Validate that all rows have valid book selections
         const bookIds = borrowRows.map(row => row.copyId).filter(Boolean);
         if (bookIds.length === 0) {
-            showToast("Vui lòng chọn sách để mượn!", 'warning');
+            showToast("Vui lÃ²ng chá»n sÃ¡ch Ä‘á»ƒ mÆ°á»£n!", 'warning');
             return;
         }
 
         if (bookIds.length !== borrowRows.length) {
-            showToast("Vui lòng chọn đầy đủ thông tin sách cho tất cả các dòng!", 'warning');
+            showToast("Vui lÃ²ng chá»n Ä‘áº§y Ä‘á»§ thÃ´ng tin sÃ¡ch cho táº¥t cáº£ cÃ¡c dÃ²ng!", 'warning');
             return;
         }
 
@@ -804,7 +804,7 @@ export default function CirculationPage() {
                 
                 // Show detailed error messages if available
                 if (errorData.errors && Array.isArray(errorData.errors)) {
-                    const errorMessages = errorData.errors.map((e: any) => e.message).join('; ');
+                    const errorMessages = errorData.errors.map((e: unknown) => e.message).join('; ');
                     throw new Error(errorMessages);
                 }
                 
@@ -840,7 +840,7 @@ export default function CirculationPage() {
             await Promise.all(detailPromises);
             console.log('All loan details created successfully');
 
-            showToast("Lập phiếu mượn thành công!", 'success');
+            showToast("Láº­p phiáº¿u mÆ°á»£n thÃ nh cÃ´ng!", 'success');
             setIsLoanModalOpen(false);
             setBorrowReaderId("");
             setBorrowReaderDisplayName("");
@@ -848,9 +848,9 @@ export default function CirculationPage() {
             setBorrowRows([{ id: Date.now(), title: "", author: "", category: "" }]);
             fetchData(); // Refresh data
 
-        } catch (error: any) {
+        } catch (error: unknown) {
             console.error("Error creating loan:", error);
-            showToast(error.message || "Có lỗi xảy ra khi lập phiếu mượn!", 'error');
+            showToast(error.message || "CÃ³ lá»—i xáº£y ra khi láº­p phiáº¿u mÆ°á»£n!", 'error');
         } finally {
             setIsBorrowing(false);
         }
@@ -862,7 +862,7 @@ export default function CirculationPage() {
         const availableSlots = maxLimit - currentlyBorrowed;
         
         if (borrowRows.length >= availableSlots) {
-            showToast(`Độc giả chỉ còn được mượn thêm ${availableSlots} cuốn (đang mượn ${currentlyBorrowed}/${maxLimit})`, 'warning');
+            showToast(`Äá»™c giáº£ chá»‰ cÃ²n Ä‘Æ°á»£c mÆ°á»£n thÃªm ${availableSlots} cuá»‘n (Ä‘ang mÆ°á»£n ${currentlyBorrowed}/${maxLimit})`, 'warning');
             return;
         }
         setBorrowRows([...borrowRows, { id: Date.now(), title: "", author: "", category: "" }]);
@@ -876,10 +876,10 @@ export default function CirculationPage() {
         }
     };
 
-    const getAuthorName = (copy: any) => {
+    const getAuthorName = (copy: unknown) => {
         const authors = copy.bookId?.titleId?.authors;
         if (Array.isArray(authors) && authors.length > 0) {
-            return authors.map((a: any) => a.authorId?.authorName).filter(Boolean).join(', ');
+            return authors.map((a: unknown) => a.authorId?.authorName).filter(Boolean).join(', ');
         }
         return 'Unknown';
     };
@@ -929,18 +929,18 @@ export default function CirculationPage() {
         <div className="min-h-screen bg-background p-6 font-sans text-foreground space-y-8">
             {/* HEADER */}
             <div>
-                <h1 className="text-3xl font-bold text-foreground">Quản lý Lưu thông</h1>
-                <p className="text-muted-foreground mt-1">Theo dõi Mượn - Trả & Lịch sử giao dịch</p>
+                <h1 className="text-3xl font-bold text-foreground">Quáº£n lÃ½ LÆ°u thÃ´ng</h1>
+                <p className="text-muted-foreground mt-1">Theo dÃµi MÆ°á»£n - Tráº£ & Lá»‹ch sá»­ giao dá»‹ch</p>
             </div>
 
             {/* TABS */}
             <div className="w-full space-y-6">
                 <div className="flex p-1 bg-card border border-border rounded-lg w-fit shadow-sm">
                     <button onClick={() => setActiveTab('borrow')} className={`px-6 py-2.5 text-sm font-medium rounded-md transition-all flex items-center gap-2 ${activeTab === 'borrow' ? 'bg-primary/10 text-primary shadow-sm' : 'text-muted-foreground hover:text-foreground'}`}>
-                        <BookOpen className="w-4 h-4" /> Danh sách Đang mượn
+                        <BookOpen className="w-4 h-4" /> Danh sÃ¡ch Äang mÆ°á»£n
                     </button>
                     <button onClick={() => setActiveTab('return')} className={`px-6 py-2.5 text-sm font-medium rounded-md transition-all flex items-center gap-2 ${activeTab === 'return' ? 'bg-primary/10 text-primary shadow-sm' : 'text-muted-foreground hover:text-foreground'}`}>
-                        <Clock className="w-4 h-4" /> Lịch sử Đã trả
+                        <Clock className="w-4 h-4" /> Lá»‹ch sá»­ ÄÃ£ tráº£
                     </button>
                 </div>
 
@@ -954,7 +954,7 @@ export default function CirculationPage() {
                                 <div className="relative">
                                     <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
                                     <Input 
-                                        placeholder="Tìm theo mã phiếu, độc giả, email..." 
+                                        placeholder="TÃ¬m theo mÃ£ phiáº¿u, Ä‘á»™c giáº£, email..." 
                                         className="pl-9" 
                                         value={activeLoansSearch}
                                         onChange={(e) => setActiveLoansSearch(e.target.value)}
@@ -963,9 +963,9 @@ export default function CirculationPage() {
                                 
                                 {/* Date Filters */}
                                 <div className="space-y-3">
-                                    {/* Ngày Mượn */}
+                                    {/* NgÃ y MÆ°á»£n */}
                                     <div className="flex items-center gap-3">
-                                        <label className="text-sm font-medium text-slate-700 w-24">Ngày Mượn</label>
+                                        <label className="text-sm font-medium text-slate-700 w-24">NgÃ y MÆ°á»£n</label>
                                         <div className="flex gap-2 items-center flex-1">
                                             <Input
                                                 type="date"
@@ -983,9 +983,9 @@ export default function CirculationPage() {
                                         </div>
                                     </div>
                                     
-                                    {/* Hạn Trả */}
+                                    {/* Háº¡n Tráº£ */}
                                     <div className="flex items-center gap-3">
-                                        <label className="text-sm font-medium text-slate-700 w-24">Hạn Trả</label>
+                                        <label className="text-sm font-medium text-slate-700 w-24">Háº¡n Tráº£</label>
                                         <div className="flex gap-2 items-center flex-1">
                                             <Input
                                                 type="date"
@@ -1012,7 +1012,7 @@ export default function CirculationPage() {
                                         onClick={clearActiveFilters}
                                         className="text-slate-600"
                                     >
-                                        <X className="w-4 h-4 mr-1" /> Xóa bộ lọc
+                                        <X className="w-4 h-4 mr-1" /> XÃ³a bá»™ lá»c
                                     </Button>
                                 </div>
                             </div>
@@ -1025,7 +1025,7 @@ export default function CirculationPage() {
                                     setBorrowRows([{ id: Date.now(), title: "", author: "", category: "" }]);
                                     setIsLoanModalOpen(true);
                                 }}>
-                                    <Plus className="w-4 h-4 mr-2" /> Lập Phiếu Mượn
+                                    <Plus className="w-4 h-4 mr-2" /> Láº­p Phiáº¿u MÆ°á»£n
                                 </Button>
                             </div>
                             
@@ -1041,7 +1041,7 @@ export default function CirculationPage() {
                                 <div className="relative">
                                     <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
                                     <Input 
-                                        placeholder="Tìm theo mã phiếu, độc giả, email..." 
+                                        placeholder="TÃ¬m theo mÃ£ phiáº¿u, Ä‘á»™c giáº£, email..." 
                                         className="pl-9" 
                                         value={returnedLoansSearch}
                                         onChange={(e) => setReturnedLoansSearch(e.target.value)}
@@ -1050,9 +1050,9 @@ export default function CirculationPage() {
                                 
                                 {/* Date Filters */}
                                 <div className="space-y-3">
-                                    {/* Ngày Mượn */}
+                                    {/* NgÃ y MÆ°á»£n */}
                                     <div className="flex items-center gap-3">
-                                        <label className="text-sm font-medium text-slate-700 w-24">Ngày Mượn</label>
+                                        <label className="text-sm font-medium text-slate-700 w-24">NgÃ y MÆ°á»£n</label>
                                         <div className="flex gap-2 items-center flex-1">
                                             <Input
                                                 type="date"
@@ -1070,9 +1070,9 @@ export default function CirculationPage() {
                                         </div>
                                     </div>
                                     
-                                    {/* Ngày Trả */}
+                                    {/* NgÃ y Tráº£ */}
                                     <div className="flex items-center gap-3">
-                                        <label className="text-sm font-medium text-slate-700 w-24">Ngày Trả</label>
+                                        <label className="text-sm font-medium text-slate-700 w-24">NgÃ y Tráº£</label>
                                         <div className="flex gap-2 items-center flex-1">
                                             <Input
                                                 type="date"
@@ -1099,7 +1099,7 @@ export default function CirculationPage() {
                                         onClick={clearReturnedFilters}
                                         className="text-slate-600"
                                     >
-                                        <X className="w-4 h-4 mr-1" /> Xóa bộ lọc
+                                        <X className="w-4 h-4 mr-1" /> XÃ³a bá»™ lá»c
                                     </Button>
                                 </div>
                             </div>
@@ -1109,7 +1109,7 @@ export default function CirculationPage() {
                                 <Button variant="success" onClick={() => {
                                     setIsReturnModalOpen(true);
                                 }} className="shadow-md">
-                                    <Check className="w-4 h-4 mr-2" /> Nhận Trả Sách
+                                    <Check className="w-4 h-4 mr-2" /> Nháº­n Tráº£ SÃ¡ch
                                 </Button>
                             </div>
                             
@@ -1119,52 +1119,52 @@ export default function CirculationPage() {
                 </div>
             </div>
 
-            {/* === MODAL 1: LẬP PHIẾU MƯỢN (ĐÃ UPDATE THÊM FIELD) === */}
+            {/* === MODAL 1: Láº¬P PHIáº¾U MÆ¯á»¢N (ÄÃƒ UPDATE THÃŠM FIELD) === */}
             {isLoanModalOpen && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
                     <div className="bg-card border border-border rounded-xl shadow-2xl w-full max-w-6xl max-h-[95vh] flex flex-col overflow-hidden animate-in zoom-in-95">
                         <div className="px-6 py-4 border-b border-border flex justify-between items-center bg-muted/40">
-                            <div><h2 className="text-lg font-bold text-foreground">Lập Phiếu Mượn Mới</h2></div>
+                            <div><h2 className="text-lg font-bold text-foreground">Láº­p Phiáº¿u MÆ°á»£n Má»›i</h2></div>
                             <button onClick={() => setIsLoanModalOpen(false)}><X className="w-6 h-6 text-muted-foreground hover:text-foreground" /></button>
                         </div>
                         <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-muted/20">
-                            {/* SECTION THÔNG TIN ĐỘC GIẢ */}
+                            {/* SECTION THÃ”NG TIN Äá»˜C GIáº¢ */}
                             <div className="bg-card p-5 rounded-lg border border-border shadow-sm">
                                 <div className="flex items-center gap-2 mb-4 text-primary font-semibold text-sm uppercase">
-                                    <User className="w-4 h-4" /> Thông tin Độc giả
+                                    <User className="w-4 h-4" /> ThÃ´ng tin Äá»™c giáº£
                                 </div>
-                                {/* Layout Grid 3 Cột */}
+                                {/* Layout Grid 3 Cá»™t */}
                                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                                     {/* Row 1 */}
                                     <div className="space-y-1">
-                                        <label className="text-sm font-medium">Độc giả <span className="text-destructive">*</span></label>
+                                        <label className="text-sm font-medium">Äá»™c giáº£ <span className="text-destructive">*</span></label>
                                         <Combobox 
                                             value={borrowReaderDisplayName} 
                                             onChange={handleReaderChange} 
                                             options={readers.map(r => getReaderDisplayName(r, readers))} 
-                                            placeholder="Nhập tên để tìm..." 
+                                            placeholder="Nháº­p tÃªn Ä‘á»ƒ tÃ¬m..." 
                                         />
                                     </div>
                                     <div className="space-y-1">
-                                        <label className="text-sm font-medium">Họ tên</label>
+                                        <label className="text-sm font-medium">Há» tÃªn</label>
                                         <Input disabled value={borrowReaderInfo?.name || ""} placeholder="..." className="bg-muted" />
                                     </div>
                                     <div className="space-y-1">
-                                        <label className="text-sm font-medium">Loại độc giả</label>
+                                        <label className="text-sm font-medium">Loáº¡i Ä‘á»™c giáº£</label>
                                         <Input disabled value={borrowReaderInfo?.class || ""} placeholder="..." className="bg-muted" />
                                     </div>
 
                                     {/* Row 2 */}
                                     <div className="space-y-1">
-                                        <label className="text-sm font-medium flex items-center gap-1"><Phone className="w-3 h-3" /> Số điện thoại</label>
+                                        <label className="text-sm font-medium flex items-center gap-1"><Phone className="w-3 h-3" /> Sá»‘ Ä‘iá»‡n thoáº¡i</label>
                                         <Input disabled value={borrowReaderInfo?.phone || ""} placeholder="..." className="bg-muted" />
                                     </div>
                                     <div className="space-y-1">
-                                        <label className="text-sm font-medium flex items-center gap-1"><Cake className="w-3 h-3" /> Ngày sinh</label>
+                                        <label className="text-sm font-medium flex items-center gap-1"><Cake className="w-3 h-3" /> NgÃ y sinh</label>
                                         <Input disabled value={borrowReaderInfo?.dob || ""} placeholder="..." className="bg-muted" />
                                     </div>
                                     <div className="space-y-1">
-                                        <label className="text-sm font-medium flex items-center gap-1"><Calendar className="w-3 h-3" /> Hạn thẻ</label>
+                                        <label className="text-sm font-medium flex items-center gap-1"><Calendar className="w-3 h-3" /> Háº¡n tháº»</label>
                                         <Input 
                                             disabled 
                                             value={borrowReaderInfo?.expiryDate || ""} 
@@ -1175,11 +1175,11 @@ export default function CirculationPage() {
 
                                     {/* Row 3 */}
                                     <div className="space-y-1 md:col-span-2">
-                                        <label className="text-sm font-medium flex items-center gap-1"><MapPin className="w-3 h-3" /> Địa chỉ</label>
+                                        <label className="text-sm font-medium flex items-center gap-1"><MapPin className="w-3 h-3" /> Äá»‹a chá»‰</label>
                                         <Input disabled value={borrowReaderInfo?.address || ""} placeholder="..." className="bg-muted" />
                                     </div>
                                     <div className="space-y-1">
-                                        <label className="text-sm font-medium">Số sách đang mượn</label>
+                                        <label className="text-sm font-medium">Sá»‘ sÃ¡ch Ä‘ang mÆ°á»£n</label>
                                         <Input 
                                             disabled 
                                             value={borrowReaderInfo ? `${borrowReaderInfo.currentBorrowedBooks || 0}/${borrowReaderInfo.maxBorrowLimit || maxBorrowQuantity}` : ""} 
@@ -1194,7 +1194,7 @@ export default function CirculationPage() {
                                     <div className="mt-4 p-3 bg-destructive/10 border border-destructive/30 rounded-md flex items-center gap-2">
                                         <AlertCircle className="w-5 h-5 text-destructive flex-shrink-0" />
                                         <p className="text-sm text-destructive font-medium">
-                                            Thẻ độc giả đã hết hạn từ {borrowReaderInfo.expiryDate}. Vui lòng gia hạn thẻ trước khi mượn sách!
+                                            Tháº» Ä‘á»™c giáº£ Ä‘Ã£ háº¿t háº¡n tá»« {borrowReaderInfo.expiryDate}. Vui lÃ²ng gia háº¡n tháº» trÆ°á»›c khi mÆ°á»£n sÃ¡ch!
                                         </p>
                                     </div>
                                 )}
@@ -1207,20 +1207,20 @@ export default function CirculationPage() {
                                     <div className="mt-4 p-3 bg-amber-50 border border-amber-200 rounded-md flex items-center gap-2">
                                         <AlertCircle className="w-5 h-5 text-amber-600 flex-shrink-0" />
                                         <p className="text-sm text-amber-800 font-medium">
-                                            Độc giả đã đạt giới hạn mượn sách ({borrowReaderInfo.currentBorrowedBooks}/{borrowReaderInfo.maxBorrowLimit}). Không thể mượn thêm sách!
+                                            Äá»™c giáº£ Ä‘Ã£ Ä‘áº¡t giá»›i háº¡n mÆ°á»£n sÃ¡ch ({borrowReaderInfo.currentBorrowedBooks}/{borrowReaderInfo.maxBorrowLimit}). KhÃ´ng thá»ƒ mÆ°á»£n thÃªm sÃ¡ch!
                                         </p>
                                     </div>
                                 )}
                             </div>
 
-                            {/* SECTION CHI TIẾT SÁCH - Chỉ hiển khi đã chọn độc giả và hợp lệ */}
+                            {/* SECTION CHI TIáº¾T SÃCH - Chá»‰ hiá»ƒn khi Ä‘Ã£ chá»n Ä‘á»™c giáº£ vÃ  há»£p lá»‡ */}
                             {borrowReaderInfo && !borrowReaderInfo.isExpired && 
                                 borrowReaderInfo.currentBorrowedBooks !== undefined && 
                                 borrowReaderInfo.maxBorrowLimit !== undefined &&
                                 borrowReaderInfo.currentBorrowedBooks < borrowReaderInfo.maxBorrowLimit && (
                             <div className="bg-card p-5 rounded-lg border border-border shadow-sm min-h-[300px]">                                
                             <div className="flex justify-between items-center mb-4">
-                                    <div className="flex items-center gap-2 text-primary font-semibold text-sm uppercase"><Book className="w-4 h-4" /> Chi tiết Sách ({borrowRows.length}/{(borrowReaderInfo?.maxBorrowLimit || maxBorrowQuantity) - (borrowReaderInfo?.currentBorrowedBooks || 0)})</div>
+                                    <div className="flex items-center gap-2 text-primary font-semibold text-sm uppercase"><Book className="w-4 h-4" /> Chi tiáº¿t SÃ¡ch ({borrowRows.length}/{(borrowReaderInfo?.maxBorrowLimit || maxBorrowQuantity) - (borrowReaderInfo?.currentBorrowedBooks || 0)})</div>
                                     <ExpectedDueDate days={maxBorrowDays} />
                                 </div>
                                 <div className="border border-border rounded-lg pb-4">
@@ -1228,9 +1228,9 @@ export default function CirculationPage() {
                                         <thead className="bg-muted/60 text-muted-foreground">
                                             <tr>
                                                 <th className="px-3 py-2 w-12 text-center">#</th>
-                                                <th className="px-3 py-2">Tên Sách</th>
-                                                <th className="px-3 py-2 w-48">Tác giả</th>
-                                                <th className="px-3 py-2 w-40">Thể loại</th>
+                                                <th className="px-3 py-2">TÃªn SÃ¡ch</th>
+                                                <th className="px-3 py-2 w-48">TÃ¡c giáº£</th>
+                                                <th className="px-3 py-2 w-40">Thá»ƒ loáº¡i</th>
                                                 <th className="px-3 py-2 w-12"></th>
                                             </tr>
                                         </thead>
@@ -1261,7 +1261,7 @@ export default function CirculationPage() {
                                                 const allAuthors = availableCopies.flatMap(c => {
                                                     const authors = c.bookId?.titleId?.authors;
                                                     if (Array.isArray(authors)) {
-                                                        return authors.map((a: any) => a.authorId?.authorName);
+                                                        return authors.map((a: unknown) => a.authorId?.authorName);
                                                     }
                                                     return [];
                                                 }).filter((x): x is string => !!x);
@@ -1270,9 +1270,9 @@ export default function CirculationPage() {
                                                 return (
                                                     <tr key={row.id} className="bg-card">
                                                         <td className="px-3 py-2 text-center text-muted-foreground w-12">{index + 1}</td>
-                                                        <td className="px-3 py-2"><Combobox value={row.title} onChange={(val) => updateRow(row.id, 'title', val)} options={rowOptionsTitles} placeholder="Tên sách..." /></td>
-                                                        <td className="px-3 py-2 w-48"><Combobox value={row.author} onChange={(val) => updateRow(row.id, 'author', val)} options={rowOptionsAuthors} placeholder="Tác giả..." /></td>
-                                                        <td className="px-3 py-2 w-40"><Combobox value={row.category} onChange={(val) => updateRow(row.id, 'category', val)} options={rowOptionsCategories} placeholder="Thể loại..." /></td>
+                                                        <td className="px-3 py-2"><Combobox value={row.title} onChange={(val) => updateRow(row.id, 'title', val)} options={rowOptionsTitles} placeholder="TÃªn sÃ¡ch..." /></td>
+                                                        <td className="px-3 py-2 w-48"><Combobox value={row.author} onChange={(val) => updateRow(row.id, 'author', val)} options={rowOptionsAuthors} placeholder="TÃ¡c giáº£..." /></td>
+                                                        <td className="px-3 py-2 w-40"><Combobox value={row.category} onChange={(val) => updateRow(row.id, 'category', val)} options={rowOptionsCategories} placeholder="Thá»ƒ loáº¡i..." /></td>
                                                         <td className="px-3 py-2 text-center w-12"><button onClick={() => removeRow(row.id)} className="text-muted-foreground hover:text-destructive"><Trash2 className="w-4 h-4" /></button></td>
                                                     </tr>
                                                 );
@@ -1280,12 +1280,12 @@ export default function CirculationPage() {
                                         </tbody>
                                     </table>
                                 </div>
-                                <div className="mt-3"><Button variant="outline" size="sm" onClick={addRow} className="border-dashed w-full text-muted-foreground hover:text-primary"><Plus className="w-4 h-4 mr-2" /> Thêm dòng</Button></div>
+                                <div className="mt-3"><Button variant="outline" size="sm" onClick={addRow} className="border-dashed w-full text-muted-foreground hover:text-primary"><Plus className="w-4 h-4 mr-2" /> ThÃªm dÃ²ng</Button></div>
                             </div>
                             )}
                         </div>
                         <div className="px-6 py-4 border-t border-border bg-muted/40 flex justify-end gap-3">
-                            <Button variant="outline" onClick={() => setIsLoanModalOpen(false)}>Hủy</Button>
+                            <Button variant="outline" onClick={() => setIsLoanModalOpen(false)}>Há»§y</Button>
                             <Button 
                                 onClick={handleConfirmBorrow}
                                 disabled={
@@ -1296,24 +1296,24 @@ export default function CirculationPage() {
                                      borrowReaderInfo.maxBorrowLimit !== undefined &&
                                      borrowReaderInfo.currentBorrowedBooks >= borrowReaderInfo.maxBorrowLimit) ||
                                     borrowRows.length === 0 ||
-                                    !borrowRows.some(row => row.title) // Phải chọn ít nhất 1 sách
+                                    !borrowRows.some(row => row.title) // Pháº£i chá»n Ã­t nháº¥t 1 sÃ¡ch
                                 }
                             >
-                                {isBorrowing ? 'Đang xử lý...' : 'Lưu Phiếu Mượn'}
+                                {isBorrowing ? 'Äang xá»­ lÃ½...' : 'LÆ°u Phiáº¿u MÆ°á»£n'}
                             </Button>
                         </div>
                     </div>
                 </div>
             )}
 
-            {/* === MODAL 2: XỬ LÝ TRẢ SÁCH === */}
+            {/* === MODAL 2: Xá»¬ LÃ TRáº¢ SÃCH === */}
             {isReturnModalOpen && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
                     <div className="bg-card border border-border rounded-xl shadow-2xl w-full max-w-4xl flex flex-col overflow-hidden animate-in zoom-in-95 h-[90vh]">
                         <div className="px-6 py-4 border-b border-border flex justify-between items-center bg-muted/40">
                             <div>
                                 <h2 className="text-lg font-bold text-foreground flex items-center gap-2">
-                                    <Check className="w-5 h-5 text-primary" /> Nhận Trả Sách
+                                    <Check className="w-5 h-5 text-primary" /> Nháº­n Tráº£ SÃ¡ch
                                 </h2>
                             </div>
                             <button onClick={() => { setIsReturnModalOpen(false); setReturnPreview(null); setReturnQuery(""); }}><X className="w-6 h-6 text-muted-foreground hover:text-foreground" /></button>
@@ -1324,7 +1324,7 @@ export default function CirculationPage() {
                                 <div className="space-y-6">
                                     <div className="space-y-4">
                                         <div className="flex items-center justify-between text-sm text-muted-foreground">
-                                            <span>Tìm kiếm độc giả để xem phiếu mượn cần trả</span>
+                                            <span>TÃ¬m kiáº¿m Ä‘á»™c giáº£ Ä‘á»ƒ xem phiáº¿u mÆ°á»£n cáº§n tráº£</span>
                                         </div>
 
                                         <div className="relative">
@@ -1346,7 +1346,7 @@ export default function CirculationPage() {
                                                         
                                                         return activeReaders.map(r => getReaderDisplayName(r, readers));
                                                     })()}
-                                                    placeholder="Nhập tên độc giả hoặc email..."
+                                                    placeholder="Nháº­p tÃªn Ä‘á»™c giáº£ hoáº·c email..."
                                                     className="w-full pl-9"
                                                     />
                                             </div>
@@ -1366,7 +1366,7 @@ export default function CirculationPage() {
                                                  <div className="space-y-3 animate-in fade-in slide-in-from-bottom-2">
                                                      <div className="flex items-center justify-between">
                                                          <h3 className="text-sm font-semibold text-muted-foreground uppercase">
-                                                             Phiếu mượn đang mở của {reader.fullName} ({readerLoans.length})
+                                                             Phiáº¿u mÆ°á»£n Ä‘ang má»Ÿ cá»§a {reader.fullName} ({readerLoans.length})
                                                          </h3>
                                                      </div>
                                                      
@@ -1384,15 +1384,15 @@ export default function CirculationPage() {
                                                                           </div>
                                                                           <div>
                                                                               <div className="font-bold text-foreground">{loan.id}</div>
-                                                                              <div className="text-sm text-muted-foreground">Mượn ngày: {loan.date}</div>
+                                                                              <div className="text-sm text-muted-foreground">MÆ°á»£n ngÃ y: {loan.date}</div>
                                                                           </div>
                                                                      </div>
                                                                      <div className="text-right">
                                                                          <div className={`font-semibold ${loan.status === 'overdue' ? 'text-destructive' : 'text-emerald-600'}`}>
-                                                                             {loan.status === 'overdue' ? 'Quá hạn' : 'Đang mượn'}
+                                                                             {loan.status === 'overdue' ? 'QuÃ¡ háº¡n' : 'Äang mÆ°á»£n'}
                                                                          </div>
                                                                          <div className="text-xs text-muted-foreground group-hover:text-primary transition-colors flex items-center justify-end gap-1">
-                                                                             Chọn để trả <ChevronDown className="w-3 h-3 -rotate-90" />
+                                                                             Chá»n Ä‘á»ƒ tráº£ <ChevronDown className="w-3 h-3 -rotate-90" />
                                                                          </div>
                                                                      </div>
                                                                  </div>
@@ -1400,7 +1400,7 @@ export default function CirculationPage() {
                                                          </div>
                                                      ) : (
                                                          <div className="text-center py-8 text-muted-foreground bg-muted/30 rounded-lg border border-dashed border-border">
-                                                             Độc giả này không có phiếu mượn nào đang mở.
+                                                             Äá»™c giáº£ nÃ y khÃ´ng cÃ³ phiáº¿u mÆ°á»£n nÃ o Ä‘ang má»Ÿ.
                                                          </div>
                                                      )}
                                                  </div>
@@ -1412,7 +1412,7 @@ export default function CirculationPage() {
                                              return (
                                                  <div className="flex flex-col items-center justify-center py-12 text-muted-foreground/50 border-2 border-dashed border-border/50 rounded-xl bg-muted/5">
                                                      <User className="w-12 h-12 mb-3 opacity-20" />
-                                                     <p>Vui lòng chọn độc giả để xem danh sách sách đang mượn</p>
+                                                     <p>Vui lÃ²ng chá»n Ä‘á»™c giáº£ Ä‘á»ƒ xem danh sÃ¡ch sÃ¡ch Ä‘ang mÆ°á»£n</p>
                                                  </div>
                                              );
                                          }
@@ -1425,30 +1425,30 @@ export default function CirculationPage() {
                                 <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4">
                                     <div className="flex items-center gap-2 mb-4">
                                         <Button variant="ghost" size="sm" onClick={() => setReturnPreview(null)} className="pl-0 gap-1 hover:pl-2 transition-all">
-                                             <ChevronDown className="w-4 h-4 rotate-90" /> Quay lại tìm kiếm
+                                             <ChevronDown className="w-4 h-4 rotate-90" /> Quay láº¡i tÃ¬m kiáº¿m
                                         </Button>
                                     </div>
 
                                     {/* Info Cards */}
                                     <div className="grid grid-cols-3 gap-4">
                                         <div className="bg-card p-4 rounded-lg border border-border shadow-sm">
-                                            <div className="text-xs font-semibold text-muted-foreground uppercase mb-2">Thông tin Độc giả</div>
+                                            <div className="text-xs font-semibold text-muted-foreground uppercase mb-2">ThÃ´ng tin Äá»™c giáº£</div>
                                             <div className="font-medium text-lg text-foreground">{returnPreview.loanInfo.readerName}</div>
-                                            <div className="text-muted-foreground text-sm">Mã: {returnPreview.loanInfo.readerId}</div>
-                                            <div className="text-muted-foreground text-sm font-mono mt-1">Phiếu: {returnPreview.loanInfo.id}</div>
+                                            <div className="text-muted-foreground text-sm">MÃ£: {returnPreview.loanInfo.readerId}</div>
+                                            <div className="text-muted-foreground text-sm font-mono mt-1">Phiáº¿u: {returnPreview.loanInfo.id}</div>
                                         </div>
                                         <div className="bg-card p-4 rounded-lg border border-border shadow-sm">
-                                            <div className="text-xs font-semibold text-muted-foreground uppercase mb-2">Trạng thái Phiếu</div>
+                                            <div className="text-xs font-semibold text-muted-foreground uppercase mb-2">Tráº¡ng thÃ¡i Phiáº¿u</div>
                                             <div className="flex items-center gap-2">
-                                                <span className="text-sm">Hạn trả: </span>
+                                                <span className="text-sm">Háº¡n tráº£: </span>
                                                 <span className="font-bold">{returnPreview.loanInfo.dueDate}</span>
                                             </div>
                                             {returnPreview.overdueDays > 0 ? (
                                                 <div className="mt-1 flex items-center text-destructive font-bold text-sm">
-                                                    <AlertCircle className="w-4 h-4 mr-1" /> Quá hạn {returnPreview.overdueDays} ngày
+                                                    <AlertCircle className="w-4 h-4 mr-1" /> QuÃ¡ háº¡n {returnPreview.overdueDays} ngÃ y
                                                 </div>
                                             ) : (
-                                                <div className="mt-1 text-emerald-600 font-medium text-sm">Đúng hạn</div>
+                                                <div className="mt-1 text-emerald-600 font-medium text-sm">ÄÃºng háº¡n</div>
                                             )}
                                         </div>
 
@@ -1457,34 +1457,34 @@ export default function CirculationPage() {
                                     {/* Books List */}
                                     <div className="bg-card rounded-lg border border-border shadow-sm overflow-hidden">
                                         <div className="px-4 py-3 bg-muted/60 border-b border-border font-semibold text-sm flex justify-between">
-                                            <span>Sách đang mượn ({returnPreview.books.length})</span>
-                                            <span className="text-muted-foreground font-normal">Tự động chọn tất cả</span>
+                                            <span>SÃ¡ch Ä‘ang mÆ°á»£n ({returnPreview.books.length})</span>
+                                            <span className="text-muted-foreground font-normal">Tá»± Ä‘á»™ng chá»n táº¥t cáº£</span>
                                         </div>
                                         <table className="w-full text-sm text-left">
                                             <thead className="bg-muted/40 text-muted-foreground">
                                                 <tr>
                                                     <th className="px-4 py-2 w-10"><input type="checkbox" checked readOnly className="rounded" /></th>
-                                                    <th className="px-4 py-2">Mã sách</th>
-                                                    <th className="px-4 py-2">Tên sách</th>
-                                                    <th className="px-4 py-2">Giá sách</th>
-                                                    <th className="px-4 py-2">Ghi chú (Tình trạng)</th>
-                                                    <th className="px-4 py-2 text-center">Mất sách?</th>
+                                                    <th className="px-4 py-2">MÃ£ sÃ¡ch</th>
+                                                    <th className="px-4 py-2">TÃªn sÃ¡ch</th>
+                                                    <th className="px-4 py-2">GiÃ¡ sÃ¡ch</th>
+                                                    <th className="px-4 py-2">Ghi chÃº (TÃ¬nh tráº¡ng)</th>
+                                                    <th className="px-4 py-2 text-center">Máº¥t sÃ¡ch?</th>
                                                 </tr>
                                             </thead>
                                             <tbody className="divide-y divide-border">
                                                 {returnPreview.books.map((book, idx) => (
                                                     <tr key={idx}>
-                                                        <td className="px-4 py-3"><input type="checkbox" checked={book.status !== 'Đã trả'} readOnly className="rounded text-primary" /></td>
+                                                        <td className="px-4 py-3"><input type="checkbox" checked={book.status !== 'ÄÃ£ tráº£'} readOnly className="rounded text-primary" /></td>
                                                         <td className="px-4 py-3 font-mono text-muted-foreground">{book.bookCode}</td>
                                                         <td className="px-4 py-3 font-medium">{book.title}</td>
-                                                        <td className="px-4 py-3 font-mono text-muted-foreground">{(book.price || 50000).toLocaleString('vi-VN')} đ</td>
+                                                        <td className="px-4 py-3 font-mono text-muted-foreground">{(book.price || 50000).toLocaleString('vi-VN')} Ä‘</td>
                                                         <td className="px-4 py-3">
-                                                            <span className={`text-xs px-2 py-1 rounded border ${book.status === 'Đã trả' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-primary/10 text-primary border-primary/30'}`}>
+                                                            <span className={`text-xs px-2 py-1 rounded border ${book.status === 'ÄÃ£ tráº£' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-primary/10 text-primary border-primary/30'}`}>
                                                                 {book.status}
                                                             </span>
                                                         </td>
                                                         <td className="px-4 py-3 text-center">
-                                                            {book.status !== 'Đã trả' && (
+                                                            {book.status !== 'ÄÃ£ tráº£' && (
                                                                 <input 
                                                                     type="checkbox" 
                                                                     className="rounded text-destructive focus:ring-destructive"
@@ -1511,7 +1511,7 @@ export default function CirculationPage() {
                                     <div className="bg-destructive/10 border border-destructive/30 rounded-lg p-4">
                                         <div className="flex justify-between items-center mb-2">
                                             <div className="font-bold text-destructive flex items-center gap-2">
-                                                <DollarSign className="w-5 h-5" /> CHI TIẾT TIỀN PHẠT
+                                                <DollarSign className="w-5 h-5" /> CHI TIáº¾T TIá»€N PHáº T
                                             </div>
                                         </div>
                                         <div className="space-y-2 text-sm text-destructive">
@@ -1522,7 +1522,7 @@ export default function CirculationPage() {
                                                 today.setHours(0, 0, 0, 0);
                                                 
                                                 // Calculate fine for each book being returned
-                                                const booksToReturn = returnPreview.books.filter(b => b.status !== 'Đã trả');
+                                                const booksToReturn = returnPreview.books.filter(b => b.status !== 'ÄÃ£ tráº£');
                                                 let totalFine = 0;
                                                 
                                                 booksToReturn.forEach(book => {
@@ -1542,24 +1542,24 @@ export default function CirculationPage() {
                                                 return (
                                                     <>
                                                         <div className="flex justify-between">
-                                                            <span>Số ngày quá hạn:</span>
-                                                            <span className="font-medium">{overdueDays} ngày</span>
+                                                            <span>Sá»‘ ngÃ y quÃ¡ háº¡n:</span>
+                                                            <span className="font-medium">{overdueDays} ngÃ y</span>
                                                         </div>
                                                         <div className="flex justify-between">
-                                                            <span>Đơn giá phạt:</span>
-                                                            <span className="font-medium">{finePerDay.toLocaleString('vi-VN')} đ / cuốn / ngày</span>
+                                                            <span>ÄÆ¡n giÃ¡ pháº¡t:</span>
+                                                            <span className="font-medium">{finePerDay.toLocaleString('vi-VN')} Ä‘ / cuá»‘n / ngÃ y</span>
                                                         </div>
                                                         <div className="flex justify-between">
-                                                            <span>Số sách trả:</span>
-                                                            <span className="font-medium">{booksToReturn.length} cuốn</span>
+                                                            <span>Sá»‘ sÃ¡ch tráº£:</span>
+                                                            <span className="font-medium">{booksToReturn.length} cuá»‘n</span>
                                                         </div>
                                                         <div className="border-t border-destructive/40 my-2 pt-2 flex justify-between items-center font-bold text-destructive">
-                                                            <span>Tiền phạt từ phiếu này:</span>
-                                                            <span>{totalFine.toLocaleString('vi-VN')} đ</span>
+                                                            <span>Tiá»n pháº¡t tá»« phiáº¿u nÃ y:</span>
+                                                            <span>{totalFine.toLocaleString('vi-VN')} Ä‘</span>
                                                         </div>
                                                         {lostBookIds.size > 0 && (
                                                             <div className="text-xs text-destructive text-right italic">
-                                                                (Đã bao gồm phí mất sách theo giá bìa)
+                                                                (ÄÃ£ bao gá»“m phÃ­ máº¥t sÃ¡ch theo giÃ¡ bÃ¬a)
                                                             </div>
                                                         )}
                                                     </>
@@ -1572,7 +1572,7 @@ export default function CirculationPage() {
                                     <div className="bg-amber-50 border-2 border-amber-300 rounded-lg p-4 shadow-sm">
                                         <div className="flex justify-between items-center mb-3">
                                             <div className="font-bold text-amber-900 flex items-center gap-2 text-base">
-                                                <AlertCircle className="w-5 h-5" /> TỔNG KẾT NỢ
+                                                <AlertCircle className="w-5 h-5" /> Tá»”NG Káº¾T Ná»¢
                                             </div>
                                         </div>
                                         <div className="space-y-2 text-sm">
@@ -1582,7 +1582,7 @@ export default function CirculationPage() {
                                                 const today = getVietnamDate();
                                                 today.setHours(0, 0, 0, 0);
                                                 
-                                                const booksToReturn = returnPreview.books.filter(b => b.status !== 'Đã trả');
+                                                const booksToReturn = returnPreview.books.filter(b => b.status !== 'ÄÃ£ tráº£');
                                                 let totalFine = 0;
                                                 
                                                 booksToReturn.forEach(book => {
@@ -1602,21 +1602,21 @@ export default function CirculationPage() {
                                                 return (
                                                     <>
                                                         <div className="flex justify-between items-center text-amber-800">
-                                                            <span className="font-medium">Nợ hiện tại:</span>
-                                                            <span className="font-semibold text-base">{currentDebt.toLocaleString('vi-VN')} đ</span>
+                                                            <span className="font-medium">Ná»£ hiá»‡n táº¡i:</span>
+                                                            <span className="font-semibold text-base">{currentDebt.toLocaleString('vi-VN')} Ä‘</span>
                                                         </div>
                                                         <div className="flex justify-between items-center text-amber-800">
-                                                            <span className="font-medium">Tiền phạt mới:</span>
-                                                            <span className="font-semibold text-base">+ {totalFine.toLocaleString('vi-VN')} đ</span>
+                                                            <span className="font-medium">Tiá»n pháº¡t má»›i:</span>
+                                                            <span className="font-semibold text-base">+ {totalFine.toLocaleString('vi-VN')} Ä‘</span>
                                                         </div>
                                                         <div className="border-t-2 border-amber-400 my-2 pt-3 flex justify-between items-center">
-                                                            <span className="text-lg font-bold text-amber-900">Tổng nợ sau khi trả:</span>
-                                                            <span className="text-xl font-bold text-amber-900">{totalDebtAfterReturn.toLocaleString('vi-VN')} đ</span>
+                                                            <span className="text-lg font-bold text-amber-900">Tá»•ng ná»£ sau khi tráº£:</span>
+                                                            <span className="text-xl font-bold text-amber-900">{totalDebtAfterReturn.toLocaleString('vi-VN')} Ä‘</span>
                                                         </div>
                                                         {totalDebtAfterReturn > 0 && (
                                                             <div className="mt-2 p-2 bg-amber-100 rounded border border-amber-300">
                                                                 <p className="text-xs text-amber-800 font-medium">
-                                                                    ⚠️ Độc giả cần thanh toán số nợ này trước khi được phép mượn sách tiếp theo.
+                                                                    âš ï¸ Äá»™c giáº£ cáº§n thanh toÃ¡n sá»‘ ná»£ nÃ y trÆ°á»›c khi Ä‘Æ°á»£c phÃ©p mÆ°á»£n sÃ¡ch tiáº¿p theo.
                                                                 </p>
                                                             </div>
                                                         )}
@@ -1631,9 +1631,9 @@ export default function CirculationPage() {
 
                         {returnPreview && (
                             <div className="px-6 py-4 border-t border-border bg-muted/40 flex justify-end gap-3">
-                                <Button variant="outline" onClick={() => { setReturnPreview(null); }} disabled={isReturning}>Quay lại</Button>
+                                <Button variant="outline" onClick={() => { setReturnPreview(null); }} disabled={isReturning}>Quay láº¡i</Button>
                                 <Button variant="primary" onClick={handleConfirmReturn} className="px-8" disabled={isReturning}>
-                                    {isReturning ? 'Đang xử lý...' : 'Xác nhận Trả & Thu tiền'}
+                                    {isReturning ? 'Äang xá»­ lÃ½...' : 'XÃ¡c nháº­n Tráº£ & Thu tiá»n'}
                                 </Button>
                             </div>
                         )}
@@ -1641,7 +1641,7 @@ export default function CirculationPage() {
                 </div>
             )}
 
-            {/* === MODAL 3: XEM CHI TIẾT === */}
+            {/* === MODAL 3: XEM CHI TIáº¾T === */}
             {isDetailModalOpen && selectedLoan && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
                     <div className="bg-card border border-border rounded-lg shadow-xl w-full max-w-3xl overflow-hidden animate-in zoom-in-95">
@@ -1649,7 +1649,7 @@ export default function CirculationPage() {
                             <div>
                                 <h2 className="text-lg font-bold flex items-center gap-2">
                                     <FileText className="w-5 h-5 text-primary" />
-                                    Chi tiết Phiếu mượn: <span className="font-mono text-muted-foreground">{selectedLoan.id}</span>
+                                    Chi tiáº¿t Phiáº¿u mÆ°á»£n: <span className="font-mono text-muted-foreground">{selectedLoan.id}</span>
                                 </h2>
                             </div>
                             <button onClick={() => setIsDetailModalOpen(false)}><X className="w-5 h-5 text-muted-foreground hover:text-foreground" /></button>
@@ -1659,25 +1659,25 @@ export default function CirculationPage() {
                             {/* Detail Header Info */}
                             <div className="grid grid-cols-3 gap-4">
                                 <div className="col-span-1 space-y-1">
-                                    <p className="text-xs text-muted-foreground uppercase font-semibold">Độc giả</p>
+                                    <p className="text-xs text-muted-foreground uppercase font-semibold">Äá»™c giáº£</p>
                                     <p className="font-medium text-foreground">{selectedLoan.readerName}</p>
-                                    <p className="text-sm text-muted-foreground">Mã: {selectedLoan.readerId}</p>
+                                    <p className="text-sm text-muted-foreground">MÃ£: {selectedLoan.readerId}</p>
                                 </div>
                                 <div className="col-span-1 space-y-1">
-                                    <p className="text-xs text-muted-foreground uppercase font-semibold">Thời gian</p>
-                                    <div className="text-sm flex items-center gap-2"><Calendar className="w-3 h-3" /> Mượn: {selectedLoan.date}</div>
+                                    <p className="text-xs text-muted-foreground uppercase font-semibold">Thá»i gian</p>
+                                    <div className="text-sm flex items-center gap-2"><Calendar className="w-3 h-3" /> MÆ°á»£n: {selectedLoan.date}</div>
                                     <div className={`text-sm flex items-center gap-2 font-medium ${selectedLoan.status === 'overdue' ? 'text-destructive' : 'text-foreground'}`}>
-                                        <AlertCircle className="w-3 h-3" /> Hạn: {selectedLoan.dueDate}
+                                        <AlertCircle className="w-3 h-3" /> Háº¡n: {selectedLoan.dueDate}
                                     </div>
                                 </div>
                                 <div className="col-span-1 bg-muted/30 p-3 rounded border border-border/70">
-                                    <p className="text-xs text-muted-foreground uppercase font-semibold mb-1">Tổng quan tài chính</p>
+                                    <p className="text-xs text-muted-foreground uppercase font-semibold mb-1">Tá»•ng quan tÃ i chÃ­nh</p>
                                     <div className="flex justify-between text-sm mb-1">
-                                        <span>Trạng thái:</span>
-                                        {selectedLoan.status === 'returned' ? <span className="text-emerald-600 font-bold">Đã hoàn tất</span> : <span className="text-primary font-bold">Đang mở</span>}
+                                        <span>Tráº¡ng thÃ¡i:</span>
+                                        {selectedLoan.status === 'returned' ? <span className="text-emerald-600 font-bold">ÄÃ£ hoÃ n táº¥t</span> : <span className="text-primary font-bold">Äang má»Ÿ</span>}
                                     </div>
                                     <div className="flex justify-between text-sm font-bold border-t pt-1 mt-1">
-                                        <span>Phạt quá hạn:</span>
+                                        <span>Pháº¡t quÃ¡ háº¡n:</span>
                                         <span className="text-destructive">
                                             {(() => {
                                                 const details = loanDetailsMap[selectedLoan.id] || [];
@@ -1689,10 +1689,10 @@ export default function CirculationPage() {
                                                 
                                                 details.forEach(detail => {
                                                     if (detail.returnDate) {
-                                                        // Sách đã trả - dùng fineAmount từ backend (đã tính khi trả)
+                                                        // SÃ¡ch Ä‘Ã£ tráº£ - dÃ¹ng fineAmount tá»« backend (Ä‘Ã£ tÃ­nh khi tráº£)
                                                         totalFine += detail.fine || 0;
                                                     } else {
-                                                        // Sách chưa trả - tính tiền phạt dự kiến nếu trả hôm nay
+                                                        // SÃ¡ch chÆ°a tráº£ - tÃ­nh tiá»n pháº¡t dá»± kiáº¿n náº¿u tráº£ hÃ´m nay
                                                         const todayTemp = getVietnamDate();
                                                         const today = new Date(todayTemp.getFullYear(), todayTemp.getMonth(), todayTemp.getDate());
                                                         
@@ -1705,7 +1705,7 @@ export default function CirculationPage() {
                                                 });
                                                 
                                                 return totalFine.toLocaleString('vi-VN');
-                                            })()} đ
+                                            })()} Ä‘
                                         </span>
                                     </div>
                                 </div>
@@ -1716,11 +1716,11 @@ export default function CirculationPage() {
                                 <table className="w-full text-sm text-left">
                                     <thead className="bg-muted/60 text-muted-foreground font-semibold">
                                         <tr>
-                                            <th className="px-4 py-2">Mã sách</th>
-                                            <th className="px-4 py-2">Tên sách</th>
-                                            <th className="px-4 py-2">Trạng thái</th>
-                                            <th className="px-4 py-2">Ghi chú</th>
-                                            {selectedLoan.status === 'returned' && <th className="px-4 py-2 text-right">Ngày trả</th>}
+                                            <th className="px-4 py-2">MÃ£ sÃ¡ch</th>
+                                            <th className="px-4 py-2">TÃªn sÃ¡ch</th>
+                                            <th className="px-4 py-2">Tráº¡ng thÃ¡i</th>
+                                            <th className="px-4 py-2">Ghi chÃº</th>
+                                            {selectedLoan.status === 'returned' && <th className="px-4 py-2 text-right">NgÃ y tráº£</th>}
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y divide-border">
@@ -1729,7 +1729,7 @@ export default function CirculationPage() {
                                                 <td className="px-4 py-2 font-mono text-muted-foreground">{book.bookCode}</td>
                                                 <td className="px-4 py-2 font-medium">{book.title}</td>
                                                 <td className="px-4 py-2">
-                                                    <span className={`text-xs px-2 py-1 rounded border ${book.status === 'Đã trả' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-primary/10 text-primary border-primary/30'}`}>
+                                                    <span className={`text-xs px-2 py-1 rounded border ${book.status === 'ÄÃ£ tráº£' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-primary/10 text-primary border-primary/30'}`}>
                                                         {book.status}
                                                     </span>
                                                 </td>
@@ -1738,7 +1738,7 @@ export default function CirculationPage() {
                                                     <td className="px-4 py-2 text-right font-mono text-xs">{book.returnDate}</td>
                                                 ) : (
                                                     <td className="px-4 py-2 text-right">
-                                                        {book.status !== 'Đã trả' && (
+                                                        {book.status !== 'ÄÃ£ tráº£' && (
                                                             <Button 
                                                                 size="sm" 
                                                                 variant="outline"
@@ -1750,21 +1750,21 @@ export default function CirculationPage() {
                                                                     handlePrepareReturnPreview(selectedLoan);
                                                                 }}
                                                             >
-                                                                Trả sách
+                                                                Tráº£ sÃ¡ch
                                                             </Button>
                                                         )}
                                                     </td>
                                                 )}
                                             </tr>
                                         )) : (
-                                            <tr><td colSpan={5} className="p-4 text-center text-muted-foreground">Không có dữ liệu chi tiết</td></tr>
+                                            <tr><td colSpan={5} className="p-4 text-center text-muted-foreground">KhÃ´ng cÃ³ dá»¯ liá»‡u chi tiáº¿t</td></tr>
                                         )}
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                         <div className="px-6 py-4 bg-muted/40 text-right border-t border-border">
-                            <Button variant="outline" onClick={() => setIsDetailModalOpen(false)}>Đóng</Button>
+                            <Button variant="outline" onClick={() => setIsDetailModalOpen(false)}>ÄÃ³ng</Button>
                         </div>
                     </div>
                 </div>
@@ -1780,12 +1780,12 @@ const LoanTable = ({ data, onViewDetail, isHistory = false }: { data: Loan[], on
         <table className="w-full text-sm text-left">
             <thead className="bg-muted/40 text-muted-foreground font-medium">
                 <tr>
-                    <th className="px-4 py-3">Mã Phiếu</th>
-                    <th className="px-4 py-3">Độc Giả</th>
-                    <th className="px-4 py-3">Ngày Mượn</th>
-                    <th className="px-4 py-3">{isHistory ? 'Ngày Trả' : 'Hạn Trả'}</th>
-                    <th className="px-4 py-3">Trạng thái</th>
-                    <th className="px-4 py-3 text-right">Thao tác</th>
+                    <th className="px-4 py-3">MÃ£ Phiáº¿u</th>
+                    <th className="px-4 py-3">Äá»™c Giáº£</th>
+                    <th className="px-4 py-3">NgÃ y MÆ°á»£n</th>
+                    <th className="px-4 py-3">{isHistory ? 'NgÃ y Tráº£' : 'Háº¡n Tráº£'}</th>
+                    <th className="px-4 py-3">Tráº¡ng thÃ¡i</th>
+                    <th className="px-4 py-3 text-right">Thao tÃ¡c</th>
                 </tr>
             </thead>
             <tbody className="divide-y divide-border">
@@ -1796,12 +1796,12 @@ const LoanTable = ({ data, onViewDetail, isHistory = false }: { data: Loan[], on
                         <td className="px-4 py-3">{loan.date}</td>
                         <td className={`px-4 py-3 ${loan.status === 'overdue' ? 'text-destructive font-bold' : ''}`}>{isHistory ? loan.returnDate : loan.dueDate}</td>
                         <td className="px-4 py-3">
-                            {loan.status === 'overdue' ? <Badge variant="danger">Quá hạn</Badge> :
-                                loan.status === 'returned' ? <Badge variant="success">Đã trả</Badge> : <Badge>Đang mượn</Badge>}
+                            {loan.status === 'overdue' ? <Badge variant="danger">QuÃ¡ háº¡n</Badge> :
+                                loan.status === 'returned' ? <Badge variant="success">ÄÃ£ tráº£</Badge> : <Badge>Äang mÆ°á»£n</Badge>}
                         </td>
                         <td className="px-4 py-3 text-right">
                             <Button variant="ghost" size="sm" onClick={() => onViewDetail(loan)}>
-                                <Eye className="w-4 h-4 mr-2" /> {isHistory ? 'Xem lại' : 'Chi tiết'}
+                                <Eye className="w-4 h-4 mr-2" /> {isHistory ? 'Xem láº¡i' : 'Chi tiáº¿t'}
                             </Button>
                         </td>
                     </tr>
@@ -1817,5 +1817,5 @@ const ExpectedDueDate = ({ days }: { days: number }) => {
         setDueDate(new Date(Date.now() + days * 24 * 60 * 60 * 1000).toLocaleDateString('vi-VN'));
     }, [days]);
     
-    return <span className="text-xs text-muted-foreground">Hạn trả dự kiến: <b>{dueDate}</b></span>;
+    return <span className="text-xs text-muted-foreground">Háº¡n tráº£ dá»± kiáº¿n: <b>{dueDate}</b></span>;
 };

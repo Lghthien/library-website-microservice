@@ -4,13 +4,17 @@ import { Model, Types } from 'mongoose';
 import { CreateBookCopyDto } from './dto/create-book_copy.dto';
 import { UpdateBookCopyDto } from './dto/update-book_copy.dto';
 import { BookCopy, BookCopyDocument } from './schema/book-copy.schema';
-import { TitleBook, TitleBookDocument } from '../title_books/schema/title-book.schema';
+import {
+  TitleBook,
+  TitleBookDocument,
+} from '../title_books/schema/title-book.schema';
 
 @Injectable()
 export class BookCopiesService {
   constructor(
     @InjectModel(BookCopy.name) private bookCopyModel: Model<BookCopyDocument>,
-    @InjectModel(TitleBook.name) private titleBookModel: Model<TitleBookDocument>,
+    @InjectModel(TitleBook.name)
+    private titleBookModel: Model<TitleBookDocument>,
   ) {}
 
   async create(createBookCopyDto: CreateBookCopyDto) {
@@ -39,9 +43,9 @@ export class BookCopiesService {
         strictPopulate: false,
       })
       .exec();
-    
+
     // Filter out copies whose titleId is soft-deleted
-    return copies.filter(copy => {
+    return copies.filter((copy) => {
       const titleId = (copy.bookId as any)?.titleId;
       return titleId && !(titleId as any).isDeleted;
     });
@@ -86,9 +90,9 @@ export class BookCopiesService {
         strictPopulate: false,
       })
       .exec();
-    
+
     // Filter out copies whose titleId is soft-deleted
-    return copies.filter(copy => {
+    return copies.filter((copy) => {
       const titleId = (copy.bookId as any)?.titleId;
       return titleId && !(titleId as any).isDeleted;
     });
@@ -105,9 +109,9 @@ export class BookCopiesService {
         },
       })
       .exec();
-    
+
     // Filter out copies whose titleId is soft-deleted
-    return copies.filter(copy => {
+    return copies.filter((copy) => {
       const titleId = (copy.bookId as any)?.titleId;
       return titleId && !(titleId as any).isDeleted;
     });

@@ -9,7 +9,10 @@ import { CreateLoanDto } from './dto/create-loan.dto';
 import { UpdateLoanDto } from './dto/update-loan.dto';
 import { Loan, LoanDocument } from './schema/loan.schema';
 import { Reader, ReaderDocument } from '../readers/schema/reader.schema';
-import { TitleBook, TitleBookDocument } from '../title_books/schema/title-book.schema';
+import {
+  TitleBook,
+  TitleBookDocument,
+} from '../title_books/schema/title-book.schema';
 import {
   LoanDetail,
   LoanDetailDocument,
@@ -27,7 +30,9 @@ import {
 function getVietnamDate(dateInput?: string | Date): Date {
   const date = dateInput ? new Date(dateInput) : new Date();
   // Convert to Vietnam timezone
-  const vietnamTimeString = date.toLocaleString('en-US', { timeZone: 'Asia/Ho_Chi_Minh' });
+  const vietnamTimeString = date.toLocaleString('en-US', {
+    timeZone: 'Asia/Ho_Chi_Minh',
+  });
   return new Date(vietnamTimeString);
 }
 
@@ -39,7 +44,8 @@ export class LoansService {
     @InjectModel(LoanDetail.name)
     private loanDetailModel: Model<LoanDetailDocument>,
     @InjectModel(BookCopy.name) private bookCopyModel: Model<BookCopyDocument>,
-    @InjectModel(TitleBook.name) private titleBookModel: Model<TitleBookDocument>, // Injected TitleBook
+    @InjectModel(TitleBook.name)
+    private titleBookModel: Model<TitleBookDocument>, // Injected TitleBook
     @InjectModel(Parameter.name)
     private parameterModel: Model<ParameterDocument>,
   ) {}
@@ -117,8 +123,8 @@ export class LoansService {
     const finePerDay = fineParamQD8
       ? parseInt(fineParamQD8.paramValue)
       : fineParam
-      ? parseInt(fineParam.paramValue)
-      : 1000;
+        ? parseInt(fineParam.paramValue)
+        : 1000;
 
     const todayTemp = getVietnamDate();
     const today = new Date(
@@ -166,29 +172,34 @@ export class LoansService {
         // Calculate overdue days
         const diffTime = today.getTime() - dueDate.getTime();
         overdueDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-        
+
         // Only count fines for books NOT yet returned
-        const notReturnedCount = loanDetails.filter((d) => !d.returnDate).length;
+        const notReturnedCount = loanDetails.filter(
+          (d) => !d.returnDate,
+        ).length;
         // Estimated potential fine (if they returned today)
         const estimatedFine = overdueDays * finePerDay * notReturnedCount;
         totalFine += estimatedFine;
       }
-      
+
       // Add existing fines from books that were actually returned late or lost
-      const existingFines = loanDetails.reduce((sum, d) => sum + (d.fineAmount || 0), 0);
+      const existingFines = loanDetails.reduce(
+        (sum, d) => sum + (d.fineAmount || 0),
+        0,
+      );
       totalFine += existingFines;
 
       // Find latest return date
       let latestReturnDate: Date | undefined;
       if (allReturned) {
-          loanDetails.forEach(d => {
-              if (d.returnDate) {
-                  const rDate = new Date(d.returnDate);
-                  if (!latestReturnDate || rDate > latestReturnDate) {
-                      latestReturnDate = rDate;
-                  }
-              }
-          })
+        loanDetails.forEach((d) => {
+          if (d.returnDate) {
+            const rDate = new Date(d.returnDate);
+            if (!latestReturnDate || rDate > latestReturnDate) {
+              latestReturnDate = rDate;
+            }
+          }
+        });
       }
 
       return {
@@ -203,9 +214,9 @@ export class LoansService {
         overdueDays: status === 'overdue' ? overdueDays : 0,
         totalFine, // This field maps to 'fineAmount' in frontend expected interface? Standardize on totalFine or fineAmount.
         // Frontend uses: overdueDays, fineAmount, bookCount, status, etc.
-        fineAmount: totalFine, 
+        fineAmount: totalFine,
         bookCount: loanDetails.length,
-        loanDetails // Include details if frontend needs deep dive
+        loanDetails, // Include details if frontend needs deep dive
       };
     });
 
@@ -401,7 +412,6 @@ export class LoansService {
     };
   }
 
-
   /**
    * BM5 + QĐ5: Trả sách và tính tiền phạt
    */
@@ -439,9 +449,9 @@ export class LoansService {
       path: 'bookId',
       populate: { path: 'titleId' },
     });
-    
+
     if (!bookCopy) {
-       throw new NotFoundException('Không tìm thấy thông tin sách');
+      throw new NotFoundException('Không tìm thấy thông tin sách');
     }
 
     const bookInfo = bookCopy.bookId as any;
@@ -457,19 +467,19 @@ export class LoansService {
     const borrowDate = getVietnamDate(loan.borrowDate);
     const expectedReturnDateTemp = new Date(borrowDate);
     expectedReturnDateTemp.setDate(expectedReturnDateTemp.getDate() + maxDays);
-    
+
     // Tạo Date object chỉ từ year/month/day
     const expectedReturnDate = new Date(
       expectedReturnDateTemp.getFullYear(),
       expectedReturnDateTemp.getMonth(),
-      expectedReturnDateTemp.getDate()
+      expectedReturnDateTemp.getDate(),
     );
 
     const returnTemp = getVietnamDate(actualReturnDate);
     const normalizedReturnDate = new Date(
       returnTemp.getFullYear(),
       returnTemp.getMonth(),
-      returnTemp.getDate()
+      returnTemp.getDate(),
     );
 
     // 6. Tính số ngày quá hạn
@@ -487,7 +497,7 @@ export class LoansService {
     });
     // Fallback if QD8 is not found
     if (!finePerDayParam) {
-        finePerDayParam = await this.parameterModel.findOne({
+      finePerDayParam = await this.parameterModel.findOne({
         paramName: 'QD_FINE_PER_DAY',
       });
     }
@@ -495,14 +505,14 @@ export class LoansService {
     const finePerDay = finePerDayParam
       ? parseInt(finePerDayParam.paramValue)
       : 1000;
-    
+
     let fineAmount = overdueDays * finePerDay;
 
     // Nếu mất sách, cộng thêm giá trị sách vào tiền phạt
     if (isLost) {
-        // Use book price if available, otherwise title price, otherwise default 0
-        const bookPrice = bookInfo?.price || titleInfo?.price || 0;
-        fineAmount += bookPrice;
+      // Use book price if available, otherwise title price, otherwise default 0
+      const bookPrice = bookInfo?.price || titleInfo?.price || 0;
+      fineAmount += bookPrice;
     }
 
     // 8. Update loan_detail
@@ -513,15 +523,12 @@ export class LoansService {
 
     // 9. Update book_copy status and TitleBook lost count
     const newStatus = isLost ? 2 : 1; // 2 = Lost, 1 = Available
-    await this.bookCopyModel.updateOne(
-      { _id: copyId },
-      { status: newStatus },
-    );
+    await this.bookCopyModel.updateOne({ _id: copyId }, { status: newStatus });
 
     if (isLost && titleInfo) {
       await this.titleBookModel.updateOne(
         { _id: titleInfo._id },
-        { $inc: { lostCopies: 1 } }
+        { $inc: { lostCopies: 1 } },
       );
     }
 
@@ -543,7 +550,7 @@ export class LoansService {
     );
 
     if (remainingActiveDetails === 0) {
-      // All books returned! 
+      // All books returned!
       // Do NOT delete Loan and LoanDetails to preserve history.
       console.log(`Loan ${loanId} fully returned. Keeping record for history.`);
     }

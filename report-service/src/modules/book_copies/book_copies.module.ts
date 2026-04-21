@@ -4,7 +4,10 @@ import { AuthModule } from '../auth/auth.module';
 import { BookCopiesService } from './book_copies.service';
 import { BookCopiesController } from './book_copies.controller';
 import { BookCopy, BookCopySchema } from './schema/book-copy.schema';
-import { TitleBook, TitleBookSchema } from '../title_books/schema/title-book.schema';
+import {
+  TitleBook,
+  TitleBookSchema,
+} from '../title_books/schema/title-book.schema';
 
 @Module({
   imports: [

@@ -5,10 +5,19 @@ import { CreateTitleBookDto } from './dto/create-title_book.dto';
 import { UpdateTitleBookDto } from './dto/update-title_book.dto';
 import { TitleBook, TitleBookDocument } from './schema/title-book.schema';
 import { Author, AuthorDocument } from '../authors/schema/author.schema';
-import { Category, CategoryDocument } from '../categories/schema/category.schema';
-import { TitleAuthor, TitleAuthorDocument } from '../title_authors/schema/title-author.schema';
+import {
+  Category,
+  CategoryDocument,
+} from '../categories/schema/category.schema';
+import {
+  TitleAuthor,
+  TitleAuthorDocument,
+} from '../title_authors/schema/title-author.schema';
 import { Book, BookDocument } from '../books/schema/book.schema';
-import { BookCopy, BookCopyDocument } from '../book_copies/schema/book-copy.schema';
+import {
+  BookCopy,
+  BookCopyDocument,
+} from '../book_copies/schema/book-copy.schema';
 import { BulkCreateBookDto } from './dto/bulk-create-book.dto';
 
 @Injectable()
@@ -40,13 +49,20 @@ export class TitleBooksService {
     const results = [];
     for (const item of bulkData) {
       // 1. Find or Create Category
-      let category = await this.categoryModel.findOne({ categoryName: item.category });
+      let category = await this.categoryModel.findOne({
+        categoryName: item.category,
+      });
       if (!category) {
-        category = await this.categoryModel.create({ categoryName: item.category });
+        category = await this.categoryModel.create({
+          categoryName: item.category,
+        });
       }
 
       // 2. Find or Create TitleBook
-      let titleBook = await this.titleBookModel.findOne({ title: item.title, isDeleted: { $ne: true } });
+      let titleBook = await this.titleBookModel.findOne({
+        title: item.title,
+        isDeleted: { $ne: true },
+      });
       if (!titleBook) {
         titleBook = await this.titleBookModel.create({
           title: item.title,
@@ -89,7 +105,8 @@ export class TitleBooksService {
         results.push({
           title: item.title,
           status: 'error',
-          message: 'Sách này đã tồn tại với cùng thông tin (tên, tác giả, thể loại, năm xuất bản, nhà xuất bản). Vui lòng sử dụng chức năng "Nhập thêm bản sao" để tăng số lượng.'
+          message:
+            'Sách này đã tồn tại với cùng thông tin (tên, tác giả, thể loại, năm xuất bản, nhà xuất bản). Vui lòng sử dụng chức năng "Nhập thêm bản sao" để tăng số lượng.',
         });
         continue; // Skip to next item
       }
@@ -114,14 +131,14 @@ export class TitleBooksService {
       if (copies.length > 0) {
         await this.bookCopyModel.insertMany(copies);
       }
-      
+
       // Update counts (Optional optimization: do this in bulk or aggregate later)
       // For now simple increment
       await this.titleBookModel.findByIdAndUpdate(titleBook._id, {
         $inc: {
-           totalCopies: item.quantity,
-           availableCopies: item.quantity
-        }
+          totalCopies: item.quantity,
+          availableCopies: item.quantity,
+        },
       });
 
       results.push({ title: item.title, status: 'success' });
@@ -130,11 +147,17 @@ export class TitleBooksService {
   }
 
   findAll() {
-    return this.titleBookModel.find({ isDeleted: { $ne: true } }).populate('categoryId').exec();
+    return this.titleBookModel
+      .find({ isDeleted: { $ne: true } })
+      .populate('categoryId')
+      .exec();
   }
 
   findOne(id: string) {
-    return this.titleBookModel.findOne({ _id: id, isDeleted: { $ne: true } }).populate('categoryId').exec();
+    return this.titleBookModel
+      .findOne({ _id: id, isDeleted: { $ne: true } })
+      .populate('categoryId')
+      .exec();
   }
 
   update(id: string, updateTitleBookDto: UpdateTitleBookDto) {
@@ -145,18 +168,22 @@ export class TitleBooksService {
   }
   async checkDeleteConditions(titleId: string) {
     // Lấy tất cả books của title này
-    const books = await this.bookModel.find({ titleId: new Types.ObjectId(titleId) }).exec();
-    const bookIds = books.map(b => b._id);
+    const books = await this.bookModel
+      .find({ titleId: new Types.ObjectId(titleId) })
+      .exec();
+    const bookIds = books.map((b) => b._id);
 
     // Lấy tất cả copies của các books này
-    const copies = await this.bookCopyModel.find({ bookId: { $in: bookIds } }).exec();
+    const copies = await this.bookCopyModel
+      .find({ bookId: { $in: bookIds } })
+      .exec();
 
     // Kiểm tra số sách đang mượn (status = 0)
-    const borrowedCount = copies.filter(c => c.status === 0).length;
+    const borrowedCount = copies.filter((c) => c.status === 0).length;
 
     return {
       canDelete: borrowedCount === 0,
-      borrowedCount
+      borrowedCount,
     };
   }
   async remove(id: string) {
@@ -164,12 +191,12 @@ export class TitleBooksService {
     if (!titleBook) {
       return null;
     }
-    
+
     // Soft delete: mark as deleted instead of removing from database
     titleBook.isDeleted = true;
     titleBook.deletedAt = new Date();
     await titleBook.save();
-    
+
     return titleBook;
   }
 }

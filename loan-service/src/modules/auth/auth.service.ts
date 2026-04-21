@@ -1,4 +1,4 @@
-import {
+﻿import {
   Injectable,
   BadRequestException,
   UnauthorizedException,
@@ -36,7 +36,7 @@ export class AuthService {
     // Hash máº­t kháº©u
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Táº¡o user má»›i (Máº·c Ä‘á»‹nh lÃ  LIBRARIAN vÃ  status lÃ  locked)
+    // Táº¡o user má»›i (Máº·c Ä‘á»‹nh lÃ  LIBRARIAN vÃ  status lÃ  locked)
     const newUser = await this.userModel.create({
       email,
       password: hashedPassword,
@@ -138,7 +138,7 @@ export class AuthService {
       throw new UnauthorizedException(reason);
     }
 
-    // Ghi láº¡i lá»‹ch sá»­ Ä‘Äƒng nháº­p thÃ nh cÃ´ng
+    // Ghi láº¡i lá»‹ch sá»­ Ä‘Äƒng nháº­p thÃ nh cÃ´ng
     const successHistory = new this.loginHistoryModel({
       userId: user._id,
       ipAddress,

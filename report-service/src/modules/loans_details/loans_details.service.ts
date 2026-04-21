@@ -16,7 +16,9 @@ import { Loan, LoanDocument } from '../loans/schema/loan.schema';
 function getVietnamDate(dateInput?: string | Date): Date {
   const date = dateInput ? new Date(dateInput) : new Date();
   // Convert to Vietnam timezone
-  const vietnamTimeString = date.toLocaleString('en-US', { timeZone: 'Asia/Ho_Chi_Minh' });
+  const vietnamTimeString = date.toLocaleString('en-US', {
+    timeZone: 'Asia/Ho_Chi_Minh',
+  });
   return new Date(vietnamTimeString);
 }
 
@@ -129,12 +131,12 @@ export class LoansDetailsService {
       const borrowDate = getVietnamDate(loan.borrowDate);
       const dueDateTemp = new Date(borrowDate);
       dueDateTemp.setDate(dueDateTemp.getDate() + maxDays);
-      
+
       // Tạo Date object chỉ từ year/month/day (không có giờ)
       const dueDate = new Date(
         dueDateTemp.getFullYear(),
         dueDateTemp.getMonth(),
-        dueDateTemp.getDate()
+        dueDateTemp.getDate(),
       );
 
       // Tạo ngày trả chỉ từ year/month/day
@@ -142,7 +144,7 @@ export class LoansDetailsService {
       const returnDateOnly = new Date(
         returnDateTemp.getFullYear(),
         returnDateTemp.getMonth(),
-        returnDateTemp.getDate()
+        returnDateTemp.getDate(),
       );
 
       // 3. Tính số ngày trễ (chỉ dựa trên ngày, không tính giờ)

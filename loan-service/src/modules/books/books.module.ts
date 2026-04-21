@@ -8,7 +8,10 @@ import {
   Parameter,
   ParameterSchema,
 } from '../parameters/schema/parameter.schema';
-import { TitleBook, TitleBookSchema } from '../title_books/schema/title-book.schema';
+import {
+  TitleBook,
+  TitleBookSchema,
+} from '../title_books/schema/title-book.schema';
 
 import { CatalogSchemasModule } from '../catalog-schemas.module';
 

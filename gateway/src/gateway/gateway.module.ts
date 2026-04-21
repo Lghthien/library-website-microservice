@@ -9,5 +9,3 @@ export class GatewayModule {
       .forRoutes({ path: '*', method: RequestMethod.ALL });
   }
 }
-
-

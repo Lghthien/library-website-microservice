@@ -12,7 +12,10 @@ import {
   Parameter,
   ParameterDocument,
 } from '../parameters/schema/parameter.schema';
-import { TitleBook, TitleBookDocument } from '../title_books/schema/title-book.schema';
+import {
+  TitleBook,
+  TitleBookDocument,
+} from '../title_books/schema/title-book.schema';
 
 @Injectable()
 export class BooksService {
@@ -20,7 +23,8 @@ export class BooksService {
     @InjectModel(Book.name) private bookModel: Model<BookDocument>,
     @InjectModel(Parameter.name)
     private parameterModel: Model<ParameterDocument>,
-    @InjectModel(TitleBook.name) private titleBookModel: Model<TitleBookDocument>,
+    @InjectModel(TitleBook.name)
+    private titleBookModel: Model<TitleBookDocument>,
   ) {}
 
   async create(createBookDto: CreateBookDto) {
@@ -63,7 +67,7 @@ export class BooksService {
   async findAll() {
     const books = await this.bookModel.find().populate('titleId').exec();
     // Filter out books whose titleId is deleted
-    return books.filter(book => {
+    return books.filter((book) => {
       if (book.titleId && typeof book.titleId === 'object') {
         return !(book.titleId as any).isDeleted;
       }

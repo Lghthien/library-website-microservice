@@ -2,30 +2,30 @@ import { test, expect } from '@playwright/test';
 import { loginAsAdmin } from './helpers/auth';
 import { waitForPageLoad } from './helpers/test-utils';
 
-test.describe('ADMIN - Mượn Sách (Mocked API)', () => {
+test.describe('ADMIN - MÆ°á»£n SÃ¡ch (Mocked API)', () => {
 
     const mockReaders = [
         {
             _id: 'READER001',
-            fullName: 'Nguyễn Văn A',
+            fullName: 'Nguyá»…n VÄƒn A',
             email: 'a@example.com',
             dateOfBirth: '2000-01-01',
-            expiryDate: '2099-01-01T00:00:00.000Z', // Chưa hết hạn
+            expiryDate: '2099-01-01T00:00:00.000Z', // ChÆ°a háº¿t háº¡n
             readerTypeId: {
                 _id: 'TYPE001',
-                readerTypeName: 'Sinh viên',
+                readerTypeName: 'Sinh viÃªn',
                 maxBorrowLimit: 5
             }
         },
         {
             _id: 'READER002',
-            fullName: 'Độc giả hết hạn',
+            fullName: 'Äá»™c giáº£ háº¿t háº¡n',
             email: 'expired@example.com',
             dateOfBirth: '2000-01-01',
-            expiryDate: '2020-01-01T00:00:00.000Z', // Đã hết hạn
+            expiryDate: '2020-01-01T00:00:00.000Z', // ÄÃ£ háº¿t háº¡n
             readerTypeId: {
                 _id: 'TYPE001',
-                readerTypeName: 'Sinh viên',
+                readerTypeName: 'Sinh viÃªn',
                 maxBorrowLimit: 5
             }
         }
@@ -39,7 +39,7 @@ test.describe('ADMIN - Mượn Sách (Mocked API)', () => {
                 _id: 'BOOK001',
                 titleId: {
                     title: 'Clean Code',
-                    categoryId: { categoryName: 'Công nghệ thông tin' },
+                    categoryId: { categoryName: 'CÃ´ng nghá»‡ thÃ´ng tin' },
                     authors: [{ authorId: { authorName: 'Robert C. Martin' } }]
                 },
                 publisher: 'NXB',
@@ -54,14 +54,14 @@ test.describe('ADMIN - Mượn Sách (Mocked API)', () => {
                 _id: 'BOOK002',
                 titleId: {
                     title: 'Refactoring',
-                    categoryId: { categoryName: 'Công nghệ thông tin' },
+                    categoryId: { categoryName: 'CÃ´ng nghá»‡ thÃ´ng tin' },
                     authors: [{ authorId: { authorName: 'Martin Fowler' } }]
                 }
             }
         }
     ];
 
-    const mockLoans: any[] = []; // Empty initially - trả về empty array cho GET
+    const mockLoans: unknown[] = []; // Empty initially - tráº£ vá» empty array cho GET
 
     test.beforeEach(async ({ page }) => {
         // Mock Parameters
@@ -110,142 +110,142 @@ test.describe('ADMIN - Mượn Sách (Mocked API)', () => {
         await waitForPageLoad(page);
     });
 
-    test('CIRC-001: Hiển thị trang quản lý lưu thông', async ({ page }) => {
-        await expect(page.getByRole('heading', { name: /Quản lý Lưu thông/i })).toBeVisible();
+    test('CIRC-001: Hiá»ƒn thá»‹ trang quáº£n lÃ½ lÆ°u thÃ´ng', async ({ page }) => {
+        await expect(page.getByRole('heading', { name: /Quáº£n lÃ½ LÆ°u thÃ´ng/i })).toBeVisible();
         
-        // Kiểm tra 2 tabs
-        await expect(page.getByText('Danh sách Đang mượn')).toBeVisible();
-        await expect(page.getByText('Lịch sử Đã trả')).toBeVisible();
+        // Kiá»ƒm tra 2 tabs
+        await expect(page.getByText('Danh sÃ¡ch Äang mÆ°á»£n')).toBeVisible();
+        await expect(page.getByText('Lá»‹ch sá»­ ÄÃ£ tráº£')).toBeVisible();
     });
 
-    test('CIRC-002: Mở dialog lập phiếu mượn', async ({ page }) => {
-        await page.getByRole('button', { name: 'Lập Phiếu Mượn' }).click();
+    test('CIRC-002: Má»Ÿ dialog láº­p phiáº¿u mÆ°á»£n', async ({ page }) => {
+        await page.getByRole('button', { name: 'Láº­p Phiáº¿u MÆ°á»£n' }).click();
         
-        // Kiểm tra modal title
-        await expect(page.getByText('Lập Phiếu Mượn Mới')).toBeVisible();
+        // Kiá»ƒm tra modal title
+        await expect(page.getByText('Láº­p Phiáº¿u MÆ°á»£n Má»›i')).toBeVisible();
         
-        // Kiểm tra section Thông tin Độc giả
-        await expect(page.getByText('Thông Tin Độc Giả')).toBeVisible();
+        // Kiá»ƒm tra section ThÃ´ng tin Äá»™c giáº£
+        await expect(page.getByText('ThÃ´ng Tin Äá»™c Giáº£')).toBeVisible();
     });
 
-    test('CIRC-003: Chọn độc giả trong dialog', async ({ page }) => {
-        await page.getByRole('button', { name: 'Lập Phiếu Mượn' }).click();
+    test('CIRC-003: Chá»n Ä‘á»™c giáº£ trong dialog', async ({ page }) => {
+        await page.getByRole('button', { name: 'Láº­p Phiáº¿u MÆ°á»£n' }).click();
 
-        // Tìm Combobox với placeholder "Nhập tên để tìm..."
-        const readerCombobox = page.locator('input[placeholder="Nhập tên để tìm..."]');
+        // TÃ¬m Combobox vá»›i placeholder "Nháº­p tÃªn Ä‘á»ƒ tÃ¬m..."
+        const readerCombobox = page.locator('input[placeholder="Nháº­p tÃªn Ä‘á»ƒ tÃ¬m..."]');
         await readerCombobox.click();
         
-        // Chọn độc giả từ dropdown
-        await page.getByText('Nguyễn Văn A - a@example.com').click();
+        // Chá»n Ä‘á»™c giáº£ tá»« dropdown
+        await page.getByText('Nguyá»…n VÄƒn A - a@example.com').click();
 
-        // Kiểm tra thông tin độc giả hiển thị
-        await expect(page.locator('input[value="Nguyễn Văn A"]')).toBeVisible();
-        await expect(page.getByText('Sinh viên')).toBeVisible();
+        // Kiá»ƒm tra thÃ´ng tin Ä‘á»™c giáº£ hiá»ƒn thá»‹
+        await expect(page.locator('input[value="Nguyá»…n VÄƒn A"]')).toBeVisible();
+        await expect(page.getByText('Sinh viÃªn')).toBeVisible();
     });
 
-    test('CIRC-004: Validation - Độc giả hết hạn', async ({ page }) => {
-        await page.getByRole('button', { name: 'Lập Phiếu Mượn' }).click();
+    test('CIRC-004: Validation - Äá»™c giáº£ háº¿t háº¡n', async ({ page }) => {
+        await page.getByRole('button', { name: 'Láº­p Phiáº¿u MÆ°á»£n' }).click();
 
-        const readerCombobox = page.locator('input[placeholder="Nhập tên để tìm..."]');
+        const readerCombobox = page.locator('input[placeholder="Nháº­p tÃªn Ä‘á»ƒ tÃ¬m..."]');
         await readerCombobox.click();
         
-        // Chọn độc giả hết hạn
-        await page.getByText('Độc giả hết hạn').click();
+        // Chá»n Ä‘á»™c giáº£ háº¿t háº¡n
+        await page.getByText('Äá»™c giáº£ háº¿t háº¡n').click();
 
-        // Kiểm tra cảnh báo hết hạn hiển thị
-        await expect(page.getByText(/Thẻ độc giả đã hết hạn/i)).toBeVisible();
+        // Kiá»ƒm tra cáº£nh bÃ¡o háº¿t háº¡n hiá»ƒn thá»‹
+        await expect(page.getByText(/Tháº» Ä‘á»™c giáº£ Ä‘Ã£ háº¿t háº¡n/i)).toBeVisible();
         
-        // Chi tiết sách KHÔNG hiển thị khi hết hạn
-        await expect(page.getByText('Chi tiết Sách')).not.toBeVisible();
+        // Chi tiáº¿t sÃ¡ch KHÃ”NG hiá»ƒn thá»‹ khi háº¿t háº¡n
+        await expect(page.getByText('Chi tiáº¿t SÃ¡ch')).not.toBeVisible();
     });
 
-    test('CIRC-005: Chọn sách trong bảng chi tiết', async ({ page }) => {
-        await page.getByRole('button', { name: 'Lập Phiếu Mượn' }).click();
+    test('CIRC-005: Chá»n sÃ¡ch trong báº£ng chi tiáº¿t', async ({ page }) => {
+        await page.getByRole('button', { name: 'Láº­p Phiáº¿u MÆ°á»£n' }).click();
 
-        // Chọn độc giả hợp lệ
-        const readerCombobox = page.locator('input[placeholder="Nhập tên để tìm..."]');
+        // Chá»n Ä‘á»™c giáº£ há»£p lá»‡
+        const readerCombobox = page.locator('input[placeholder="Nháº­p tÃªn Ä‘á»ƒ tÃ¬m..."]');
         await readerCombobox.click();
-        await page.getByText('Nguyễn Văn A - a@example.com').click();
+        await page.getByText('Nguyá»…n VÄƒn A - a@example.com').click();
 
-        // Đợi bảng Chi tiết Sách hiển thị
-        await expect(page.getByText('Chi tiết Sách')).toBeVisible();
+        // Äá»£i báº£ng Chi tiáº¿t SÃ¡ch hiá»ƒn thá»‹
+        await expect(page.getByText('Chi tiáº¿t SÃ¡ch')).toBeVisible();
 
-        // Tìm input Tên Sách trong table (placeholder "Tên sách...")
-        const bookTitleInput = page.locator('input[placeholder="Tên sách..."]').first();
+        // TÃ¬m input TÃªn SÃ¡ch trong table (placeholder "TÃªn sÃ¡ch...")
+        const bookTitleInput = page.locator('input[placeholder="TÃªn sÃ¡ch..."]').first();
         await bookTitleInput.click();
         
-        // Chọn từ dropdown
+        // Chá»n tá»« dropdown
         await page.waitForTimeout(300);
         await page.getByText('Clean Code').first().click();
 
-        // Kiểm tra title đã được chọn
+        // Kiá»ƒm tra title Ä‘Ã£ Ä‘Æ°á»£c chá»n
         const selectedValue = await bookTitleInput.inputValue();
         expect(selectedValue).toBe('Clean Code');
     });
 
-    test('CIRC-006: Thêm dòng sách mới', async ({ page }) => {
-        await page.getByRole('button', { name: 'Lập Phiếu Mượn' }).click();
+    test('CIRC-006: ThÃªm dÃ²ng sÃ¡ch má»›i', async ({ page }) => {
+        await page.getByRole('button', { name: 'Láº­p Phiáº¿u MÆ°á»£n' }).click();
 
-        const readerCombobox = page.locator('input[placeholder="Nhập tên để tìm..."]');
+        const readerCombobox = page.locator('input[placeholder="Nháº­p tÃªn Ä‘á»ƒ tÃ¬m..."]');
         await readerCombobox.click();
-        await page.getByText('Nguyễn Văn A').click();
+        await page.getByText('Nguyá»…n VÄƒn A').click();
 
-        // Click nút Thêm dòng
-        await page.getByRole('button', { name: 'Thêm dòng' }).click();
+        // Click nÃºt ThÃªm dÃ²ng
+        await page.getByRole('button', { name: 'ThÃªm dÃ²ng' }).click();
 
-        // Kiểm tra số dòng tăng lên
+        // Kiá»ƒm tra sá»‘ dÃ²ng tÄƒng lÃªn
         const rows = page.locator('table tbody tr');
-        await expect(rows).toHaveCount(2); // Ban đầu 1 row + 1 row mới
+        await expect(rows).toHaveCount(2); // Ban Ä‘áº§u 1 row + 1 row má»›i
     });
 
-    test('CIRC-007: Validation - Submit mà không chọn người', async ({ page }) => {
-        await page.getByRole('button', { name: 'Lập Phiếu Mượn' }).click();
+    test('CIRC-007: Validation - Submit mÃ  khÃ´ng chá»n ngÆ°á»i', async ({ page }) => {
+        await page.getByRole('button', { name: 'Láº­p Phiáº¿u MÆ°á»£n' }).click();
 
-        // Click Lưu Phiếu Mượn ngay mà không điền gì
-        await page.getByRole('button', { name: 'Lưu Phiếu Mượn' }).click();
+        // Click LÆ°u Phiáº¿u MÆ°á»£n ngay mÃ  khÃ´ng Ä‘iá»n gÃ¬
+        await page.getByRole('button', { name: 'LÆ°u Phiáº¿u MÆ°á»£n' }).click();
 
-        // Nút bị disabled nên không có gì xảy ra, hoặc có toast validation
-        // Kiểm tra nút disabled
-        const saveButton = page.getByRole('button', { name: 'Lưu Phiếu Mượn' });
+        // NÃºt bá»‹ disabled nÃªn khÃ´ng cÃ³ gÃ¬ xáº£y ra, hoáº·c cÃ³ toast validation
+        // Kiá»ƒm tra nÃºt disabled
+        const saveButton = page.getByRole('button', { name: 'LÆ°u Phiáº¿u MÆ°á»£n' });
         expect(await saveButton.isDisabled()).toBe(true);
     });
 
-    test('CIRC-008: Lập phiếu mượn thành công', async ({ page }) => {
-        await page.getByRole('button', { name: 'Lập Phiếu Mượn' }).click();
+    test('CIRC-008: Láº­p phiáº¿u mÆ°á»£n thÃ nh cÃ´ng', async ({ page }) => {
+        await page.getByRole('button', { name: 'Láº­p Phiáº¿u MÆ°á»£n' }).click();
 
-        // Chọn độc giả
-        const readerCombobox = page.locator('input[placeholder="Nhập tên để tìm..."]');
+        // Chá»n Ä‘á»™c giáº£
+        const readerCombobox = page.locator('input[placeholder="Nháº­p tÃªn Ä‘á»ƒ tÃ¬m..."]');
         await readerCombobox.click();
-        await page.getByText('Nguyễn Văn A').click();
+        await page.getByText('Nguyá»…n VÄƒn A').click();
 
-        // Chọn sách
+        // Chá»n sÃ¡ch
         await page.waitForTimeout(500);
-        const bookTitleInput = page.locator('input[placeholder="Tên sách..."]').first();
+        const bookTitleInput = page.locator('input[placeholder="TÃªn sÃ¡ch..."]').first();
         await bookTitleInput.click();
         await page.waitForTimeout(300);
         await page.getByText('Clean Code').first().click();
 
-        // Click Lưu
-        await page.getByRole('button', { name: 'Lưu Phiếu Mượn' }).click();
+        // Click LÆ°u
+        await page.getByRole('button', { name: 'LÆ°u Phiáº¿u MÆ°á»£n' }).click();
 
         // Expect success toast
-        await expect(page.getByText(/Lập phiếu mượn thành công/i)).toBeVisible({ timeout: 5000 });
+        await expect(page.getByText(/Láº­p phiáº¿u mÆ°á»£n thÃ nh cÃ´ng/i)).toBeVisible({ timeout: 5000 });
     });
 
-    test('CIRC-009: Tìm kiếm phiếu mượn', async ({ page }) => {
-        // Tìm search input trong tab "Đang mượn"
-        const searchInput = page.locator('input[placeholder*="Tìm"]').first();
+    test('CIRC-009: TÃ¬m kiáº¿m phiáº¿u mÆ°á»£n', async ({ page }) => {
+        // TÃ¬m search input trong tab "Äang mÆ°á»£n"
+        const searchInput = page.locator('input[placeholder*="TÃ¬m"]').first();
         
         if (await searchInput.isVisible()) {
             await searchInput.fill('PM');
             await page.waitForTimeout(500);
             
-            // Filter đã hoạt động (nếu có dữ liệu)
+            // Filter Ä‘Ã£ hoáº¡t Ä‘á»™ng (náº¿u cÃ³ dá»¯ liá»‡u)
         }
     });
 
-    test('CIRC-010: Filter theo ngày mượn', async ({ page }) => {
-        // Tìm date filter inputs
+    test('CIRC-010: Filter theo ngÃ y mÆ°á»£n', async ({ page }) => {
+        // TÃ¬m date filter inputs
         const dateInputs = page.locator('input[type="date"]');
         
         if (await dateInputs.first().isVisible()) {
@@ -253,7 +253,7 @@ test.describe('ADMIN - Mượn Sách (Mocked API)', () => {
             await dateInputs.first().fill(today);
             await page.waitForTimeout(500);
             
-            // Filter áp dụng
+            // Filter Ã¡p dá»¥ng
         }
     });
 });
