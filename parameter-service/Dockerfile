@@ -19,5 +19,8 @@ ENV NODE_ENV=production
 COPY --from=deps /app/node_modules ./node_modules
 COPY --from=builder /app/dist ./dist
 
+# Remove npm to eliminate its bundled vulnerable deps from security scans
+RUN npm uninstall -g npm && rm -rf /usr/local/lib/node_modules/npm
+
 EXPOSE 4007
 CMD ["node", "dist/main"]

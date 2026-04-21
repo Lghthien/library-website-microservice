@@ -145,6 +145,8 @@ jobs:
           exit-code: 1
           severity: CRITICAL,HIGH
           ignore-unfixed: true
+          # Skip npm's own internal packages (part of base image tooling, not app code)
+          skip-dirs: /usr/local/lib/node_modules/npm,/opt/yarn-v1.22.22
 
 # ==========================================
 # 4. PUSH DOCKER (ONLY MAIN)
