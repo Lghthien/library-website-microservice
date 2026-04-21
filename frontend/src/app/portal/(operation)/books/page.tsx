@@ -83,7 +83,7 @@ interface ApiTitleAuthor {
     authorId: ApiAuthor | string;
 }
 
-// --- COMPONENT TÙY CHỈNH: SEARCHABLE INPUT ---
+// --- COMPONENT TÃ™Y CHá»ˆNH: SEARCHABLE INPUT ---
 const SearchableInput = ({
     options,
     value,
@@ -150,9 +150,9 @@ const SearchableInput = ({
     );
 };
 
-// --- COMPONENT TÙY CHỈNH: CURRENCY INPUT (XỬ LÝ TIỀN TỆ) ---
-// --- COMPONENT TÙY CHỈNH: CURRENCY INPUT (ĐÃ NÂNG CẤP) ---
-// --- COMPONENT TÙY CHỈNH: CURRENCY INPUT (CẬP NHẬT MAX VALUE) ---
+// --- COMPONENT TÃ™Y CHá»ˆNH: CURRENCY INPUT (Xá»¬ LÃ TIá»€N Tá»†) ---
+// --- COMPONENT TÃ™Y CHá»ˆNH: CURRENCY INPUT (ÄÃƒ NÃ‚NG Cáº¤P) ---
+// --- COMPONENT TÃ™Y CHá»ˆNH: CURRENCY INPUT (Cáº¬P NHáº¬T MAX VALUE) ---
 const CurrencyInput = ({
     value,
     onChange,
@@ -164,15 +164,15 @@ const CurrencyInput = ({
     onChange: (val: number) => void,
     placeholder?: string,
     id?: string,
-    max?: number // Thêm prop max (tùy chọn)
+    max?: number // ThÃªm prop max (tÃ¹y chá»n)
 }) => {
-    // Hàm định dạng số: 50000 -> 50,000
+    // HÃ m Ä‘á»‹nh dáº¡ng sá»‘: 50000 -> 50,000
     const formatNumber = (num: string) => {
         return num.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        // Loại bỏ dấu phẩy để lấy giá trị số thô
+        // Loáº¡i bá» dáº¥u pháº©y Ä‘á»ƒ láº¥y giÃ¡ trá»‹ sá»‘ thÃ´
         const rawValue = e.target.value.replace(/,/g, "");
 
         if (!rawValue) {
@@ -182,10 +182,10 @@ const CurrencyInput = ({
 
         let numericValue = parseInt(rawValue, 10);
 
-        // 1. Chặn số âm hoặc không phải số
+        // 1. Cháº·n sá»‘ Ã¢m hoáº·c khÃ´ng pháº£i sá»‘
         if (isNaN(numericValue) || numericValue < 0) return;
 
-        // 2. Chặn số vượt quá giới hạn Max (nếu có prop max)
+        // 2. Cháº·n sá»‘ vÆ°á»£t quÃ¡ giá»›i háº¡n Max (náº¿u cÃ³ prop max)
         if (max !== undefined && numericValue > max) {
             numericValue = max;
         }
@@ -198,14 +198,14 @@ const CurrencyInput = ({
             <Input
                 id={id}
                 placeholder={placeholder}
-                // Hiển thị số đã format
+                // Hiá»ƒn thá»‹ sá»‘ Ä‘Ã£ format
                 value={value ? formatNumber(value.toString()) : ""}
                 onChange={handleChange}
                 className="pr-12 text-right font-mono font-medium"
             />
-            {/* Phần đuôi VNĐ */}
+            {/* Pháº§n Ä‘uÃ´i VNÄ */}
             <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                <span className="text-gray-400 text-sm font-semibold">VNĐ</span>
+                <span className="text-gray-400 text-sm font-semibold">VNÄ</span>
             </div>
         </div>
     );
@@ -227,11 +227,11 @@ export default function BooksPage() {
     const [editingBookId, setEditingBookId] = useState<string | null>(null);
     const [editingBookData, setEditingBookData] = useState<Book | null>(null);
 
-    // Maps để convert Name ↔ ID
+    // Maps Ä‘á»ƒ convert Name â†” ID
     const [categoryNameToIdMap, setCategoryNameToIdMap] = useState<Map<string, string>>(new Map());
     const [authorNameToIdMap, setAuthorNameToIdMap] = useState<Map<string, string>>(new Map());
 
-    // States cho tính năng "Nhập thêm bản sao" (Sách có sẵn)
+    // States cho tÃ­nh nÄƒng "Nháº­p thÃªm báº£n sao" (SÃ¡ch cÃ³ sáºµn)
     const [inputMode, setInputMode] = useState<'new' | 'existing'>('new');
     const [selectableBooks, setSelectableBooks] = useState<string[]>([]);
     const [bookLabelToIdMap, setBookLabelToIdMap] = useState<Map<string, string>>(new Map());
@@ -284,10 +284,10 @@ export default function BooksPage() {
                     resTitleAuthors.json(),
                     resTitleBooks.json(),
                     resParameters.json()
-                ]) as [ApiBook[], ApiBookCopy[], ApiCategory[], ApiAuthor[], ApiTitleAuthor[], ApiTitleBook[], any[]];
+                ]) as [ApiBook[], ApiBookCopy[], ApiCategory[], ApiAuthor[], ApiTitleAuthor[], ApiTitleBook[], unknown[]];
 
-                // Lấy giá trị Khoảng cách năm xuất bản từ parameters
-                const publishYearParam = parametersData.find((p: any) => p.paramName === 'QD2_PUBLISH_YEAR_DISTANCE');
+                // Láº¥y giÃ¡ trá»‹ Khoáº£ng cÃ¡ch nÄƒm xuáº¥t báº£n tá»« parameters
+                const publishYearParam = parametersData.find((p: unknown) => p.paramName === 'QD2_PUBLISH_YEAR_DISTANCE');
                 if (publishYearParam && publishYearParam.paramValue) {
                     setPublishYearGap(parseInt(publishYearParam.paramValue));
                 }
@@ -391,7 +391,7 @@ export default function BooksPage() {
                          tTitle = titleBookMap.get(b.titleId as string)?.title || "Unknown";
                     }
 
-                    const label = `${tTitle} - ${b.publisher} (${b.publishYear}) - Giá: ${new Intl.NumberFormat('vi-VN').format(b.price)}đ`;
+                    const label = `${tTitle} - ${b.publisher} (${b.publishYear}) - GiÃ¡: ${new Intl.NumberFormat('vi-VN').format(b.price)}Ä‘`;
                     bkLabelMap.set(label, b._id);
                     sBooks.push(label);
                 });
@@ -468,7 +468,7 @@ export default function BooksPage() {
     const [isSaving, setIsSaving] = useState(false);
     const [publishYearGap, setPublishYearGap] = useState<number>(8); // Default value
 
-    // Logic kiểm tra QĐ2
+    // Logic kiá»ƒm tra QÄ2
     const currentYear = new Date().getFullYear();
     const minPublishYear = currentYear - publishYearGap;
 
@@ -509,7 +509,7 @@ export default function BooksPage() {
         setFilterCategory("all");
     };
 
-    const handleBulkImport = async (data: any[]) => {
+    const handleBulkImport = async (data: unknown[]) => {
         try {
             const payload = data.map(item => ({
                 title: item['Title'] || item['title'],
@@ -537,21 +537,21 @@ export default function BooksPage() {
             const results = await res.json();
             
             // Count success and error results
-            const successCount = results.filter((r: any) => r.status === 'success').length;
-            const errorCount = results.filter((r: any) => r.status === 'error').length;
+            const successCount = results.filter((r: unknown) => r.status === 'success').length;
+            const errorCount = results.filter((r: unknown) => r.status === 'error').length;
             
             if (errorCount > 0) {
                 const errorMessages = results
-                    .filter((r: any) => r.status === 'error')
-                    .map((r: any) => `• ${r.title}: ${r.message}`)
+                    .filter((r: unknown) => r.status === 'error')
+                    .map((r: unknown) => `â€¢ ${r.title}: ${r.message}`)
                     .join('\n');
                 
                 showToast(
-                    `Hoàn thành: ${successCount} thành công, ${errorCount} bị lỗi.\n${errorMessages}`,
+                    `HoÃ n thÃ nh: ${successCount} thÃ nh cÃ´ng, ${errorCount} bá»‹ lá»—i.\n${errorMessages}`,
                     errorCount === results.length ? 'error' : 'warning'
                 );
             } else {
-                showToast(`Đã nhập thành công ${successCount} dòng dữ liệu.`, "success");
+                showToast(`ÄÃ£ nháº­p thÃ nh cÃ´ng ${successCount} dÃ²ng dá»¯ liá»‡u.`, "success");
             }
             
             if (successCount > 0) {
@@ -559,23 +559,23 @@ export default function BooksPage() {
             }
         } catch (error) {
             console.error("Import error:", error);
-            showToast("Lỗi khi nhập dữ liệu.", "error");
+            showToast("Lá»—i khi nháº­p dá»¯ liá»‡u.", "error");
         }
     };
 
-    // Hàm lưu sách (Tạo mới hoặc Cập nhật)
-    // Hàm kiểm tra hợp lệ
+    // HÃ m lÆ°u sÃ¡ch (Táº¡o má»›i hoáº·c Cáº­p nháº­t)
+    // HÃ m kiá»ƒm tra há»£p lá»‡
     const validateForm = (): boolean => {
          // Validation chung
          if (!editingBookId && (!formQuantity || formQuantity < 1) && inputMode !== 'existing') {
-             showToast("Số lượng nhập phải ít nhất là 1", 'warning');
+             showToast("Sá»‘ lÆ°á»£ng nháº­p pháº£i Ã­t nháº¥t lÃ  1", 'warning');
              return false;
         }
 
         // EDIT MODE
         if (editingBookId) {
             if (!formBookName.trim()) { 
-                showToast("Vui lòng nhập tên sách", 'warning'); 
+                showToast("Vui lÃ²ng nháº­p tÃªn sÃ¡ch", 'warning'); 
                 return false; 
             }
             return true;
@@ -584,12 +584,12 @@ export default function BooksPage() {
         // EXISTING BOOK MODE
         if (inputMode === 'existing') {
             if (!selectedBookLabel) {
-                showToast("Vui lòng chọn sách cần nhập thêm", 'warning');
+                showToast("Vui lÃ²ng chá»n sÃ¡ch cáº§n nháº­p thÃªm", 'warning');
                 return false;
             }
             const existingBookId = bookLabelToIdMap.get(selectedBookLabel);
             if (!existingBookId) {
-                 showToast("Sách đã chọn không hợp lệ", 'error');
+                 showToast("SÃ¡ch Ä‘Ã£ chá»n khÃ´ng há»£p lá»‡", 'error');
                  return false;
             }
             return true;
@@ -597,29 +597,29 @@ export default function BooksPage() {
 
         // NEW BOOK MODE
         if (!formBookName.trim()) {
-            showToast("Vui lòng nhập tên sách", 'warning');
+            showToast("Vui lÃ²ng nháº­p tÃªn sÃ¡ch", 'warning');
             return false;
         }
         if (!formPrice || formPrice <= 0) {
-            showToast("Vui lòng nhập trị giá sách", 'warning');
+            showToast("Vui lÃ²ng nháº­p trá»‹ giÃ¡ sÃ¡ch", 'warning');
             return false;
         }
         if (!formPublishYear) {
-            showToast("Vui lòng nhập năm xuất bản", 'warning');
+            showToast("Vui lÃ²ng nháº­p nÄƒm xuáº¥t báº£n", 'warning');
             return false;
         }
 
         const publishYear = parseInt(formPublishYear);
         if (publishYear < minPublishYear || publishYear > currentYear) {
-            showToast(`Năm xuất bản phải từ ${minPublishYear} đến ${currentYear} (QĐ2)`, 'error');
+            showToast(`NÄƒm xuáº¥t báº£n pháº£i tá»« ${minPublishYear} Ä‘áº¿n ${currentYear} (QÄ2)`, 'error');
             return false;
         }
         if (!formCategory.trim()) {
-            showToast("Vui lòng chọn thể loại", 'warning');
+            showToast("Vui lÃ²ng chá»n thá»ƒ loáº¡i", 'warning');
             return false;
         }
         if (!formDateReceived) {
-            showToast("Vui lòng chọn ngày nhập sách", 'warning');
+            showToast("Vui lÃ²ng chá»n ngÃ y nháº­p sÃ¡ch", 'warning');
             return false;
         }
         
@@ -627,71 +627,71 @@ export default function BooksPage() {
         return true;
     };
 
-    // Hàm xử lý khi bấm nút Lưu (Trigger Validation & Dialog)
+    // HÃ m xá»­ lÃ½ khi báº¥m nÃºt LÆ°u (Trigger Validation & Dialog)
     const handlePreSave = async () => {
         if (!validateForm()) {
             return;
         }
 
-        // Kiểm tra trùng lặp CHỈ khi TẠO MỚI (inputMode === 'new' và không editingBookId)
+        // Kiá»ƒm tra trÃ¹ng láº·p CHá»ˆ khi Táº O Má»šI (inputMode === 'new' vÃ  khÃ´ng editingBookId)
         if (inputMode === 'new' && !editingBookId) {
             try {
                 const token = Cookies.get('access_token');
                 const headers = { 'Authorization': `Bearer ${token}` };
                 const baseUrl = 'http://localhost:4000/api';
 
-                // Cần tạo title trước để kiểm tra
+                // Cáº§n táº¡o title trÆ°á»›c Ä‘á»ƒ kiá»ƒm tra
                 const categoryId = categoryNameToIdMap.get(formCategory);
                 if (!categoryId) {
-                    showToast('Không tìm thấy ID thể loại. Vui lòng chọn lại.', 'error');
+                    showToast('KhÃ´ng tÃ¬m tháº¥y ID thá»ƒ loáº¡i. Vui lÃ²ng chá»n láº¡i.', 'error');
                     return;
                 }
 
                 const publishYear = parseInt(formPublishYear);
 
-                // Kiểm tra xem có TitleBook với tên này chưa
+                // Kiá»ƒm tra xem cÃ³ TitleBook vá»›i tÃªn nÃ y chÆ°a
                 const allTitlesRes = await fetch(`${baseUrl}/title-books`, { headers });
                 if (allTitlesRes.ok) {
                     const allTitles = await allTitlesRes.json();
-                    const existingTitle = allTitles.find((t: any) => t.title === formBookName);
+                    const existingTitle = allTitles.find((t: unknown) => t.title === formBookName);
                     
                     if (existingTitle) {
                         const titleId = existingTitle._id;
                         
-                        // Kiểm tra xem đã có Book với cùng titleId, publishYear, publisher chưa
+                        // Kiá»ƒm tra xem Ä‘Ã£ cÃ³ Book vá»›i cÃ¹ng titleId, publishYear, publisher chÆ°a
                         const allBooksRes = await fetch(`${baseUrl}/books`, { headers });
                         if (allBooksRes.ok) {
                             const allBooks = await allBooksRes.json();
-                            const duplicateBook = allBooks.find((book: any) => {
+                            const duplicateBook = allBooks.find((book: unknown) => {
                                 const bookTitleId = typeof book.titleId === 'object' ? book.titleId._id : book.titleId;
                                 return (
                                     bookTitleId === titleId &&
                                     book.publishYear === publishYear &&
-                                    book.publisher === (formPublisher || 'Không xác định')
+                                    book.publisher === (formPublisher || 'KhÃ´ng xÃ¡c Ä‘á»‹nh')
                                 );
                             });
 
                             if (duplicateBook) {
                                 showToast(
-                                    'Sách này đã tồn tại với cùng thông tin (tên, tác giả, thể loại, năm xuất bản, nhà xuất bản). Vui lòng sử dụng chức năng "Nhập thêm bản sao" để tăng số lượng.',
+                                    'SÃ¡ch nÃ y Ä‘Ã£ tá»“n táº¡i vá»›i cÃ¹ng thÃ´ng tin (tÃªn, tÃ¡c giáº£, thá»ƒ loáº¡i, nÄƒm xuáº¥t báº£n, nhÃ  xuáº¥t báº£n). Vui lÃ²ng sá»­ dá»¥ng chá»©c nÄƒng "Nháº­p thÃªm báº£n sao" Ä‘á»ƒ tÄƒng sá»‘ lÆ°á»£ng.',
                                     'warning'
                                 );
-                                return; // Chặn luôn, KHÔNG mở dialog confirm
+                                return; // Cháº·n luÃ´n, KHÃ”NG má»Ÿ dialog confirm
                             }
                         }
                     }
                 }
             } catch (error) {
                 console.error('Error checking duplicates:', error);
-                // Nếu lỗi khi kiểm tra, vẫn cho phép tiếp tục (backend sẽ kiểm tra lại)
+                // Náº¿u lá»—i khi kiá»ƒm tra, váº«n cho phÃ©p tiáº¿p tá»¥c (backend sáº½ kiá»ƒm tra láº¡i)
             }
         }
 
-        // Nếu pass hết validation và không trùng, mở dialog confirm
+        // Náº¿u pass háº¿t validation vÃ  khÃ´ng trÃ¹ng, má»Ÿ dialog confirm
         setIsConfirmDialogOpen(true);
     };
 
-    // Hàm thực thi lưu (Sau khi confirm)
+    // HÃ m thá»±c thi lÆ°u (Sau khi confirm)
     const handleConfirmSave = async () => {
         setIsConfirmDialogOpen(false);
         
@@ -699,7 +699,7 @@ export default function BooksPage() {
         const headers = { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' };
         const baseUrl = 'http://localhost:4000/api';
 
-        // === LOGIC CẬP NHẬT (EDIT) ===
+        // === LOGIC Cáº¬P NHáº¬T (EDIT) ===
         if (editingBookId && editingBookData) {
             setIsSaving(true);
             try {
@@ -746,19 +746,19 @@ export default function BooksPage() {
                     });
                 }
                 
-                showToast("Cập nhật thông tin sách thành công!", "success");
+                showToast("Cáº­p nháº­t thÃ´ng tin sÃ¡ch thÃ nh cÃ´ng!", "success");
                 window.location.reload();
 
             } catch (error) {
                 console.error(error);
-                showToast("Lỗi khi cập nhật", "error");
+                showToast("Lá»—i khi cáº­p nháº­t", "error");
             } finally {
                 setIsSaving(false);
             }
             return;
         }
         
-        // === LOGIC CHO CHẾ ĐỘ "SÁCH CÓ SẴN" ===
+        // === LOGIC CHO CHáº¾ Äá»˜ "SÃCH CÃ“ Sáº´N" ===
         if (inputMode === 'existing') {
             const existingBookId = bookLabelToIdMap.get(selectedBookLabel);
             // Re-check id validity though checked in validateForm
@@ -770,7 +770,7 @@ export default function BooksPage() {
                 const headers = { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' };
                 const baseUrl = 'http://localhost:4000/api';
 
-                console.log(`[Existing Mode] Thêm ${formQuantity} bản sao cho Book ID: ${existingBookId}`);
+                console.log(`[Existing Mode] ThÃªm ${formQuantity} báº£n sao cho Book ID: ${existingBookId}`);
                 
                 const copyPromises = [];
                 for (let i = 0; i < formQuantity; i++) {
@@ -787,7 +787,7 @@ export default function BooksPage() {
                 }
                 
                 await Promise.all(copyPromises);
-                showToast(`Đã thêm ${formQuantity} bản sao thành công!`, 'success');
+                showToast(`ÄÃ£ thÃªm ${formQuantity} báº£n sao thÃ nh cÃ´ng!`, 'success');
                 
                 // Reset & Reload
                 setSelectedBookLabel("");
@@ -797,14 +797,14 @@ export default function BooksPage() {
 
             } catch (error) {
                 console.error(error);
-                showToast("Lỗi khi thêm bản sao", 'error');
+                showToast("Lá»—i khi thÃªm báº£n sao", 'error');
             } finally {
                 setIsSaving(false);
             }
             return;
         }
 
-        // === LOGIC CHO CHẾ ĐỘ "SÁCH MỚI" (Code cũ) ===
+        // === LOGIC CHO CHáº¾ Äá»˜ "SÃCH Má»šI" (Code cÅ©) ===
         const publishYear = parseInt(formPublishYear);
 
         setIsSaving(true);
@@ -816,20 +816,20 @@ export default function BooksPage() {
                 'Content-Type': 'application/json',
             };
 
-            // Convert categoryName → categoryId
+            // Convert categoryName â†’ categoryId
             const categoryId = categoryNameToIdMap.get(formCategory);
             if (!categoryId) {
-                throw new Error('Không tìm thấy ID thể loại. Vui lòng chọn lại.');
+                throw new Error('KhÃ´ng tÃ¬m tháº¥y ID thá»ƒ loáº¡i. Vui lÃ²ng chá»n láº¡i.');
             }
 
-            // 1. Xử lý Author trước (kiểm tra hoặc tạo mới)
+            // 1. Xá»­ lÃ½ Author trÆ°á»›c (kiá»ƒm tra hoáº·c táº¡o má»›i)
             let authorId: string | undefined;
             if (formAuthor.trim()) {
                 authorId = authorNameToIdMap.get(formAuthor);
                 
-                // Nếu tác giả chưa tồn tại, tạo mới
+                // Náº¿u tÃ¡c giáº£ chÆ°a tá»“n táº¡i, táº¡o má»›i
                 if (!authorId) {
-                    console.log('Tạo tác giả mới:', formAuthor);
+                    console.log('Táº¡o tÃ¡c giáº£ má»›i:', formAuthor);
                     const newAuthorRes = await fetch(`${baseUrl}/authors`, {
                         method: 'POST',
                         headers,
@@ -841,20 +841,20 @@ export default function BooksPage() {
                     if (newAuthorRes.ok) {
                         const newAuthorData = await newAuthorRes.json();
                         authorId = newAuthorData._id || newAuthorData.id;
-                        console.log('✓ Tạo tác giả thành công, ID:', authorId);
+                        console.log('âœ“ Táº¡o tÃ¡c giáº£ thÃ nh cÃ´ng, ID:', authorId);
                     } else {
                         const errorData = await newAuthorRes.json().catch(() => ({}));
-                        console.error('✗ Lỗi tạo tác giả:', errorData);
-                        throw new Error('Không thể tạo tác giả');
+                        console.error('âœ— Lá»—i táº¡o tÃ¡c giáº£:', errorData);
+                        throw new Error('KhÃ´ng thá»ƒ táº¡o tÃ¡c giáº£');
                     }
                 } else {
-                    console.log('✓ Sử dụng tác giả có sẵn, ID:', authorId);
+                    console.log('âœ“ Sá»­ dá»¥ng tÃ¡c giáº£ cÃ³ sáºµn, ID:', authorId);
                 }
             }
 
-            // 2. Tạo Title Book
+            // 2. Táº¡o Title Book
             let titleBookId: string;
-            console.log('Tạo Title Book:', formBookName);
+            console.log('Táº¡o Title Book:', formBookName);
             
             const titleRes = await fetch(`${baseUrl}/title-books`, {
                 method: 'POST',
@@ -868,16 +868,16 @@ export default function BooksPage() {
             if (!titleRes.ok) {
                 const errorData = await titleRes.json().catch(() => ({}));
                 console.error('Title creation response:', errorData);
-                throw new Error(`Không thể tạo tên sách: ${titleRes.status}`);
+                throw new Error(`KhÃ´ng thá»ƒ táº¡o tÃªn sÃ¡ch: ${titleRes.status}`);
             }
 
             const titleData = await titleRes.json();
             titleBookId = titleData._id || titleData.id;
-            console.log('✓ Tạo Title Book thành công, ID:', titleBookId);
+            console.log('âœ“ Táº¡o Title Book thÃ nh cÃ´ng, ID:', titleBookId);
 
-            // 3. Tạo Title-Author (liên kết tác giả với sách)
+            // 3. Táº¡o Title-Author (liÃªn káº¿t tÃ¡c giáº£ vá»›i sÃ¡ch)
             if (authorId) {
-                console.log('Tạo liên kết Title-Author:', { titleId: titleBookId, authorId });
+                console.log('Táº¡o liÃªn káº¿t Title-Author:', { titleId: titleBookId, authorId });
                 const titleAuthorRes = await fetch(`${baseUrl}/title-authors`, {
                     method: 'POST',
                     headers,
@@ -889,23 +889,23 @@ export default function BooksPage() {
 
                 if (!titleAuthorRes.ok) {
                     const errorData = await titleAuthorRes.json().catch(() => ({}));
-                    console.error('✗ Lỗi tạo liên kết tác giả:', errorData);
-                    throw new Error('Không thể liên kết tác giả với sách');
+                    console.error('âœ— Lá»—i táº¡o liÃªn káº¿t tÃ¡c giáº£:', errorData);
+                    throw new Error('KhÃ´ng thá»ƒ liÃªn káº¿t tÃ¡c giáº£ vá»›i sÃ¡ch');
                 } else {
                     const linkData = await titleAuthorRes.json();
-                    console.log('✓ Liên kết tác giả thành công:', linkData);
+                    console.log('âœ“ LiÃªn káº¿t tÃ¡c giáº£ thÃ nh cÃ´ng:', linkData);
                 }
             }
 
-            // 4. Tạo Book (Edition)
-            console.log('Tạo Book (Edition)');
+            // 4. Táº¡o Book (Edition)
+            console.log('Táº¡o Book (Edition)');
             const bookRes = await fetch(`${baseUrl}/books`, {
                 method: 'POST',
                 headers,
                 body: JSON.stringify({
                     titleId: titleBookId,
                     publishYear,
-                    publisher: formPublisher || 'Không xác định',
+                    publisher: formPublisher || 'KhÃ´ng xÃ¡c Ä‘á»‹nh',
                     importDate: formDateReceived,
                     price: formPrice,
                 })
@@ -914,14 +914,14 @@ export default function BooksPage() {
             if (!bookRes.ok) {
                 const errorData = await bookRes.json().catch(() => ({}));
                 console.error('Book creation response:', errorData);
-                throw new Error(`Không thể tạo bản sách: ${bookRes.status}`);
+                throw new Error(`KhÃ´ng thá»ƒ táº¡o báº£n sÃ¡ch: ${bookRes.status}`);
             }
 
             const bookData = await bookRes.json();
             const bookId = bookData._id || bookData.id;
 
-            // 5. Tạo Book Copy (theo số lượng)
-            console.log(`Tạo ${formQuantity} bản sao sách...`);
+            // 5. Táº¡o Book Copy (theo sá»‘ lÆ°á»£ng)
+            console.log(`Táº¡o ${formQuantity} báº£n sao sÃ¡ch...`);
             const copyPromises = [];
             for (let i = 0; i < formQuantity; i++) {
                 copyPromises.push(
@@ -935,7 +935,7 @@ export default function BooksPage() {
                     }).then(async (res) => {
                          if (!res.ok) {
                              const err = await res.json().catch(() => ({}));
-                             throw new Error(`Lỗi tạo bản sao ${i+1}: ${err.message || res.status}`);
+                             throw new Error(`Lá»—i táº¡o báº£n sao ${i+1}: ${err.message || res.status}`);
                          }
                          return res.json();
                     })
@@ -943,8 +943,8 @@ export default function BooksPage() {
             }
 
             await Promise.all(copyPromises);
-            console.log(`✓ Tạo ${formQuantity} Book Copy thành công`);
-            showToast('Lưu sách thành công!', 'success');
+            console.log(`âœ“ Táº¡o ${formQuantity} Book Copy thÃ nh cÃ´ng`);
+            showToast('LÆ°u sÃ¡ch thÃ nh cÃ´ng!', 'success');
 
             // Reset form
             setFormBookName("");
@@ -967,7 +967,7 @@ export default function BooksPage() {
 
         } catch (error) {
             console.error('Error saving book:', error);
-            showToast(`Lỗi: ${error instanceof Error ? error.message : 'Không thể lưu sách'}`, 'error');
+            showToast(`Lá»—i: ${error instanceof Error ? error.message : 'KhÃ´ng thá»ƒ lÆ°u sÃ¡ch'}`, 'error');
         } finally {
             setIsSaving(false);
         }
@@ -996,30 +996,30 @@ export default function BooksPage() {
             const token = Cookies.get('access_token');
             const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
             
-            // Kiểm tra điều kiện xóa
+            // Kiá»ƒm tra Ä‘iá»u kiá»‡n xÃ³a
             const checkRes = await fetch(`${baseUrl}/title-books/${book.id}/check-delete`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             
             if (!checkRes.ok) {
-                showToast('Không thể kiểm tra điều kiện xóa', 'error');
+                showToast('KhÃ´ng thá»ƒ kiá»ƒm tra Ä‘iá»u kiá»‡n xÃ³a', 'error');
                 return;
             }
             
             const checkData = await checkRes.json();
             
-            // Nếu có sách đang mượn, không cho xóa
+            // Náº¿u cÃ³ sÃ¡ch Ä‘ang mÆ°á»£n, khÃ´ng cho xÃ³a
             if (!checkData.canDelete) {
-                showToast(`Không thể xóa: Còn ${checkData.borrowedCount} cuốn sách đang được mượn. Vui lòng đợi trả hết sách trước khi xóa.`, 'error');
+                showToast(`KhÃ´ng thá»ƒ xÃ³a: CÃ²n ${checkData.borrowedCount} cuá»‘n sÃ¡ch Ä‘ang Ä‘Æ°á»£c mÆ°á»£n. Vui lÃ²ng Ä‘á»£i tráº£ háº¿t sÃ¡ch trÆ°á»›c khi xÃ³a.`, 'error');
                 return;
             }
             
-            // Cho phép xóa - luôn xóa mềm
+            // Cho phÃ©p xÃ³a - luÃ´n xÃ³a má»m
             setDeletingBookId(book.id);
             setIsDeleteDialogOpen(true);
         } catch (error) {
             console.error('Error checking delete conditions:', error);
-            showToast('Lỗi khi kiểm tra điều kiện xóa', 'error');
+            showToast('Lá»—i khi kiá»ƒm tra Ä‘iá»u kiá»‡n xÃ³a', 'error');
         }
     };
 
@@ -1036,10 +1036,10 @@ export default function BooksPage() {
             });
             
             if (!res.ok) {
-                throw new Error('Không thể xóa sách');
+                throw new Error('KhÃ´ng thá»ƒ xÃ³a sÃ¡ch');
             }
             
-            showToast('Đã xóa sách thành công', 'success');
+            showToast('ÄÃ£ xÃ³a sÃ¡ch thÃ nh cÃ´ng', 'success');
             setIsDeleteDialogOpen(false);
             setDeletingBookId(null);
             
@@ -1047,7 +1047,7 @@ export default function BooksPage() {
             window.location.reload();
         } catch (error) {
             console.error('Error deleting book:', error);
-            showToast('Lỗi khi xóa sách', 'error');
+            showToast('Lá»—i khi xÃ³a sÃ¡ch', 'error');
         }
     };
 
@@ -1056,57 +1056,57 @@ export default function BooksPage() {
             {/* --- HEADER --- */}
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div>
-                    <h1 className="text-2xl font-bold text-slate-800 tracking-tight">Quản lý Sách</h1>
-                    <p className="text-sm text-slate-500">Tiếp nhận sách mới (BM2) và tra cứu thông tin (BM3).</p>
+                    <h1 className="text-2xl font-bold text-slate-800 tracking-tight">Quáº£n lÃ½ SÃ¡ch</h1>
+                    <p className="text-sm text-slate-500">Tiáº¿p nháº­n sÃ¡ch má»›i (BM2) vÃ  tra cá»©u thÃ´ng tin (BM3).</p>
                 </div>
                 <div className="flex gap-2">
                     <ExcelImporter 
-                        buttonLabel="Nhập Excel" 
+                        buttonLabel="Nháº­p Excel" 
                         onImport={handleBulkImport}
                         templateHeaders={['Title', 'Author', 'Category', 'Price', 'Quantity']}
                     />
                     <Button onClick={() => setIsDialogOpen(true)} className="bg-blue-600 hover:bg-blue-700 shadow-sm">
-                        <Plus className="w-4 h-4 mr-2" /> Tiếp nhận sách
+                        <Plus className="w-4 h-4 mr-2" /> Tiáº¿p nháº­n sÃ¡ch
                     </Button>
                 </div>
             </div>
 
-            {/* --- BỘ LỌC TRA CỨU (BM3) --- */}
+            {/* --- Bá»˜ Lá»ŒC TRA Cá»¨U (BM3) --- */}
             <Card className="shadow-sm border-slate-200">
                 <CardContent className="p-4">
                     <div className="space-y-3">
                         {/* Row 1: Search Filters */}
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                            {/* Tên sách */}
+                            {/* TÃªn sÃ¡ch */}
                             <div className="space-y-1">
-                                <label className="text-xs font-medium text-slate-600">Tên sách</label>
+                                <label className="text-xs font-medium text-slate-600">TÃªn sÃ¡ch</label>
                                 <SearchableInput
                                     options={suggestedTitles}
                                     value={filterTitle}
                                     onChange={setFilterTitle}
-                                    placeholder="Nhập tên sách..."
+                                    placeholder="Nháº­p tÃªn sÃ¡ch..."
                                 />
                             </div>
                             
-                            {/* Tác giả */}
+                            {/* TÃ¡c giáº£ */}
                             <div className="space-y-1">
-                                <label className="text-xs font-medium text-slate-600">Tác giả</label>
+                                <label className="text-xs font-medium text-slate-600">TÃ¡c giáº£</label>
                                 <SearchableInput
                                     options={suggestedAuthors}
                                     value={filterAuthor}
                                     onChange={setFilterAuthor}
-                                    placeholder="Nhập tên tác giả..."
+                                    placeholder="Nháº­p tÃªn tÃ¡c giáº£..."
                                 />
                             </div>
                             
-                            {/* Nhà xuất bản */}
+                            {/* NhÃ  xuáº¥t báº£n */}
                             <div className="space-y-1">
-                                <label className="text-xs font-medium text-slate-600">Nhà xuất bản</label>
+                                <label className="text-xs font-medium text-slate-600">NhÃ  xuáº¥t báº£n</label>
                                 <SearchableInput
                                     options={suggestedPublishers}
                                     value={filterPublisher}
                                     onChange={setFilterPublisher}
-                                    placeholder="Nhập nhà xuất bản..."
+                                    placeholder="Nháº­p nhÃ  xuáº¥t báº£n..."
                                 />
                             </div>
                         </div>
@@ -1114,13 +1114,13 @@ export default function BooksPage() {
                         {/* Row 2: Category + Clear Button */}
                         <div className="flex items-center gap-3">
                             <div className="flex-1 flex items-center gap-2">
-                                <label className="text-xs font-medium text-slate-600 whitespace-nowrap">Thể loại:</label>
+                                <label className="text-xs font-medium text-slate-600 whitespace-nowrap">Thá»ƒ loáº¡i:</label>
                                 <Select value={filterCategory} onValueChange={setFilterCategory}>
                                     <SelectTrigger className="w-[200px]">
-                                        <SelectValue placeholder="Thể loại" />
+                                        <SelectValue placeholder="Thá»ƒ loáº¡i" />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="all">Tất cả thể loại</SelectItem>
+                                        <SelectItem value="all">Táº¥t cáº£ thá»ƒ loáº¡i</SelectItem>
                                         {suggestedCategories.map((cat, idx) => (
                                             <SelectItem key={idx} value={cat}>{cat}</SelectItem>
                                         ))}
@@ -1134,33 +1134,33 @@ export default function BooksPage() {
                                 onClick={clearFilters}
                                 className="text-slate-600"
                             >
-                                <X className="w-4 h-4 mr-1" /> Xóa bộ lọc
+                                <X className="w-4 h-4 mr-1" /> XÃ³a bá»™ lá»c
                             </Button>
                         </div>
                     </div>
                 </CardContent>
             </Card>
 
-            {/* --- DANH SÁCH SÁCH (BM3) --- */}
+            {/* --- DANH SÃCH SÃCH (BM3) --- */}
             <Card className="shadow-sm border-slate-200">
                 <CardHeader className="px-6 py-4 border-b border-slate-100 flex flex-row items-center justify-between">
-                    <CardTitle className="text-base font-semibold text-slate-800">Kho sách hiện có</CardTitle>
-                    <div className="text-xs text-slate-500 bg-slate-100 px-2 py-1 rounded">Tổng: {filteredBooks.length} cuốn</div>
+                    <CardTitle className="text-base font-semibold text-slate-800">Kho sÃ¡ch hiá»‡n cÃ³</CardTitle>
+                    <div className="text-xs text-slate-500 bg-slate-100 px-2 py-1 rounded">Tá»•ng: {filteredBooks.length} cuá»‘n</div>
                 </CardHeader>
                 <div className="overflow-x-auto">
                     <Table>
                         <TableHeader className="bg-slate-50">
                             <TableRow>
-                                    <TableHead>Tiêu đề</TableHead>
-                                    <TableHead>Thể loại</TableHead>
-                                    <TableHead>Tác giả</TableHead>
-                                    <TableHead>Năm XB</TableHead>
+                                    <TableHead>TiÃªu Ä‘á»</TableHead>
+                                    <TableHead>Thá»ƒ loáº¡i</TableHead>
+                                    <TableHead>TÃ¡c giáº£</TableHead>
+                                    <TableHead>NÄƒm XB</TableHead>
                                     <TableHead className="truncate max-w-[120px]">NXB</TableHead>
-                                    <TableHead className="text-center">Tổng số</TableHead>
-                                    <TableHead className="text-center">Còn trống</TableHead>
-                                    <TableHead className="text-center">Đang mượn</TableHead>
-                                    <TableHead className="text-center">Đã mất</TableHead>
-                                    <TableHead className="text-right">Thao tác</TableHead>
+                                    <TableHead className="text-center">Tá»•ng sá»‘</TableHead>
+                                    <TableHead className="text-center">CÃ²n trá»‘ng</TableHead>
+                                    <TableHead className="text-center">Äang mÆ°á»£n</TableHead>
+                                    <TableHead className="text-center">ÄÃ£ máº¥t</TableHead>
+                                    <TableHead className="text-right">Thao tÃ¡c</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
@@ -1207,15 +1207,15 @@ export default function BooksPage() {
                                                 </Button>
                                             </DropdownMenuTrigger>
                                             <DropdownMenuContent align="end">
-                                                <DropdownMenuLabel>Tác vụ</DropdownMenuLabel>
+                                                <DropdownMenuLabel>TÃ¡c vá»¥</DropdownMenuLabel>
                                                 <DropdownMenuItem onClick={() => handleEdit(book)}>
-                                                    <Edit className="mr-2 h-4 w-4" /> Sửa thông tin
+                                                    <Edit className="mr-2 h-4 w-4" /> Sá»­a thÃ´ng tin
                                                 </DropdownMenuItem>
                                                 <DropdownMenuItem 
                                                     onClick={() => handleDelete(book)}
                                                     className="text-red-600 focus:text-red-600"
                                                 >
-                                                    <Trash2 className="mr-2 h-4 w-4" /> Xóa sách
+                                                    <Trash2 className="mr-2 h-4 w-4" /> XÃ³a sÃ¡ch
                                                 </DropdownMenuItem>
                                             </DropdownMenuContent>
                                         </DropdownMenu>
@@ -1231,9 +1231,9 @@ export default function BooksPage() {
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                 <DialogContent className="sm:max-w-[700px]">
                     <DialogHeader>
-                        <DialogTitle>{editingBookId ? "Cập nhật Thông tin Sách" : "Tiếp nhận sách mới (BM2)"}</DialogTitle>
+                        <DialogTitle>{editingBookId ? "Cáº­p nháº­t ThÃ´ng tin SÃ¡ch" : "Tiáº¿p nháº­n sÃ¡ch má»›i (BM2)"}</DialogTitle>
                         <DialogDescription>
-                            {editingBookId ? "Chỉnh sửa thông tin chi tiết." : "Nhập thông tin chi tiết của sách. Lưu ý quy định về năm xuất bản."}
+                            {editingBookId ? "Chá»‰nh sá»­a thÃ´ng tin chi tiáº¿t." : "Nháº­p thÃ´ng tin chi tiáº¿t cá»§a sÃ¡ch. LÆ°u Ã½ quy Ä‘á»‹nh vá» nÄƒm xuáº¥t báº£n."}
                         </DialogDescription>
                     </DialogHeader>
 
@@ -1245,36 +1245,36 @@ export default function BooksPage() {
                                 className={`flex-1 py-1.5 text-sm font-medium rounded-md transition-all ${inputMode === 'new' ? 'bg-white text-blue-700 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
                                 onClick={() => setInputMode('new')}
                             >
-                                Nhập Đầu Sách Mới
+                                Nháº­p Äáº§u SÃ¡ch Má»›i
                             </button>
                             <button
                                 className={`flex-1 py-1.5 text-sm font-medium rounded-md transition-all ${inputMode === 'existing' ? 'bg-white text-blue-700 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
                                 onClick={() => setInputMode('existing')}
                             >
-                                Nhập Thêm Bản Sao
+                                Nháº­p ThÃªm Báº£n Sao
                             </button>
                         </div>
                         )}
 
-                        {/* --- FORM CHẾ ĐỘ: SÁCH CÓ SẴN --- */}
+                        {/* --- FORM CHáº¾ Äá»˜: SÃCH CÃ“ Sáº´N --- */}
                         {inputMode === 'existing' && (
                             <div className="space-y-4 animate-in fade-in zoom-in duration-300">
                                 <div className="p-3 bg-blue-50 border border-blue-100 rounded text-sm text-blue-700 mb-2">
-                                    <span className="font-semibold">Chế độ này dùng để:</span> Nhập thêm số lượng cho một cuốn sách (ấn bản) đã có sẵn trong kho.
+                                    <span className="font-semibold">Cháº¿ Ä‘á»™ nÃ y dÃ¹ng Ä‘á»ƒ:</span> Nháº­p thÃªm sá»‘ lÆ°á»£ng cho má»™t cuá»‘n sÃ¡ch (áº¥n báº£n) Ä‘Ã£ cÃ³ sáºµn trong kho.
                                 </div>
                                 <div className="space-y-2">
-                                    <Label className="after:content-['*'] after:ml-0.5 after:text-red-500">Chọn sách có sẵn</Label>
+                                    <Label className="after:content-['*'] after:ml-0.5 after:text-red-500">Chá»n sÃ¡ch cÃ³ sáºµn</Label>
                                     <SearchableInput
                                         id="existingBook"
                                         options={selectableBooks}
                                         value={selectedBookLabel}
                                         onChange={setSelectedBookLabel}
-                                        placeholder="Tìm theo Tên sách - NXB - Năm XB..."
+                                        placeholder="TÃ¬m theo TÃªn sÃ¡ch - NXB - NÄƒm XB..."
                                     />
-                                    <p className="text-xs text-slate-500">Gõ tên sách để tìm kiếm nhanh.</p>
+                                    <p className="text-xs text-slate-500">GÃµ tÃªn sÃ¡ch Ä‘á»ƒ tÃ¬m kiáº¿m nhanh.</p>
                                 </div>
                                 <div className="space-y-2">
-                                    <Label htmlFor="quantityExisting" className="after:content-['*'] after:ml-0.5 after:text-red-500">Số lượng nhập thêm</Label>
+                                    <Label htmlFor="quantityExisting" className="after:content-['*'] after:ml-0.5 after:text-red-500">Sá»‘ lÆ°á»£ng nháº­p thÃªm</Label>
                                     <Input
                                         id="quantityExisting"
                                         type="number"
@@ -1288,48 +1288,48 @@ export default function BooksPage() {
                             </div>
                         )}
 
-                        {/* --- FORM CHẾ ĐỘ: SÁCH MỚI (Form cũ) --- */}
+                        {/* --- FORM CHáº¾ Äá»˜: SÃCH Má»šI (Form cÅ©) --- */}
                         {inputMode === 'new' && (
                             <div className="space-y-4 animate-in fade-in zoom-in duration-300">
-                        {/* Hàng 1: Tên sách + Thể loại */}
+                        {/* HÃ ng 1: TÃªn sÃ¡ch + Thá»ƒ loáº¡i */}
                         <div className="grid grid-cols-4 gap-4">
                             <div className="col-span-3 space-y-2">
                                 <Label htmlFor="bookName" className="after:content-['*'] after:ml-0.5 after:text-red-500">
-                                    Tên sách
+                                    TÃªn sÃ¡ch
                                 </Label>
                                 <Input 
                                     id="bookName" 
-                                    placeholder="VD: Nhập môn CNPM"
+                                    placeholder="VD: Nháº­p mÃ´n CNPM"
                                     value={formBookName}
                                     onChange={(e) => setFormBookName(e.target.value)}
                                 />
                             </div>
                             <div className="space-y-2">
-                                <Label htmlFor="category">Thể loại</Label>
+                                <Label htmlFor="category">Thá»ƒ loáº¡i</Label>
                                 <SearchableInput
                                     id="category"
                                     options={suggestedCategories}
                                     value={formCategory}
                                     onChange={setFormCategory}
-                                    placeholder="Chọn/Nhập"
+                                    placeholder="Chá»n/Nháº­p"
                                 />
                             </div>
                         </div>
 
-                        {/* Hàng 2: Tác giả + Năm XB */}
+                        {/* HÃ ng 2: TÃ¡c giáº£ + NÄƒm XB */}
                         <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-2">
-                                <Label htmlFor="author">Tác giả</Label>
+                                <Label htmlFor="author">TÃ¡c giáº£</Label>
                                 <SearchableInput
                                     id="author"
                                     options={suggestedAuthors}
                                     value={formAuthor}
                                     onChange={setFormAuthor}
-                                    placeholder="Nhập hoặc chọn..."
+                                    placeholder="Nháº­p hoáº·c chá»n..."
                                 />
                             </div>
                             <div className="space-y-2">
-                                <Label htmlFor="publishYear">Năm xuất bản</Label>
+                                <Label htmlFor="publishYear">NÄƒm xuáº¥t báº£n</Label>
                                 <Input
                                     id="publishYear"
                                     type="number"
@@ -1341,24 +1341,24 @@ export default function BooksPage() {
                                 />
                                 <div className="flex items-center text-xs text-amber-600 mt-1 bg-amber-50 p-1.5 rounded border border-amber-100">
                                     <AlertCircle className="w-3 h-3 mr-1" />
-                                    QĐ2: Chỉ nhận sách từ năm {minPublishYear} trở lại đây.
+                                    QÄ2: Chá»‰ nháº­n sÃ¡ch tá»« nÄƒm {minPublishYear} trá»Ÿ láº¡i Ä‘Ã¢y.
                                 </div>
                             </div>
                         </div>
 
-                        {/* Hàng 3: NXB + Ngày nhập */}
+                        {/* HÃ ng 3: NXB + NgÃ y nháº­p */}
                         <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-2">
-                                <Label htmlFor="publisher">Nhà xuất bản</Label>
+                                <Label htmlFor="publisher">NhÃ  xuáº¥t báº£n</Label>
                                 <Input 
                                     id="publisher" 
-                                    placeholder="VD: NXB Trẻ"
+                                    placeholder="VD: NXB Tráº»"
                                     value={formPublisher}
                                     onChange={(e) => setFormPublisher(e.target.value)}
                                 />
                             </div>
                             <div className="space-y-2">
-                                <Label htmlFor="dateReceived" className="after:content-['*'] after:ml-0.5 after:text-red-500">Ngày nhập</Label>
+                                <Label htmlFor="dateReceived" className="after:content-['*'] after:ml-0.5 after:text-red-500">NgÃ y nháº­p</Label>
                                 <Input
                                     id="dateReceived"
                                     type="date"
@@ -1368,11 +1368,11 @@ export default function BooksPage() {
                             </div>
                         </div>
 
-                        {/* Hàng 4: Trị giá + Số lượng */}
+                        {/* HÃ ng 4: Trá»‹ giÃ¡ + Sá»‘ lÆ°á»£ng */}
                         <div className="grid grid-cols-2 gap-4">
                             <div className={editingBookId ? "col-span-2 space-y-2" : "space-y-2"}>
                                 <Label htmlFor="price" className="after:content-['*'] after:ml-0.5 after:text-red-500">
-                                    Trị giá
+                                    Trá»‹ giÃ¡
                                 </Label>
 
                                 <CurrencyInput
@@ -1380,13 +1380,13 @@ export default function BooksPage() {
                                     placeholder="0"
                                     value={formPrice}
                                     onChange={setFormPrice}
-                                    max={100000000} // Giới hạn max là 100 triệu
+                                    max={100000000} // Giá»›i háº¡n max lÃ  100 triá»‡u
                                 />
 
-                                {/* Hiển thị Helper text */}
+                                {/* Hiá»ƒn thá»‹ Helper text */}
                                 <div className="flex justify-between items-center mt-1">
                                     <span className="text-[10px] text-slate-400">
-                                        Tối đa: 100.000.000 VNĐ
+                                        Tá»‘i Ä‘a: 100.000.000 VNÄ
                                     </span>
                                     {formPrice > 0 && (
                                         <span className="text-[11px] text-blue-600 font-medium italic">
@@ -1399,7 +1399,7 @@ export default function BooksPage() {
                             {!editingBookId && (
                             <div className="space-y-2">
                                 <Label htmlFor="quantity" className="after:content-['*'] after:ml-0.5 after:text-red-500">
-                                    Số lượng
+                                    Sá»‘ lÆ°á»£ng
                                 </Label>
                                 <Input
                                     id="quantity"
@@ -1418,14 +1418,14 @@ export default function BooksPage() {
 
                     <DialogFooter>
                         <Button variant="outline" onClick={() => setIsDialogOpen(false)}>
-                            Hủy bỏ
+                            Há»§y bá»
                         </Button>
                         <Button 
                             onClick={handlePreSave} 
                             className="bg-blue-600 hover:bg-blue-700"
                             disabled={isSaving}
                         >
-                            {isSaving ? (editingBookId ? 'Đang cập nhật...' : 'Đang lưu...') : (editingBookId ? 'Cập nhật' : 'Lưu thông tin')}
+                            {isSaving ? (editingBookId ? 'Äang cáº­p nháº­t...' : 'Äang lÆ°u...') : (editingBookId ? 'Cáº­p nháº­t' : 'LÆ°u thÃ´ng tin')}
                         </Button>
                     </DialogFooter>
                 </DialogContent>
@@ -1435,17 +1435,17 @@ export default function BooksPage() {
             <Dialog open={isConfirmDialogOpen} onOpenChange={setIsConfirmDialogOpen}>
                 <DialogContent className="sm:max-w-[425px]">
                     <DialogHeader>
-                        <DialogTitle>Xác nhận lưu</DialogTitle>
+                        <DialogTitle>XÃ¡c nháº­n lÆ°u</DialogTitle>
                         <DialogDescription>
-                            Bạn có chắc chắn muốn lưu thông tin này vào hệ thống?
+                            Báº¡n cÃ³ cháº¯c cháº¯n muá»‘n lÆ°u thÃ´ng tin nÃ y vÃ o há»‡ thá»‘ng?
                         </DialogDescription>
                     </DialogHeader>
                     <DialogFooter>
                         <Button variant="outline" onClick={() => setIsConfirmDialogOpen(false)}>
-                            Hủy bỏ
+                            Há»§y bá»
                         </Button>
                         <Button onClick={handleConfirmSave} className="bg-blue-600 hover:bg-blue-700">
-                            Xác nhận
+                            XÃ¡c nháº­n
                         </Button>
                     </DialogFooter>
                 </DialogContent>
@@ -1455,8 +1455,8 @@ export default function BooksPage() {
             <ConfirmDialog
                 isOpen={isDeleteDialogOpen}
                 onOpenChange={setIsDeleteDialogOpen}
-                title="Xác nhận xóa sách"
-                description="Bạn có chắc chắn muốn xóa sách này? Hệ thống sẽ thực hiện xóa."
+                title="XÃ¡c nháº­n xÃ³a sÃ¡ch"
+                description="Báº¡n cÃ³ cháº¯c cháº¯n muá»‘n xÃ³a sÃ¡ch nÃ y? Há»‡ thá»‘ng sáº½ thá»±c hiá»‡n xÃ³a."
                 onConfirm={confirmDelete}
                 variant="destructive"
             />

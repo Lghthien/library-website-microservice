@@ -2,7 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module';
 import helmet from 'helmet';
-const compression = require('compression');
+import compression from 'compression';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -28,6 +28,6 @@ async function bootstrap() {
 
   const port = process.env.PORT ?? 4001;
   await app.listen(port);
-  console.log(`🔐 Auth Service ready at http://localhost:${port}`);
+  console.log(`ðŸ” Auth Service ready at http://localhost:${port}`);
 }
 bootstrap();

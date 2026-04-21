@@ -27,16 +27,16 @@ export class AuthService {
   async publicRegister(registerDto: RegisterDto) {
     const { email, password, fullName, phoneNumber } = registerDto;
 
-    // Kiểm tra email đã tồn tại
+    // Kiá»ƒm tra email Ä‘Ã£ tá»“n táº¡i
     const existingUser = await this.userModel.findOne({ email });
     if (existingUser) {
       throw new BadRequestException('Email already exists');
     }
 
-    // Hash mật khẩu
+    // Hash máº­t kháº©u
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Tạo user mới (Mặc định là LIBRARIAN và status là locked)
+    // Táº¡o user má»›i (Máº·c Ä‘á»‹nh lÃ  LIBRARIAN vÃ  status lÃ  locked)
     const newUser = await this.userModel.create({
       email,
       password: hashedPassword,
@@ -47,7 +47,7 @@ export class AuthService {
       isVerified: false,
     });
 
-    // Gửi email xác thực
+    // Gá»­i email xÃ¡c thá»±c
     await this.mailService.sendVerificationEmail({
       email: newUser.email,
       name: newUser.fullName,
@@ -63,16 +63,16 @@ export class AuthService {
   async register(registerDto: RegisterDto) {
     const { email, password, fullName, phoneNumber, role } = registerDto;
 
-    // Kiểm tra email đã tồn tại
+    // Kiá»ƒm tra email Ä‘Ã£ tá»“n táº¡i
     const existingUser = await this.userModel.findOne({ email });
     if (existingUser) {
       throw new BadRequestException('Email already exists');
     }
 
-    // Hash mật khẩu
+    // Hash máº­t kháº©u
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Tạo user mới
+    // Táº¡o user má»›i
     const newUser = await this.userModel.create({
       email,
       password: hashedPassword,
@@ -91,7 +91,7 @@ export class AuthService {
   async login(loginDto: LoginDto, ipAddress: string) {
     const { email, password } = loginDto;
 
-    // Tìm user
+    // TÃ¬m user
     const user = await this.userModel.findOne({ email });
     if (!user) {
       const failedHistory = new this.loginHistoryModel({
@@ -106,7 +106,7 @@ export class AuthService {
       throw new UnauthorizedException('Invalid email or password');
     }
 
-    // Kiểm tra mật khẩu
+    // Kiá»ƒm tra máº­t kháº©u
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
       const failedHistory = new this.loginHistoryModel({
@@ -120,7 +120,7 @@ export class AuthService {
       throw new UnauthorizedException('Invalid email or password');
     }
 
-    // Kiểm tra trạng thái user
+    // Kiá»ƒm tra tráº¡ng thÃ¡i user
     if (user.status !== 'active') {
       let reason = 'User account is locked';
       if (user.status === 'pending') {
@@ -138,7 +138,7 @@ export class AuthService {
       throw new UnauthorizedException(reason);
     }
 
-    // Ghi lại lịch sử đăng nhập thành công
+    // Ghi láº¡i lá»‹ch sá»­ Ä‘Äƒng nháº­p thÃ nh cÃ´ng
     const successHistory = new this.loginHistoryModel({
       userId: user._id,
       ipAddress,
@@ -147,11 +147,11 @@ export class AuthService {
     });
     await successHistory.save();
 
-    // Cập nhật lastLogin cho user
+    // Cáº­p nháº­t lastLogin cho user
     user.lastLogin = new Date();
     await user.save();
 
-    // Tạo JWT token
+    // Táº¡o JWT token
     const token = this.jwtService.sign({
       sub: user._id,
       email: user.email,
@@ -171,8 +171,8 @@ export class AuthService {
     };
   }
 
-  async logout(userId: string, ipAddress: string) {
-    // Cập nhật logoutTime trong login history
+  async logout(userId: string, _ipAddress: string) {
+    // Cáº­p nháº­t logoutTime trong login history
     await this.loginHistoryModel.updateOne(
       { userId: userId as any, logoutTime: { $exists: false } },
       { logoutTime: new Date() },
@@ -191,7 +191,7 @@ export class AuthService {
       throw new BadRequestException('User not found');
     }
 
-    // Kiểm tra mật khẩu hiện tại
+    // Kiá»ƒm tra máº­t kháº©u hiá»‡n táº¡i
     const isPasswordValid = await bcrypt.compare(
       currentPassword,
       user.password,
@@ -200,10 +200,10 @@ export class AuthService {
       throw new BadRequestException('Current password is incorrect');
     }
 
-    // Hash mật khẩu mới
+    // Hash máº­t kháº©u má»›i
     const hashedPassword = await bcrypt.hash(newPassword, 10);
 
-    // Cập nhật mật khẩu
+    // Cáº­p nháº­t máº­t kháº©u
     await this.userModel.updateOne(
       { _id: userId },
       { password: hashedPassword },
@@ -250,13 +250,13 @@ export class AuthService {
 
     user.isVerified = true;
 
-    // Nếu được tạo bởi Admin -> Active luôn
+    // Náº¿u Ä‘Æ°á»£c táº¡o bá»Ÿi Admin -> Active luÃ´n
     let status = 'pending';
     if (user.createdByAdmin) {
       user.status = 'active';
       status = 'active';
     } else {
-      // Nếu tự đăng ký -> Pending chờ duyệt
+      // Náº¿u tá»± Ä‘Äƒng kÃ½ -> Pending chá» duyá»‡t
       user.status = 'pending';
       status = 'pending';
     }

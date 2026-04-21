@@ -24,36 +24,36 @@ export class BooksService {
   ) {}
 
   async create(createBookDto: CreateBookDto) {
-    // 1. Kiểm tra bắt buộc phải có publishYear
+    // 1. KiÃ¡Â»Æ’m tra bÃ¡ÂºÂ¯t buÃ¡Â»â„¢c phÃ¡ÂºÂ£i cÃƒÂ³ publishYear
     if (!createBookDto.publishYear) {
       throw new BadRequestException(
-        'Năm xuất bản là bắt buộc để kiểm tra Quy định 2',
+        'NÃ„Æ’m xuÃ¡ÂºÂ¥t bÃ¡ÂºÂ£n lÃƒÂ  bÃ¡ÂºÂ¯t buÃ¡Â»â„¢c Ã„â€˜Ã¡Â»Æ’ kiÃ¡Â»Æ’m tra Quy Ã„â€˜Ã¡Â»â€¹nh 2',
       );
     }
 
     const now = new Date();
     const currentYear = now.getFullYear();
 
-    // 2. Lấy tham số (8 năm)
+    // 2. LÃ¡ÂºÂ¥y tham sÃ¡Â»â€˜ (8 nÃ„Æ’m)
     const maxIntervalParam = await this.parameterModel.findOne({
       paramName: 'QD2_PUBLISH_YEAR_DISTANCE',
     });
     const maxInterval = parseInt(maxIntervalParam?.paramValue || '8');
 
-    // 3. Thực hiện kiểm tra QĐ2
+    // 3. ThÃ¡Â»Â±c hiÃ¡Â»â€¡n kiÃ¡Â»Æ’m tra QÃ„Â2
     if (currentYear - createBookDto.publishYear > maxInterval) {
       throw new BadRequestException(
-        `Năm xuất bản không được vượt quá ${maxInterval} năm so với năm hiện tại (${currentYear})`,
+        `NÃ„Æ’m xuÃ¡ÂºÂ¥t bÃ¡ÂºÂ£n khÃƒÂ´ng Ã„â€˜Ã†Â°Ã¡Â»Â£c vÃ†Â°Ã¡Â»Â£t quÃƒÂ¡ ${maxInterval} nÃ„Æ’m so vÃ¡Â»â€ºi nÃ„Æ’m hiÃ¡Â»â€¡n tÃ¡ÂºÂ¡i (${currentYear})`,
       );
     }
 
-    // 4. Lưu sách (Đảm bảo các trường được gán đúng)
+    // 4. LÃ†Â°u sÃƒÂ¡ch (Ã„ÂÃ¡ÂºÂ£m bÃ¡ÂºÂ£o cÃƒÂ¡c trÃ†Â°Ã¡Â»Âng Ã„â€˜Ã†Â°Ã¡Â»Â£c gÃƒÂ¡n Ã„â€˜ÃƒÂºng)
     const createdBook = new this.bookModel({
       titleId: new Types.ObjectId(createBookDto.titleId),
       publisher: createBookDto.publisher,
       publishYear: createBookDto.publishYear,
       price: createBookDto.price,
-      importDate: createBookDto.importDate || now, // Ưu tiên ngày gửi lên hoặc ngày hiện tại
+      importDate: createBookDto.importDate || now, // Ã†Â¯u tiÃƒÂªn ngÃƒÂ y gÃ¡Â»Â­i lÃƒÂªn hoÃ¡ÂºÂ·c ngÃƒÂ y hiÃ¡Â»â€¡n tÃ¡ÂºÂ¡i
     });
 
     const savedBook = await createdBook.save();
@@ -201,12 +201,12 @@ export class BooksService {
   }
 
   async update(id: string, updateBookDto: UpdateBookDto) {
-    // Lấy dữ liệu hiện tại của sách trong DB
+    // LÃ¡ÂºÂ¥y dÃ¡Â»Â¯ liÃ¡Â»â€¡u hiÃ¡Â»â€¡n tÃ¡ÂºÂ¡i cÃ¡Â»Â§a sÃƒÂ¡ch trong DB
     const currentBook = await this.bookModel.findById(id);
-    if (!currentBook) throw new NotFoundException('Không tìm thấy sách');
+    if (!currentBook) throw new NotFoundException('KhÃƒÂ´ng tÃƒÂ¬m thÃ¡ÂºÂ¥y sÃƒÂ¡ch');
 
-    // CHỈ KIỂM TRA QĐ2 NẾU:
-    // Người dùng gửi lên publishYear MỚI và nó KHÁC với publishYear cũ trong DB
+    // CHÃ¡Â»Ë† KIÃ¡Â»â€šM TRA QÃ„Â2 NÃ¡ÂºÂ¾U:
+    // NgÃ†Â°Ã¡Â»Âi dÃƒÂ¹ng gÃ¡Â»Â­i lÃƒÂªn publishYear MÃ¡Â»Å¡I vÃƒÂ  nÃƒÂ³ KHÃƒÂC vÃ¡Â»â€ºi publishYear cÃ…Â© trong DB
     if (
       updateBookDto.publishYear &&
       updateBookDto.publishYear !== currentBook.publishYear
@@ -219,7 +219,7 @@ export class BooksService {
 
       if (currentYear - updateBookDto.publishYear > maxInterval) {
         throw new BadRequestException(
-          `Năm xuất bản mới (${updateBookDto.publishYear}) vi phạm quy định ${maxInterval} năm.`,
+          `NÃ„Æ’m xuÃ¡ÂºÂ¥t bÃ¡ÂºÂ£n mÃ¡Â»â€ºi (${updateBookDto.publishYear}) vi phÃ¡ÂºÂ¡m quy Ã„â€˜Ã¡Â»â€¹nh ${maxInterval} nÃ„Æ’m.`,
         );
       }
     }

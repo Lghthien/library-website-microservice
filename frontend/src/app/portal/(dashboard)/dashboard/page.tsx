@@ -4,12 +4,10 @@ import { useEffect, useMemo, useState } from 'react';
 import Cookies from 'js-cookie';
 import {
     BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
-    LineChart, Line, PieChart, Pie, Cell, Legend
+    PieChart, Pie, Cell, Legend
 } from 'recharts';
 import {
-    Users, BookOpen, AlertCircle, Clock,
-    ArrowUpRight, ArrowDownLeft, TrendingUp, TrendingDown,
-    Receipt, Wallet, CalendarDays, CheckCircle2, MoreHorizontal, Bell
+    Users, BookOpen, ArrowUpRight, Wallet, MoreHorizontal, Bell
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -27,19 +25,19 @@ type DashboardStats = {
 
 type CategoryStat = { categoryName: string; borrowCount: number; uniqueReaders: number };
 
-// Dữ liệu trend được lấy từ API /reports/trend - đếm từ bảng loansdetail để chính xác số lượng sách
+// Dá»¯ liá»‡u trend Ä‘Æ°á»£c láº¥y tá»« API /reports/trend - Ä‘áº¿m tá»« báº£ng loansdetail Ä‘á»ƒ chÃ­nh xÃ¡c sá»‘ lÆ°á»£ng sÃ¡ch
 type TrendStat = { month: string; fullDate: string; loans: number; returns: number; overdue: number };
 
-// Phân bố độ tuổi độc giả
+// PhÃ¢n bá»‘ Ä‘á»™ tuá»•i Ä‘á»™c giáº£
 type ReaderAgeDistribution = { ageGroup: string; count: number };
 
-// Tình trạng nợ theo loại độc giả
+// TÃ¬nh tráº¡ng ná»£ theo loáº¡i Ä‘á»™c giáº£
 type ReaderDebtStatus = { 
     readerType: string; 
-    'Không nợ': number; 
-    'Dưới 50k': number; 
+    'KhÃ´ng ná»£': number; 
+    'DÆ°á»›i 50k': number; 
     '50k-100k': number; 
-    'Trên 100k': number; 
+    'TrÃªn 100k': number; 
 };
 
 type AuditLog = {
@@ -55,7 +53,7 @@ type AuditLog = {
 const chartColors = ['#2563eb', '#10b981', '#f59e0b', '#a855f7', '#ef4444', '#06b6d4', '#8b5cf6'];
 
 // ====================================================================================
-// 1. ADMIN DASHBOARD (Vĩ mô - Phân tích - Xu hướng)
+// 1. ADMIN DASHBOARD (VÄ© mÃ´ - PhÃ¢n tÃ­ch - Xu hÆ°á»›ng)
 // ====================================================================================
 const AdminDashboardView = ({ 
     stats, 
@@ -83,10 +81,10 @@ const AdminDashboardView = ({
 
     const getActionIcon = (action: string) => {
         switch (action) {
-            case 'INSERT': return '➕';
-            case 'UPDATE': return '✏️';
-            case 'DELETE': return '🗑️';
-            default: return '📝';
+            case 'INSERT': return 'âž•';
+            case 'UPDATE': return 'âœï¸';
+            case 'DELETE': return 'ðŸ—‘ï¸';
+            default: return 'ðŸ“';
         }
     };
 
@@ -107,71 +105,71 @@ const AdminDashboardView = ({
         const hours = Math.floor(diff / 3600000);
         const days = Math.floor(diff / 86400000);
 
-        if (minutes < 1) return 'Vừa xong';
-        if (minutes < 60) return `${minutes} phút trước`;
-        if (hours < 24) return `${hours} giờ trước`;
-        if (days < 7) return `${days} ngày trước`;
+        if (minutes < 1) return 'Vá»«a xong';
+        if (minutes < 60) return `${minutes} phÃºt trÆ°á»›c`;
+        if (hours < 24) return `${hours} giá» trÆ°á»›c`;
+        if (days < 7) return `${days} ngÃ y trÆ°á»›c`;
         return date.toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric' });
     };
 
     return (
         <div className="space-y-6 animate-in fade-in duration-500">
 
-            {/* --- KHỐI KPI CAO CẤP --- */}
+            {/* --- KHá»I KPI CAO Cáº¤P --- */}
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                 <Card className="border-l-4 border-l-blue-600 shadow-sm">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium text-muted-foreground">Tổng Độc giả</CardTitle>
+                        <CardTitle className="text-sm font-medium text-muted-foreground">Tá»•ng Äá»™c giáº£</CardTitle>
                         <Users className="h-4 w-4 text-blue-600" />
                     </CardHeader>
                     <CardContent>
                         <div className="text-2xl font-bold">{stats.readers.total.toLocaleString('vi-VN')}</div>
-                        <p className="text-xs text-muted-foreground mt-1">Hoạt động: {stats.readers.active.toLocaleString('vi-VN')} • Hết hạn: {stats.readers.expired.toLocaleString('vi-VN')}</p>
+                        <p className="text-xs text-muted-foreground mt-1">Hoáº¡t Ä‘á»™ng: {stats.readers.active.toLocaleString('vi-VN')} â€¢ Háº¿t háº¡n: {stats.readers.expired.toLocaleString('vi-VN')}</p>
                     </CardContent>
                 </Card>
 
                 <Card className="border-l-4 border-l-purple-600 shadow-sm">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium text-muted-foreground">Tổng Sách</CardTitle>
+                        <CardTitle className="text-sm font-medium text-muted-foreground">Tá»•ng SÃ¡ch</CardTitle>
                         <BookOpen className="h-4 w-4 text-purple-600" />
                     </CardHeader>
                     <CardContent>
                         <div className="text-2xl font-bold">{stats.books.total.toLocaleString('vi-VN')}</div>
-                        <p className="text-xs text-muted-foreground mt-1">Đang có sẵn: {stats.books.available.toLocaleString('vi-VN')} | Đang mượn: {stats.books.borrowed.toLocaleString('vi-VN')}</p>
+                        <p className="text-xs text-muted-foreground mt-1">Äang cÃ³ sáºµn: {stats.books.available.toLocaleString('vi-VN')} | Äang mÆ°á»£n: {stats.books.borrowed.toLocaleString('vi-VN')}</p>
                     </CardContent>
                 </Card>
 
                 <Card className="border-l-4 border-l-orange-500 shadow-sm">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium text-muted-foreground">Sách mượn/trả (tháng gần nhất)</CardTitle>
+                        <CardTitle className="text-sm font-medium text-muted-foreground">SÃ¡ch mÆ°á»£n/tráº£ (thÃ¡ng gáº§n nháº¥t)</CardTitle>
                         <ArrowUpRight className="h-4 w-4 text-orange-600" />
                     </CardHeader>
                     <CardContent>
                         <div className="text-2xl font-bold">{latestMonth ? latestMonth.loans.toLocaleString('vi-VN') : '-'}</div>
-                        <p className="text-xs text-muted-foreground mt-1">Trả: {latestMonth ? latestMonth.returns.toLocaleString('vi-VN') : '-'}</p>
+                        <p className="text-xs text-muted-foreground mt-1">Tráº£: {latestMonth ? latestMonth.returns.toLocaleString('vi-VN') : '-'}</p>
                     </CardContent>
                 </Card>
 
                 <Card className="border-l-4 border-l-emerald-600 shadow-sm">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium text-muted-foreground">Tiền phạt chưa thu</CardTitle>
+                        <CardTitle className="text-sm font-medium text-muted-foreground">Tiá»n pháº¡t chÆ°a thu</CardTitle>
                         <Wallet className="h-4 w-4 text-emerald-600" />
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-bold">{stats.fines.unpaidTotal.toLocaleString('vi-VN')} ₫</div>
-                        <p className="text-[11px] text-muted-foreground mt-1">{stats.fines.unpaidCount} phiếu thu</p>
+                        <div className="text-2xl font-bold">{stats.fines.unpaidTotal.toLocaleString('vi-VN')} â‚«</div>
+                        <p className="text-[11px] text-muted-foreground mt-1">{stats.fines.unpaidCount} phiáº¿u thu</p>
                     </CardContent>
                 </Card>
             </div>
 
-            {/* --- KHỐI BIỂU ĐỒ TRUNG TÂM --- */}
+            {/* --- KHá»I BIá»‚U Äá»’ TRUNG TÃ‚M --- */}
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
 
-                {/* Biểu đồ Cột (Bar Chart) - Thống kê Mượn/Trả */}
+                {/* Biá»ƒu Ä‘á»“ Cá»™t (Bar Chart) - Thá»‘ng kÃª MÆ°á»£n/Tráº£ */}
                 <Card className="col-span-4 shadow-sm">
                     <CardHeader>
-                        <CardTitle>Thống kê Lưu thông</CardTitle>
-                        <CardDescription>Số lượng sách mượn và trả 7 tháng gần nhất.</CardDescription>
+                        <CardTitle>Thá»‘ng kÃª LÆ°u thÃ´ng</CardTitle>
+                        <CardDescription>Sá»‘ lÆ°á»£ng sÃ¡ch mÆ°á»£n vÃ  tráº£ 7 thÃ¡ng gáº§n nháº¥t.</CardDescription>
                     </CardHeader>
                     <CardContent className="pl-2">
                         <ResponsiveContainer width="100%" height={350}>
@@ -181,18 +179,18 @@ const AdminDashboardView = ({
                                 <YAxis fontSize={12} tickLine={false} axisLine={false} tickFormatter={(value) => `${value}`} />
                                 <Tooltip cursor={{ fill: '#f1f5f9' }} contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }} />
                                 <Legend />
-                                <Bar dataKey="loans" name="Sách Mượn" fill="#3b82f6" radius={[4, 4, 0, 0]} />
-                                <Bar dataKey="returns" name="Sách Trả" fill="#10b981" radius={[4, 4, 0, 0]} />
+                                <Bar dataKey="loans" name="SÃ¡ch MÆ°á»£n" fill="#3b82f6" radius={[4, 4, 0, 0]} />
+                                <Bar dataKey="returns" name="SÃ¡ch Tráº£" fill="#10b981" radius={[4, 4, 0, 0]} />
                             </BarChart>
                         </ResponsiveContainer>
                     </CardContent>
                 </Card>
 
-                {/* Biểu đồ Tròn (Pie Chart) - Tỷ lệ Thể loại */}
+                {/* Biá»ƒu Ä‘á»“ TrÃ²n (Pie Chart) - Tá»· lá»‡ Thá»ƒ loáº¡i */}
                 <Card className="col-span-3 shadow-sm">
                     <CardHeader>
-                        <CardTitle>Phân bố Thể loại</CardTitle>
-                        <CardDescription>Tỷ lệ lượt mượn theo danh mục.</CardDescription>
+                        <CardTitle>PhÃ¢n bá»‘ Thá»ƒ loáº¡i</CardTitle>
+                        <CardDescription>Tá»· lá»‡ lÆ°á»£t mÆ°á»£n theo danh má»¥c.</CardDescription>
                     </CardHeader>
                     <CardContent>
                         <ResponsiveContainer width="100%" height={250}>
@@ -214,7 +212,7 @@ const AdminDashboardView = ({
                         </ResponsiveContainer>
 
                         <div className="mt-4 space-y-3">
-                            <h4 className="text-sm font-semibold text-foreground">Danh mục nổi bật</h4>
+                            <h4 className="text-sm font-semibold text-foreground">Danh má»¥c ná»•i báº­t</h4>
                             <div className="space-y-2">
                                 {topCats.map((cat, i) => (
                                     <div key={cat.categoryName} className="flex items-center gap-2 text-sm">
@@ -222,7 +220,7 @@ const AdminDashboardView = ({
                                         <div className="flex-1">
                                             <div className="flex justify-between mb-1">
                                                 <span className="font-medium text-foreground">{cat.categoryName}</span>
-                                                <span className="text-muted-foreground">{cat.borrowCount} lượt</span>
+                                                <span className="text-muted-foreground">{cat.borrowCount} lÆ°á»£t</span>
                                             </div>
                                             <Progress value={cat.borrowCount ? Math.min(100, (cat.borrowCount / (topCats[0]?.borrowCount || 1)) * 100) : 0} className="h-1.5" />
                                         </div>
@@ -234,14 +232,14 @@ const AdminDashboardView = ({
                 </Card>
             </div>
 
-            {/* --- KHỐI PHÂN TÍCH ĐỘC GIẢ --- */}
+            {/* --- KHá»I PHÃ‚N TÃCH Äá»˜C GIáº¢ --- */}
             <div className="grid gap-4 md:grid-cols-2">
 
-                {/* Biểu đồ Histogram - Phân bố Độ tuổi */}
+                {/* Biá»ƒu Ä‘á»“ Histogram - PhÃ¢n bá»‘ Äá»™ tuá»•i */}
                 <Card className="shadow-sm">
                     <CardHeader>
-                        <CardTitle>Phân bố Độ tuổi</CardTitle>
-                        <CardDescription>Nhóm tuổi của độc giả.</CardDescription>
+                        <CardTitle>PhÃ¢n bá»‘ Äá»™ tuá»•i</CardTitle>
+                        <CardDescription>NhÃ³m tuá»•i cá»§a Ä‘á»™c giáº£.</CardDescription>
                     </CardHeader>
                     <CardContent className="pl-2">
                         <ResponsiveContainer width="100%" height={280}>
@@ -250,17 +248,17 @@ const AdminDashboardView = ({
                                 <XAxis type="number" fontSize={12} tickLine={false} axisLine={false} />
                                 <YAxis type="category" dataKey="ageGroup" fontSize={12} tickLine={false} axisLine={false} width={60} />
                                 <Tooltip cursor={{ fill: '#f1f5f9' }} contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }} />
-                                <Bar dataKey="count" name="Số lượng" fill="#8b5cf6" radius={[0, 4, 4, 0]} />
+                                <Bar dataKey="count" name="Sá»‘ lÆ°á»£ng" fill="#8b5cf6" radius={[0, 4, 4, 0]} />
                             </BarChart>
                         </ResponsiveContainer>
                     </CardContent>
                 </Card>
 
-                {/* Biểu đồ Stacked Bar - Tình trạng Nợ */}
+                {/* Biá»ƒu Ä‘á»“ Stacked Bar - TÃ¬nh tráº¡ng Ná»£ */}
                 <Card className="shadow-sm">
                     <CardHeader>
-                        <CardTitle>Tình trạng Nợ</CardTitle>
-                        <CardDescription>Phân bố nợ theo loại độc giả.</CardDescription>
+                        <CardTitle>TÃ¬nh tráº¡ng Ná»£</CardTitle>
+                        <CardDescription>PhÃ¢n bá»‘ ná»£ theo loáº¡i Ä‘á»™c giáº£.</CardDescription>
                     </CardHeader>
                     <CardContent className="pl-2">
                         <ResponsiveContainer width="100%" height={280}>
@@ -270,30 +268,30 @@ const AdminDashboardView = ({
                                 <YAxis fontSize={12} tickLine={false} axisLine={false} />
                                 <Tooltip cursor={{ fill: '#f1f5f9' }} contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }} />
                                 <Legend />
-                                <Bar dataKey="Không nợ" stackId="a" fill="#10b981" radius={[0, 0, 0, 0]} />
-                                <Bar dataKey="Dưới 50k" stackId="a" fill="#f59e0b" radius={[0, 0, 0, 0]} />
+                                <Bar dataKey="KhÃ´ng ná»£" stackId="a" fill="#10b981" radius={[0, 0, 0, 0]} />
+                                <Bar dataKey="DÆ°á»›i 50k" stackId="a" fill="#f59e0b" radius={[0, 0, 0, 0]} />
                                 <Bar dataKey="50k-100k" stackId="a" fill="#ef4444" radius={[0, 0, 0, 0]} />
-                                <Bar dataKey="Trên 100k" stackId="a" fill="#dc2626" radius={[4, 4, 0, 0]} />
+                                <Bar dataKey="TrÃªn 100k" stackId="a" fill="#dc2626" radius={[4, 4, 0, 0]} />
                             </BarChart>
                         </ResponsiveContainer>
                     </CardContent>
                 </Card>
             </div>
 
-            {/* --- DANH SÁCH HOẠT ĐỘNG GẦN ĐÂY --- */}
+            {/* --- DANH SÃCH HOáº T Äá»˜NG Gáº¦N ÄÃ‚Y --- */}
             <Card className="shadow-sm">
                 <CardHeader className="flex flex-row items-center justify-between">
                     <div>
-                        <CardTitle>Nhật ký Hệ thống</CardTitle>
-                        <CardDescription>Hoạt động gần đây trong hệ thống</CardDescription>
+                        <CardTitle>Nháº­t kÃ½ Há»‡ thá»‘ng</CardTitle>
+                        <CardDescription>Hoáº¡t Ä‘á»™ng gáº§n Ä‘Ã¢y trong há»‡ thá»‘ng</CardDescription>
                     </div>
                     <Badge variant="secondary" className="bg-slate-100 text-slate-600">
-                        {auditLogs.length} hoạt động
+                        {auditLogs.length} hoáº¡t Ä‘á»™ng
                     </Badge>
                 </CardHeader>
                 <CardContent>
                     {auditLogs.length === 0 ? (
-                        <p className="text-sm text-muted-foreground text-center py-8">Chưa có hoạt động nào được ghi nhận.</p>
+                        <p className="text-sm text-muted-foreground text-center py-8">ChÆ°a cÃ³ hoáº¡t Ä‘á»™ng nÃ o Ä‘Æ°á»£c ghi nháº­n.</p>
                     ) : (
                         <div className="space-y-3">
                             {auditLogs.map((log) => (
@@ -303,15 +301,15 @@ const AdminDashboardView = ({
                                     </div>
                                     <div className="flex-1 min-w-0">
                                         <p className="text-sm font-medium text-slate-800">
-                                            {log.description || `${log.action} trên ${log.tableName}`}
+                                            {log.description || `${log.action} trÃªn ${log.tableName}`}
                                         </p>
                                         <div className="flex items-center gap-2 mt-1 text-xs text-slate-500">
-                                            <span className="font-medium">{log.userId?.fullName || 'Hệ thống'}</span>
-                                            <span>•</span>
+                                            <span className="font-medium">{log.userId?.fullName || 'Há»‡ thá»‘ng'}</span>
+                                            <span>â€¢</span>
                                             <span>{log.tableName}</span>
                                             {log.recordId && (
                                                 <>
-                                                    <span>•</span>
+                                                    <span>â€¢</span>
                                                     <span className="font-mono">#{log.recordId.slice(-6)}</span>
                                                 </>
                                             )}
@@ -331,7 +329,7 @@ const AdminDashboardView = ({
 };
 
 // ====================================================================================
-// 2. LIBRARIAN DASHBOARD (Giống Admin nhưng không có Nhật ký Hệ thống)
+// 2. LIBRARIAN DASHBOARD (Giá»‘ng Admin nhÆ°ng khÃ´ng cÃ³ Nháº­t kÃ½ Há»‡ thá»‘ng)
 // ====================================================================================
 const LibrarianDashboardView = ({ stats, categories, trend }: { stats: DashboardStats; categories: CategoryStat[]; trend: TrendStat[]; }) => {
     const barData = useMemo(() => trend?.map(t => ({ name: t.month, loans: t.loans, returns: t.returns })) ?? [], [trend]);
@@ -342,61 +340,61 @@ const LibrarianDashboardView = ({ stats, categories, trend }: { stats: Dashboard
     return (
         <div className="space-y-6 animate-in fade-in duration-500">
 
-            {/* --- KHỐI KPI CAO CẤP --- */}
+            {/* --- KHá»I KPI CAO Cáº¤P --- */}
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                 <Card className="border-l-4 border-l-blue-600 shadow-sm">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium text-muted-foreground">Tổng Độc giả</CardTitle>
+                        <CardTitle className="text-sm font-medium text-muted-foreground">Tá»•ng Äá»™c giáº£</CardTitle>
                         <Users className="h-4 w-4 text-blue-600" />
                     </CardHeader>
                     <CardContent>
                         <div className="text-2xl font-bold">{stats.readers.total.toLocaleString('vi-VN')}</div>
-                        <p className="text-xs text-muted-foreground mt-1">Hoạt động: {stats.readers.active.toLocaleString('vi-VN')} • Hết hạn: {stats.readers.expired.toLocaleString('vi-VN')}</p>
+                        <p className="text-xs text-muted-foreground mt-1">Hoáº¡t Ä‘á»™ng: {stats.readers.active.toLocaleString('vi-VN')} â€¢ Háº¿t háº¡n: {stats.readers.expired.toLocaleString('vi-VN')}</p>
                     </CardContent>
                 </Card>
 
                 <Card className="border-l-4 border-l-purple-600 shadow-sm">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium text-muted-foreground">Tổng Sách</CardTitle>
+                        <CardTitle className="text-sm font-medium text-muted-foreground">Tá»•ng SÃ¡ch</CardTitle>
                         <BookOpen className="h-4 w-4 text-purple-600" />
                     </CardHeader>
                     <CardContent>
                         <div className="text-2xl font-bold">{stats.books.total.toLocaleString('vi-VN')}</div>
-                        <p className="text-xs text-muted-foreground mt-1">Đang có sẵn: {stats.books.available.toLocaleString('vi-VN')} | Đang mượn: {stats.books.borrowed.toLocaleString('vi-VN')}</p>
+                        <p className="text-xs text-muted-foreground mt-1">Äang cÃ³ sáºµn: {stats.books.available.toLocaleString('vi-VN')} | Äang mÆ°á»£n: {stats.books.borrowed.toLocaleString('vi-VN')}</p>
                     </CardContent>
                 </Card>
 
                 <Card className="border-l-4 border-l-orange-500 shadow-sm">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium text-muted-foreground">Sách mượn/trả (tháng gần nhất)</CardTitle>
+                        <CardTitle className="text-sm font-medium text-muted-foreground">SÃ¡ch mÆ°á»£n/tráº£ (thÃ¡ng gáº§n nháº¥t)</CardTitle>
                         <ArrowUpRight className="h-4 w-4 text-orange-600" />
                     </CardHeader>
                     <CardContent>
                         <div className="text-2xl font-bold">{latestMonth ? latestMonth.loans.toLocaleString('vi-VN') : '-'}</div>
-                        <p className="text-xs text-muted-foreground mt-1">Trả: {latestMonth ? latestMonth.returns.toLocaleString('vi-VN') : '-'}</p>
+                        <p className="text-xs text-muted-foreground mt-1">Tráº£: {latestMonth ? latestMonth.returns.toLocaleString('vi-VN') : '-'}</p>
                     </CardContent>
                 </Card>
 
                 <Card className="border-l-4 border-l-emerald-600 shadow-sm">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium text-muted-foreground">Tiền phạt chưa thu</CardTitle>
+                        <CardTitle className="text-sm font-medium text-muted-foreground">Tiá»n pháº¡t chÆ°a thu</CardTitle>
                         <Wallet className="h-4 w-4 text-emerald-600" />
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-bold">{stats.fines.unpaidTotal.toLocaleString('vi-VN')} ₫</div>
-                        <p className="text-[11px] text-muted-foreground mt-1">{stats.fines.unpaidCount} phiếu thu</p>
+                        <div className="text-2xl font-bold">{stats.fines.unpaidTotal.toLocaleString('vi-VN')} â‚«</div>
+                        <p className="text-[11px] text-muted-foreground mt-1">{stats.fines.unpaidCount} phiáº¿u thu</p>
                     </CardContent>
                 </Card>
             </div>
 
-            {/* --- KHỐI BIỂU ĐỒ TRUNG TÂM --- */}
+            {/* --- KHá»I BIá»‚U Äá»’ TRUNG TÃ‚M --- */}
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
 
-                {/* Biểu đồ Cột (Bar Chart) - Thống kê Mượn/Trả */}
+                {/* Biá»ƒu Ä‘á»“ Cá»™t (Bar Chart) - Thá»‘ng kÃª MÆ°á»£n/Tráº£ */}
                 <Card className="col-span-4 shadow-sm">
                     <CardHeader>
-                        <CardTitle>Thống kê Lưu thông</CardTitle>
-                        <CardDescription>Số lượng sách mượn và trả 7 tháng gần nhất.</CardDescription>
+                        <CardTitle>Thá»‘ng kÃª LÆ°u thÃ´ng</CardTitle>
+                        <CardDescription>Sá»‘ lÆ°á»£ng sÃ¡ch mÆ°á»£n vÃ  tráº£ 7 thÃ¡ng gáº§n nháº¥t.</CardDescription>
                     </CardHeader>
                     <CardContent className="pl-2">
                         <ResponsiveContainer width="100%" height={350}>
@@ -406,18 +404,18 @@ const LibrarianDashboardView = ({ stats, categories, trend }: { stats: Dashboard
                                 <YAxis fontSize={12} tickLine={false} axisLine={false} tickFormatter={(value) => `${value}`} />
                                 <Tooltip cursor={{ fill: '#f1f5f9' }} contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }} />
                                 <Legend />
-                                <Bar dataKey="loans" name="Sách Mượn" fill="#3b82f6" radius={[4, 4, 0, 0]} />
-                                <Bar dataKey="returns" name="Sách Trả" fill="#10b981" radius={[4, 4, 0, 0]} />
+                                <Bar dataKey="loans" name="SÃ¡ch MÆ°á»£n" fill="#3b82f6" radius={[4, 4, 0, 0]} />
+                                <Bar dataKey="returns" name="SÃ¡ch Tráº£" fill="#10b981" radius={[4, 4, 0, 0]} />
                             </BarChart>
                         </ResponsiveContainer>
                     </CardContent>
                 </Card>
 
-                {/* Biểu đồ Tròn (Pie Chart) - Tỷ lệ Thể loại */}
+                {/* Biá»ƒu Ä‘á»“ TrÃ²n (Pie Chart) - Tá»· lá»‡ Thá»ƒ loáº¡i */}
                 <Card className="col-span-3 shadow-sm">
                     <CardHeader>
-                        <CardTitle>Phân bố Thể loại</CardTitle>
-                        <CardDescription>Tỷ lệ lượt mượn theo danh mục.</CardDescription>
+                        <CardTitle>PhÃ¢n bá»‘ Thá»ƒ loáº¡i</CardTitle>
+                        <CardDescription>Tá»· lá»‡ lÆ°á»£t mÆ°á»£n theo danh má»¥c.</CardDescription>
                     </CardHeader>
                     <CardContent>
                         <ResponsiveContainer width="100%" height={250}>
@@ -439,7 +437,7 @@ const LibrarianDashboardView = ({ stats, categories, trend }: { stats: Dashboard
                         </ResponsiveContainer>
 
                         <div className="mt-4 space-y-3">
-                            <h4 className="text-sm font-semibold text-foreground">Danh mục nổi bật</h4>
+                            <h4 className="text-sm font-semibold text-foreground">Danh má»¥c ná»•i báº­t</h4>
                             <div className="space-y-2">
                                 {topCats.map((cat, i) => (
                                     <div key={cat.categoryName} className="flex items-center gap-2 text-sm">
@@ -447,7 +445,7 @@ const LibrarianDashboardView = ({ stats, categories, trend }: { stats: Dashboard
                                         <div className="flex-1">
                                             <div className="flex justify-between mb-1">
                                                 <span className="font-medium text-foreground">{cat.categoryName}</span>
-                                                <span className="text-muted-foreground">{cat.borrowCount} lượt</span>
+                                                <span className="text-muted-foreground">{cat.borrowCount} lÆ°á»£t</span>
                                             </div>
                                             <Progress value={cat.borrowCount ? Math.min(100, (cat.borrowCount / (topCats[0]?.borrowCount || 1)) * 100) : 0} className="h-1.5" />
                                         </div>
@@ -476,7 +474,7 @@ export default function DashboardPage() {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [role] = useState<'ADMIN' | 'LIBRARIAN' | null>(() => {
-        // Đọc role từ cookie (hoặc lấy từ context)
+        // Äá»c role tá»« cookie (hoáº·c láº¥y tá»« context)
         const savedRole = Cookies.get('user_role') as 'ADMIN' | 'LIBRARIAN';
         return savedRole || null;
     });
@@ -489,7 +487,7 @@ export default function DashboardPage() {
             try {
                 const token = Cookies.get('access_token');
                 if (!token) {
-                    setError('Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.');
+                    setError('PhiÃªn Ä‘Äƒng nháº­p Ä‘Ã£ háº¿t háº¡n. Vui lÃ²ng Ä‘Äƒng nháº­p láº¡i.');
                     setIsLoading(false);
                     return;
                 }
@@ -513,7 +511,7 @@ export default function DashboardPage() {
                 if (statsRes.ok) {
                     setStats(await statsRes.json());
                 } else {
-                    setError('Không tải được thống kê tổng quan.');
+                    setError('KhÃ´ng táº£i Ä‘Æ°á»£c thá»‘ng kÃª tá»•ng quan.');
                 }
 
                 if (catRes.ok) {
@@ -552,7 +550,7 @@ export default function DashboardPage() {
                 }
             } catch (err) {
                 console.error('Dashboard fetch error', err);
-                setError('Không thể tải dữ liệu dashboard.');
+                setError('KhÃ´ng thá»ƒ táº£i dá»¯ liá»‡u dashboard.');
             } finally {
                 setIsLoading(false);
             }
@@ -561,25 +559,25 @@ export default function DashboardPage() {
         fetchData();
     }, []);
 
-    if (!role) return null; // Hoặc Loading Skeleton
+    if (!role) return null; // Hoáº·c Loading Skeleton
 
     return (
         <div className="space-y-6 pb-10">
-            {/* Header Chào mừng */}
+            {/* Header ChÃ o má»«ng */}
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-6 rounded-xl border border-slate-100 shadow-sm">
                 <div>
                     <h1 className="text-2xl font-bold text-slate-800 tracking-tight">
-                        {role === 'ADMIN' ? 'Tổng quan Hệ thống' : 'Bàn làm việc'}
+                        {role === 'ADMIN' ? 'Tá»•ng quan Há»‡ thá»‘ng' : 'BÃ n lÃ m viá»‡c'}
                     </h1>
                     <p className="text-sm text-slate-500 mt-1">
                         {role === 'ADMIN'
-                            ? 'Chào Admin, đây là báo cáo hiệu suất toàn hệ thống.'
-                            : `Xin chào, chúc bạn một ngày làm việc năng suất!`
+                            ? 'ChÃ o Admin, Ä‘Ã¢y lÃ  bÃ¡o cÃ¡o hiá»‡u suáº¥t toÃ n há»‡ thá»‘ng.'
+                            : `Xin chÃ o, chÃºc báº¡n má»™t ngÃ y lÃ m viá»‡c nÄƒng suáº¥t!`
                         }
                     </p>
                 </div>
                 <div className="text-right hidden sm:block">
-                    <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Thời gian hệ thống</p>
+                    <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Thá»i gian há»‡ thá»‘ng</p>
                     <p className="text-xl font-mono text-slate-700 font-medium">
                         {new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })}
                     </p>
@@ -589,11 +587,11 @@ export default function DashboardPage() {
                 </div>
             </div>
 
-            {/* Render nội dung tương ứng */}
+            {/* Render ná»™i dung tÆ°Æ¡ng á»©ng */}
             <div className="mt-6">
                 {isLoading && (
                     <Card className="shadow-sm">
-                        <CardContent className="p-6 text-sm text-muted-foreground">Đang tải dữ liệu dashboard...</CardContent>
+                        <CardContent className="p-6 text-sm text-muted-foreground">Äang táº£i dá»¯ liá»‡u dashboard...</CardContent>
                     </Card>
                 )}
 

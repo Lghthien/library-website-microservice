@@ -1,26 +1,28 @@
+/* eslint-disable no-undef */
+/* eslint-disable @typescript-eslint/no-require-imports */
 const XLSX = require('xlsx');
 const path = require('path');
 
-// 1. Dữ liệu Sách (Books)
-// Using standard categories from seed: Thể loại A, Thể loại B, Thể loại C
+// 1. Dá»¯ liá»‡u SÃ¡ch (Books)
+// Using standard categories from seed: Thá»ƒ loáº¡i A, Thá»ƒ loáº¡i B, Thá»ƒ loáº¡i C
 const booksData = [
     ["Title", "Author", "Category", "Price", "Quantity", "Publisher", "PublishYear"],
-    ["Tắt Đèn", "Ngô Tất Tố", "Thể loại A", 65000, 10, "NXB Văn Học", 2019],
-    ["Số Đỏ", "Vũ Trọng Phụng", "Thể loại B", 85000, 15, "NXB Văn Học", 2020],
-    ["Lão Hạc", "Nam Cao", "Thể loại C", 45000, 20, "NXB Kim Đồng", 2018],
-    ["Dế Mèn Phiêu Lưu Ký", "Tô Hoài", "Thể loại A", 50000, 25, "NXB Kim Đồng", 2021],
-    ["Đất Rừng Phương Nam", "Đoàn Giỏi", "Thể loại B", 90000, 12, "NXB Kim Đồng", 2017]
+    ["Táº¯t ÄÃ¨n", "NgÃ´ Táº¥t Tá»‘", "Thá»ƒ loáº¡i A", 65000, 10, "NXB VÄƒn Há»c", 2019],
+    ["Sá»‘ Äá»", "VÅ© Trá»ng Phá»¥ng", "Thá»ƒ loáº¡i B", 85000, 15, "NXB VÄƒn Há»c", 2020],
+    ["LÃ£o Háº¡c", "Nam Cao", "Thá»ƒ loáº¡i C", 45000, 20, "NXB Kim Äá»“ng", 2018],
+    ["Dáº¿ MÃ¨n PhiÃªu LÆ°u KÃ½", "TÃ´ HoÃ i", "Thá»ƒ loáº¡i A", 50000, 25, "NXB Kim Äá»“ng", 2021],
+    ["Äáº¥t Rá»«ng PhÆ°Æ¡ng Nam", "ÄoÃ n Giá»i", "Thá»ƒ loáº¡i B", 90000, 12, "NXB Kim Äá»“ng", 2017]
 ];
 
-// 2. Dữ liệu Độc giả (Readers)
-// Only using "Loại X" and "Loại Y" as requested and matched with seed data
+// 2. Dá»¯ liá»‡u Äá»™c giáº£ (Readers)
+// Only using "Loáº¡i X" and "Loáº¡i Y" as requested and matched with seed data
 const readersData = [
     ["FullName", "Email", "Phone", "Address", "DOB", "Type"],
-    ["Nguyễn Văn An", "user_an_new@test.com", "0901234567", "123 Lê Lợi, TP.HCM", "2000-01-01", "Loại X"],
-    ["Trần Thị Bình", "user_binh_new@test.com", "0902345678", "456 Nguyễn Huệ, TP.HCM", "1995-05-15", "Loại Y"],
-    ["Lê Văn Cường", "user_cuong_new@test.com", "0903456789", "789 Điện Biên Phủ, TP.HCM", "2003-11-20", "Loại X"],
-    ["Phạm Thị Dung", "user_dung_new@test.com", "0904567890", "321 Hai Bà Trưng, TP.HCM", "1990-08-10", "Loại Y"],
-    ["Hoàng Văn Em", "user_em_new@test.com", "0905678901", "654 Cách Mạng Tháng 8, TP.HCM", "2002-03-30", "Loại X"]
+    ["Nguyá»…n VÄƒn An", "user_an_new@test.com", "0901234567", "123 LÃª Lá»£i, TP.HCM", "2000-01-01", "Loáº¡i X"],
+    ["Tráº§n Thá»‹ BÃ¬nh", "user_binh_new@test.com", "0902345678", "456 Nguyá»…n Huá»‡, TP.HCM", "1995-05-15", "Loáº¡i Y"],
+    ["LÃª VÄƒn CÆ°á»ng", "user_cuong_new@test.com", "0903456789", "789 Äiá»‡n BiÃªn Phá»§, TP.HCM", "2003-11-20", "Loáº¡i X"],
+    ["Pháº¡m Thá»‹ Dung", "user_dung_new@test.com", "0904567890", "321 Hai BÃ  TrÆ°ng, TP.HCM", "1990-08-10", "Loáº¡i Y"],
+    ["HoÃ ng VÄƒn Em", "user_em_new@test.com", "0905678901", "654 CÃ¡ch Máº¡ng ThÃ¡ng 8, TP.HCM", "2002-03-30", "Loáº¡i X"]
 ];
 
 // Function to create and save a workbook

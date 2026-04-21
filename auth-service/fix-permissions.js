@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+/* eslint-disable @typescript-eslint/no-require-imports */
 const mongoose = require('mongoose');
 
 const MONGODB_URI = process.env.MONGODB_URI;
@@ -12,24 +14,24 @@ async function run() {
     const permissionCollection = db.collection('permissions');
 
     const permissionsList = [
-      { permissionId: 'Q001', permissionName: 'Lập thẻ độc giả', description: 'BM1 - Quyền tạo thẻ độc giả mới', functionGroup: 'READER' },
-      { permissionId: 'Q002', permissionName: 'Sửa thông tin độc giả', description: 'Quyền chỉnh sửa thông tin độc giả', functionGroup: 'READER' },
-      { permissionId: 'Q003', permissionName: 'Xóa độc giả', description: 'Quyền xóa độc giả', functionGroup: 'READER' },
-      { permissionId: 'Q004', permissionName: 'Tra cứu độc giả', description: 'Quyền tra cứu thông tin độc giả', functionGroup: 'READER' },
-      { permissionId: 'Q005', permissionName: 'Tiếp nhận sách', description: 'BM2 - Quyền tiếp nhận sách mới', functionGroup: 'BOOK' },
-      { permissionId: 'Q006', permissionName: 'Sửa thông tin sách', description: 'Quyền chỉnh sửa thông tin sách', functionGroup: 'BOOK' },
-      { permissionId: 'Q007', permissionName: 'Xóa sách', description: 'Quyền xóa sách', functionGroup: 'BOOK' },
-      { permissionId: 'Q008', permissionName: 'Tra cứu sách', description: 'BM3 - Quyền tra cứu sách', functionGroup: 'BOOK' },
-      { permissionId: 'Q009', permissionName: 'Cho mượn sách', description: 'BM4 - Quyền lập phiếu mượn', functionGroup: 'TRANSACTION' },
-      { permissionId: 'Q010', permissionName: 'Nhận trả sách', description: 'BM5 - Quyền nhận trả sách', functionGroup: 'TRANSACTION' },
-      { permissionId: 'Q011', permissionName: 'Thu tiền phạt', description: 'BM6 - Quyền lập phiếu thu tiền', functionGroup: 'TRANSACTION' },
-      { permissionId: 'Q012', permissionName: 'Xem báo cáo', description: 'BM7 - Quyền xem các báo cáo', functionGroup: 'REPORT' },
-      { permissionId: 'Q013', permissionName: 'Xuất báo cáo', description: 'Quyền xuất báo cáo ra file', functionGroup: 'REPORT' },
-      { permissionId: 'Q014', permissionName: 'Quản lý người dùng', description: 'Quyền quản lý tài khoản', functionGroup: 'SYSTEM' },
-      { permissionId: 'Q015', permissionName: 'Thay đổi quy định', description: 'QĐ8 - Quyền thay đổi tham số hệ thống', functionGroup: 'SYSTEM' },
-      { permissionId: 'Q016', permissionName: 'Quản lý thể loại', description: 'Quyền quản lý thể loại sách', functionGroup: 'SYSTEM' },
-      { permissionId: 'Q017', permissionName: 'Quản lý tác giả', description: 'Quyền quản lý danh sách tác giả', functionGroup: 'SYSTEM' },
-      { permissionId: 'Q018', permissionName: 'Xem nhật ký hệ thống', description: 'Quyền xem audit log', functionGroup: 'SYSTEM' }
+      { permissionId: 'Q001', permissionName: 'Láº­p tháº» Ä‘á»™c giáº£', description: 'BM1 - Quyá»n táº¡o tháº» Ä‘á»™c giáº£ má»›i', functionGroup: 'READER' },
+      { permissionId: 'Q002', permissionName: 'Sá»­a thÃ´ng tin Ä‘á»™c giáº£', description: 'Quyá»n chá»‰nh sá»­a thÃ´ng tin Ä‘á»™c giáº£', functionGroup: 'READER' },
+      { permissionId: 'Q003', permissionName: 'XÃ³a Ä‘á»™c giáº£', description: 'Quyá»n xÃ³a Ä‘á»™c giáº£', functionGroup: 'READER' },
+      { permissionId: 'Q004', permissionName: 'Tra cá»©u Ä‘á»™c giáº£', description: 'Quyá»n tra cá»©u thÃ´ng tin Ä‘á»™c giáº£', functionGroup: 'READER' },
+      { permissionId: 'Q005', permissionName: 'Tiáº¿p nháº­n sÃ¡ch', description: 'BM2 - Quyá»n tiáº¿p nháº­n sÃ¡ch má»›i', functionGroup: 'BOOK' },
+      { permissionId: 'Q006', permissionName: 'Sá»­a thÃ´ng tin sÃ¡ch', description: 'Quyá»n chá»‰nh sá»­a thÃ´ng tin sÃ¡ch', functionGroup: 'BOOK' },
+      { permissionId: 'Q007', permissionName: 'XÃ³a sÃ¡ch', description: 'Quyá»n xÃ³a sÃ¡ch', functionGroup: 'BOOK' },
+      { permissionId: 'Q008', permissionName: 'Tra cá»©u sÃ¡ch', description: 'BM3 - Quyá»n tra cá»©u sÃ¡ch', functionGroup: 'BOOK' },
+      { permissionId: 'Q009', permissionName: 'Cho mÆ°á»£n sÃ¡ch', description: 'BM4 - Quyá»n láº­p phiáº¿u mÆ°á»£n', functionGroup: 'TRANSACTION' },
+      { permissionId: 'Q010', permissionName: 'Nháº­n tráº£ sÃ¡ch', description: 'BM5 - Quyá»n nháº­n tráº£ sÃ¡ch', functionGroup: 'TRANSACTION' },
+      { permissionId: 'Q011', permissionName: 'Thu tiá»n pháº¡t', description: 'BM6 - Quyá»n láº­p phiáº¿u thu tiá»n', functionGroup: 'TRANSACTION' },
+      { permissionId: 'Q012', permissionName: 'Xem bÃ¡o cÃ¡o', description: 'BM7 - Quyá»n xem cÃ¡c bÃ¡o cÃ¡o', functionGroup: 'REPORT' },
+      { permissionId: 'Q013', permissionName: 'Xuáº¥t bÃ¡o cÃ¡o', description: 'Quyá»n xuáº¥t bÃ¡o cÃ¡o ra file', functionGroup: 'REPORT' },
+      { permissionId: 'Q014', permissionName: 'Quáº£n lÃ½ ngÆ°á»i dÃ¹ng', description: 'Quyá»n quáº£n lÃ½ tÃ i khoáº£n', functionGroup: 'SYSTEM' },
+      { permissionId: 'Q015', permissionName: 'Thay Ä‘á»•i quy Ä‘á»‹nh', description: 'QÄ8 - Quyá»n thay Ä‘á»•i tham sá»‘ há»‡ thá»‘ng', functionGroup: 'SYSTEM' },
+      { permissionId: 'Q016', permissionName: 'Quáº£n lÃ½ thá»ƒ loáº¡i', description: 'Quyá»n quáº£n lÃ½ thá»ƒ loáº¡i sÃ¡ch', functionGroup: 'SYSTEM' },
+      { permissionId: 'Q017', permissionName: 'Quáº£n lÃ½ tÃ¡c giáº£', description: 'Quyá»n quáº£n lÃ½ danh sÃ¡ch tÃ¡c giáº£', functionGroup: 'SYSTEM' },
+      { permissionId: 'Q018', permissionName: 'Xem nháº­t kÃ½ há»‡ thá»‘ng', description: 'Quyá»n xem audit log', functionGroup: 'SYSTEM' }
     ];
 
     console.log('Seeding permissions collection...');

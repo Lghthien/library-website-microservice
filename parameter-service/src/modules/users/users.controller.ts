@@ -7,7 +7,6 @@ import {
   Param,
   Delete,
   UseGuards,
-  Query,
   UseInterceptors,
   UploadedFile,
   BadRequestException,
@@ -30,7 +29,7 @@ export class UsersController {
   @Post()
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('ADMIN')
-  @RequirePermissions('Q014') // Quản lý người dùng
+  @RequirePermissions('Q014') // Quáº£n lÃ½ ngÆ°á»i dÃ¹ng
   create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
   }

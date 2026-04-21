@@ -1,4 +1,4 @@
-import { IsString, IsEmail, IsOptional, IsDateString } from 'class-validator';
+import { IsString, IsEmail, IsDateString } from 'class-validator';
 
 export class BulkCreateReaderDto {
   @IsString()
@@ -17,5 +17,5 @@ export class BulkCreateReaderDto {
   address: string;
 
   @IsString()
-  readerType: string; // Tên loại độc giả (e.g. "Sinh viên", "Giảng viên")
+  readerType: string; // TÃªn loáº¡i Ä‘á»™c giáº£ (e.g. "Sinh viÃªn", "Giáº£ng viÃªn")
 }

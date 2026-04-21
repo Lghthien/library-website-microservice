@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+/* eslint-disable @typescript-eslint/no-require-imports */
 const mongoose = require('mongoose');
 require('dotenv').config({ path: '../.env' });
 mongoose.connect(process.env.MONGODB_URI).then(async () => {
