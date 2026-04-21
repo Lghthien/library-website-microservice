@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const MONGODB_URI = 'mongodb+srv://legiahoangthien:110676@libary.vzncyxp.mongodb.net/?appName=libary';
+const MONGODB_URI = env.MONGODB_URI;
 
 async function run() {
   try {
