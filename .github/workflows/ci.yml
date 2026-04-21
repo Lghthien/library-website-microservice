@@ -48,10 +48,9 @@ jobs:
         working-directory: ${{ matrix.service }}
         run: npm ci
 
-      - name: 🔍 Lint (fix ESLint v9 issue)
+      - name: 🔍 Run Lint
         working-directory: ${{ matrix.service }}
-        run: |
-          npx eslint . --ext .ts || exit 1
+        run: npm run lint
 
       - name: 🧪 Run Tests + Coverage
         working-directory: ${{ matrix.service }}
