@@ -98,3 +98,36 @@ Dịch vụ sẽ khả dụng tại:
 
 ---
 # l i b r a r y - w e b s i t e - m i c r o s e r v i c e  
+
+---
+
+## ⚙️ Advanced CI/CD & GitOps (GitHub Actions + AWS + ArgoCD)
+
+Hệ thống đã được nâng cấp lên kiến trúc CI/CD nâng cao, tách biệt quá trình tích hợp và triển khai (CI/CD separated).
+
+### 🏗️ Cấu trúc Pipeline
+1.  **CI ([ci.yml](.github/workflows/ci.yml))**:
+    -   **Linting**: Đảm bảo chất lượng code cơ bản.
+    -   **SonarQube**: Quét chất lượng và phân tích bảo mật mã nguồn chuyên sâu.
+    -   **Trivy**: Quét lỗ hổng bảo mật cho Docker Images trước khi đẩy lên registry.
+    -   **Docker Hub**: Đẩy images an toàn sau khi đã vượt qua các bước kiểm tra security.
+2.  **CD ([cd.yml](.github/workflows/cd.yml))**:
+    -   **Terraform**: Tự động hóa việc quản lý hạ tầng AWS (VPC, EKS Cluster).
+    -   **ArgoCD (GitOps)**: Tự động cập nhật image tag trong manifests và đồng bộ hóa trạng thái cluster theo mô hình GitOps.
+
+### 🛠️ Hạ tầng (Infrastructure as Code)
+Mã nguồn hạ tầng nằm trong thư mục `/terraform`:
+-   **VPC**: Thiết lập mạng private/public subnet cho cluster.
+-   **EKS**: Managed Kubernetes cluster với managed node groups.
+-   **ArgoCD**: Được triển khai tự động qua Helm để quản lý ứng dụng.
+
+### 🚀 Quy trình GitOps
+Hệ thống sử dụng thư mục `/k8s` làm "Source of Truth":
+-   Pipeline CD sẽ tự động cập nhật tag image trong các file YAML tại `/k8s`.
+-   **ArgoCD** giám sát repo và tự động thực hiện việc triển khai (`Sync`) lên EKS mà không cần can thiệp thủ công.
+
+### 🔑 Các Secrets cần thiết
+Vui lòng cấu hình các secrets sau trong GitHub Repository:
+-   `SONAR_TOKEN` & `SONAR_HOST_URL` (Từ SonarQube/SonarCloud).
+-   `AWS_ACCESS_KEY_ID` & `AWS_SECRET_ACCESS_KEY` (Quyền Administrator hoặc EKS/VPC permissions).
+-   `DOCKERHUB_USERNAME` & `DOCKERHUB_TOKEN`.
