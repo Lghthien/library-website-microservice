@@ -17,7 +17,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
-import * as XLSX from 'xlsx';
+import ExcelJS from 'exceljs';
 
 // --- INTERFACES ---
 interface TrendData {
@@ -163,12 +163,13 @@ export default function ReportsPage() {
     };
 
     // Handle Export Excel
-    const handleExportExcel = () => {
-        const wb = XLSX.utils.book_new();
+    const handleExportExcel = async () => {
+        const wb = new ExcelJS.Workbook();
 
         // Sheet 1: Tổng quan (Dashboard)
-        const overviewData = [
-            ['BÁO CÁO THỐNG KÊ THƯ VIỆN', `Tháng ${month}/${year}`],
+        const wsOverview = wb.addWorksheet('Tổng quan');
+        wsOverview.addRows([
+            [`BÁO CÁO THỐNG KÊ THƯ VIỆN`, `Tháng ${month}/${year}`],
             [''],
             ['THỐNG KÊ CHUNG'],
             ['Tổng số độc giả', dashboardStats?.readers.total || 0],
@@ -178,43 +179,43 @@ export default function ReportsPage() {
             ['CHI TIẾT MƯỢN TRẢ THEO THÁNG (Biểu đồ)'],
             ['Tháng', 'Lượt mượn', 'Lượt trả', 'Lượt trễ'],
             ...trendData.map(t => [t.month, t.loans, t.returns, t.overdue])
-        ];
-        const wsOverview = XLSX.utils.aoa_to_sheet(overviewData);
-        XLSX.utils.book_append_sheet(wb, wsOverview, "Tổng quan");
+        ]);
 
         // Sheet 2: Mượn theo thể loại (BM7.1)
-        const catHeader = ['Mã TL', 'Tên Thể loại', 'Số lượt mượn', 'Tỷ lệ (%)'];
-        const catRows = categoryReportData.map(c => [c.id, c.name, c.total, c.ratio]);
-        const wsCat = XLSX.utils.aoa_to_sheet([
-            ['BÁO CÁO TÌNH HÌNH MƯỢN SÁCH THEO THỂ LOẠI', `Tháng ${month}/${year}`],
+        const wsCat = wb.addWorksheet('BM7.1 - Thể loại');
+        wsCat.addRows([
+            [`BÁO CÁO TÌNH HÌNH MƯỢN SÁCH THEO THỂ LOẠI`, `Tháng ${month}/${year}`],
             [''],
-            catHeader,
-            ...catRows
+            ['Mã TL', 'Tên Thể loại', 'Số lượt mượn', 'Tỷ lệ (%)'],
+            ...categoryReportData.map(c => [c.id, c.name, c.total, c.ratio])
         ]);
-        XLSX.utils.book_append_sheet(wb, wsCat, "BM7.1 - Thể loại");
 
         // Sheet 3: Sách trả trễ (BM7.2)
-        const lateHeader = ['Ngày mượn', 'Mã Sách', 'Tên Sách', 'Người mượn', 'Hạn trả', 'Ngày trả thực tế', 'Số ngày trễ'];
-        const lateRows = lateReturnData.map(l => [
-            new Date(l.borrowDate).toLocaleDateString('vi-VN'),
-            l.displayId,
-            l.bookName,
-            l.reader,
-             l.returnDate ? new Date(l.returnDate).toLocaleDateString('vi-VN') : 'Chưa trả',
-             // Logic hiển thị thực tế: Nếu chưa trả thì để trống hoặc ghi chú, ở đây ta lấy ngày trả nếu có
-             l.returnDate ? new Date(l.returnDate).toLocaleDateString('vi-VN') : 'Chưa trả',
-            l.daysLate
-        ]);
-        const wsLate = XLSX.utils.aoa_to_sheet([
+        const wsLate = wb.addWorksheet('BM7.2 - Trả trễ');
+        wsLate.addRows([
             ['DANH SÁCH SÁCH TRẢ TRỄ', `Tính đến ngày: ${viewDate ? viewDate.toLocaleDateString('vi-VN') : new Date().toLocaleDateString('vi-VN')}`],
             [''],
-            lateHeader,
-            ...lateRows
+            ['Ngày mượn', 'Mã Sách', 'Tên Sách', 'Người mượn', 'Hạn trả', 'Ngày trả thực tế', 'Số ngày trễ'],
+            ...lateReturnData.map(l => [
+                new Date(l.borrowDate).toLocaleDateString('vi-VN'),
+                l.displayId,
+                l.bookName,
+                l.reader,
+                l.returnDate ? new Date(l.returnDate).toLocaleDateString('vi-VN') : 'Chưa trả',
+                l.returnDate ? new Date(l.returnDate).toLocaleDateString('vi-VN') : 'Chưa trả',
+                l.daysLate
+            ])
         ]);
-        XLSX.utils.book_append_sheet(wb, wsLate, "BM7.2 - Trả trễ");
 
-        // Save File
-        XLSX.writeFile(wb, `BaoCao_Thuvien_T${month}_${year}.xlsx`);
+        // Save File via browser download
+        const buffer = await wb.xlsx.writeBuffer();
+        const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `BaoCao_Thuvien_T${month}_${year}.xlsx`;
+        a.click();
+        URL.revokeObjectURL(url);
     };
 
     if (isLoading) {

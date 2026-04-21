@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef } from 'react';
-import * as XLSX from 'xlsx';
+import ExcelJS from 'exceljs';
 import { Button } from "@/components/ui/button";
 import { Upload, FileSpreadsheet, AlertCircle, Loader2 } from 'lucide-react';
 import { useToast } from "@/components/ui/ToastContext";
@@ -45,33 +45,39 @@ export function ExcelImporter({
         setIsLoading(true);
 
         const reader = new FileReader();
-        reader.onload = (evt) => {
+        reader.onload = async (evt) => {
             try {
-                const bstr = evt.target?.result;
-                const wb = XLSX.read(bstr, { type: 'binary' });
-                const wsname = wb.SheetNames[0];
-                const ws = wb.Sheets[wsname];
-                
-                // Parse to JSON
-                const data = XLSX.utils.sheet_to_json(ws, { header: 1 });
-                
-                if (data.length === 0) {
+                const buffer = evt.target?.result as ArrayBuffer;
+                const wb = new ExcelJS.Workbook();
+                await wb.xlsx.load(buffer);
+                const ws = wb.worksheets[0];
+
+                if (!ws || ws.rowCount === 0) {
                     throw new Error("File rỗng.");
                 }
 
-                // Validate Headers
-                const headers = (data[0] as string[]).map(h => h.trim().toLowerCase());
+                // Get headers from first row
+                const headerRow = ws.getRow(1).values as any[];
+                const headers = headerRow.slice(1).map((h: any) => String(h ?? '').trim().toLowerCase());
                 const expected = templateHeaders.map(h => h.trim().toLowerCase());
-                
-                // Basic check: Ensure all expected headers are present
+
                 const missingHeaders = expected.filter(eh => !headers.includes(eh));
-                
                 if (missingHeaders.length > 0) {
                     throw new Error(`File thiếu các cột bắt buộc: ${missingHeaders.join(", ")}`);
                 }
 
-                // Convert to array of objects using the headers
-                const jsonData = XLSX.utils.sheet_to_json(ws);
+                // Convert rows to objects
+                const jsonData: any[] = [];
+                ws.eachRow((row, rowNumber) => {
+                    if (rowNumber === 1) return; // skip header
+                    const rowValues = row.values as any[];
+                    const obj: any = {};
+                    headerRow.slice(1).forEach((h: any, i: number) => {
+                        obj[h] = rowValues[i + 1] ?? '';
+                    });
+                    jsonData.push(obj);
+                });
+
                 setParsedData(jsonData);
                 setIsLoading(false);
 
@@ -81,7 +87,7 @@ export function ExcelImporter({
                 setIsLoading(false);
             }
         };
-        reader.readAsBinaryString(file);
+        reader.readAsArrayBuffer(file);
     };
 
     const handleImportConfirm = async () => {
