@@ -10,7 +10,7 @@ RUN npm run build
 FROM node:20-alpine AS deps
 WORKDIR /app
 COPY package*.json ./
-RUN npm install --only=production
+RUN npm ci --only=production && npm audit fix --only=production || true
 
 # Stage 3: Runtime stage
 FROM node:20-alpine AS runner
