@@ -83,7 +83,7 @@ interface ApiTitleAuthor {
     authorId: ApiAuthor | string;
 }
 
-// --- COMPONENT TÃƒâ„¢Y CHÃ¡Â»Ë†NH: SEARCHABLE INPUT ---
+// --- COMPONENT TÃƒÆ’Ã¢â€žÂ¢Y CHÃƒÂ¡Ã‚Â»Ã‹â€ NH: SEARCHABLE INPUT ---
 const SearchableInput = ({
     options,
     value,
@@ -150,9 +150,9 @@ const SearchableInput = ({
     );
 };
 
-// --- COMPONENT TÃƒâ„¢Y CHÃ¡Â»Ë†NH: CURRENCY INPUT (XÃ¡Â»Â¬ LÃƒÂ TIÃ¡Â»â‚¬N TÃ¡Â»â€ ) ---
-// --- COMPONENT TÃƒâ„¢Y CHÃ¡Â»Ë†NH: CURRENCY INPUT (Ã„ÂÃƒÆ’ NÃƒâ€šNG CÃ¡ÂºÂ¤P) ---
-// --- COMPONENT TÃƒâ„¢Y CHÃ¡Â»Ë†NH: CURRENCY INPUT (CÃ¡ÂºÂ¬P NHÃ¡ÂºÂ¬T MAX VALUE) ---
+// --- COMPONENT TÃƒÆ’Ã¢â€žÂ¢Y CHÃƒÂ¡Ã‚Â»Ã‹â€ NH: CURRENCY INPUT (XÃƒÂ¡Ã‚Â»Ã‚Â¬ LÃƒÆ’Ã‚Â TIÃƒÂ¡Ã‚Â»Ã¢â€šÂ¬N TÃƒÂ¡Ã‚Â»Ã¢â‚¬Â ) ---
+// --- COMPONENT TÃƒÆ’Ã¢â€žÂ¢Y CHÃƒÂ¡Ã‚Â»Ã‹â€ NH: CURRENCY INPUT (Ãƒâ€žÃ‚ÂÃƒÆ’Ã†â€™ NÃƒÆ’Ã¢â‚¬Å¡NG CÃƒÂ¡Ã‚ÂºÃ‚Â¤P) ---
+// --- COMPONENT TÃƒÆ’Ã¢â€žÂ¢Y CHÃƒÂ¡Ã‚Â»Ã‹â€ NH: CURRENCY INPUT (CÃƒÂ¡Ã‚ÂºÃ‚Â¬P NHÃƒÂ¡Ã‚ÂºÃ‚Â¬T MAX VALUE) ---
 const CurrencyInput = ({
     value,
     onChange,
@@ -164,15 +164,15 @@ const CurrencyInput = ({
     onChange: (val: number) => void,
     placeholder?: string,
     id?: string,
-    max?: number // ThÃƒÂªm prop max (tÃƒÂ¹y chÃ¡Â»Ân)
+    max?: number // ThÃƒÆ’Ã‚Âªm prop max (tÃƒÆ’Ã‚Â¹y chÃƒÂ¡Ã‚Â»Ã‚Ân)
 }) => {
-    // HÃƒÂ m Ã„â€˜Ã¡Â»â€¹nh dÃ¡ÂºÂ¡ng sÃ¡Â»â€˜: 50000 -> 50,000
+    // HÃƒÆ’Ã‚Â m Ãƒâ€žÃ¢â‚¬ËœÃƒÂ¡Ã‚Â»Ã¢â‚¬Â¹nh dÃƒÂ¡Ã‚ÂºÃ‚Â¡ng sÃƒÂ¡Ã‚Â»Ã¢â‚¬Ëœ: 50000 -> 50,000
     const formatNumber = (num: string) => {
         return num.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        // LoÃ¡ÂºÂ¡i bÃ¡Â»Â dÃ¡ÂºÂ¥u phÃ¡ÂºÂ©y Ã„â€˜Ã¡Â»Æ’ lÃ¡ÂºÂ¥y giÃƒÂ¡ trÃ¡Â»â€¹ sÃ¡Â»â€˜ thÃƒÂ´
+        // LoÃƒÂ¡Ã‚ÂºÃ‚Â¡i bÃƒÂ¡Ã‚Â»Ã‚Â dÃƒÂ¡Ã‚ÂºÃ‚Â¥u phÃƒÂ¡Ã‚ÂºÃ‚Â©y Ãƒâ€žÃ¢â‚¬ËœÃƒÂ¡Ã‚Â»Ã†â€™ lÃƒÂ¡Ã‚ÂºÃ‚Â¥y giÃƒÆ’Ã‚Â¡ trÃƒÂ¡Ã‚Â»Ã¢â‚¬Â¹ sÃƒÂ¡Ã‚Â»Ã¢â‚¬Ëœ thÃƒÆ’Ã‚Â´
         const rawValue = e.target.value.replace(/,/g, "");
 
         if (!rawValue) {
@@ -182,10 +182,10 @@ const CurrencyInput = ({
 
         let numericValue = parseInt(rawValue, 10);
 
-        // 1. ChÃ¡ÂºÂ·n sÃ¡Â»â€˜ ÃƒÂ¢m hoÃ¡ÂºÂ·c khÃƒÂ´ng phÃ¡ÂºÂ£i sÃ¡Â»â€˜
+        // 1. ChÃƒÂ¡Ã‚ÂºÃ‚Â·n sÃƒÂ¡Ã‚Â»Ã¢â‚¬Ëœ ÃƒÆ’Ã‚Â¢m hoÃƒÂ¡Ã‚ÂºÃ‚Â·c khÃƒÆ’Ã‚Â´ng phÃƒÂ¡Ã‚ÂºÃ‚Â£i sÃƒÂ¡Ã‚Â»Ã¢â‚¬Ëœ
         if (isNaN(numericValue) || numericValue < 0) return;
 
-        // 2. ChÃ¡ÂºÂ·n sÃ¡Â»â€˜ vÃ†Â°Ã¡Â»Â£t quÃƒÂ¡ giÃ¡Â»â€ºi hÃ¡ÂºÂ¡n Max (nÃ¡ÂºÂ¿u cÃƒÂ³ prop max)
+        // 2. ChÃƒÂ¡Ã‚ÂºÃ‚Â·n sÃƒÂ¡Ã‚Â»Ã¢â‚¬Ëœ vÃƒâ€ Ã‚Â°ÃƒÂ¡Ã‚Â»Ã‚Â£t quÃƒÆ’Ã‚Â¡ giÃƒÂ¡Ã‚Â»Ã¢â‚¬Âºi hÃƒÂ¡Ã‚ÂºÃ‚Â¡n Max (nÃƒÂ¡Ã‚ÂºÃ‚Â¿u cÃƒÆ’Ã‚Â³ prop max)
         if (max !== undefined && numericValue > max) {
             numericValue = max;
         }
@@ -198,14 +198,14 @@ const CurrencyInput = ({
             <Input
                 id={id}
                 placeholder={placeholder}
-                // HiÃ¡Â»Æ’n thÃ¡Â»â€¹ sÃ¡Â»â€˜ Ã„â€˜ÃƒÂ£ format
+                // HiÃƒÂ¡Ã‚Â»Ã†â€™n thÃƒÂ¡Ã‚Â»Ã¢â‚¬Â¹ sÃƒÂ¡Ã‚Â»Ã¢â‚¬Ëœ Ãƒâ€žÃ¢â‚¬ËœÃƒÆ’Ã‚Â£ format
                 value={value ? formatNumber(value.toString()) : ""}
                 onChange={handleChange}
                 className="pr-12 text-right font-mono font-medium"
             />
-            {/* PhÃ¡ÂºÂ§n Ã„â€˜uÃƒÂ´i VNÃ„Â */}
+            {/* PhÃƒÂ¡Ã‚ÂºÃ‚Â§n Ãƒâ€žÃ¢â‚¬ËœuÃƒÆ’Ã‚Â´i VNÃƒâ€žÃ‚Â */}
             <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                <span className="text-gray-400 text-sm font-semibold">VNÃ„Â</span>
+                <span className="text-gray-400 text-sm font-semibold">VNÃƒâ€žÃ‚Â</span>
             </div>
         </div>
     );
@@ -227,11 +227,11 @@ export default function BooksPage() {
     const [editingBookId, setEditingBookId] = useState<string | null>(null);
     const [editingBookData, setEditingBookData] = useState<Book | null>(null);
 
-    // Maps Ã„â€˜Ã¡Â»Æ’ convert Name Ã¢â€ â€ ID
+    // Maps Ãƒâ€žÃ¢â‚¬ËœÃƒÂ¡Ã‚Â»Ã†â€™ convert Name ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬Â ID
     const [categoryNameToIdMap, setCategoryNameToIdMap] = useState<Map<string, string>>(new Map());
     const [authorNameToIdMap, setAuthorNameToIdMap] = useState<Map<string, string>>(new Map());
 
-    // States cho tÃƒÂ­nh nÃ„Æ’ng "NhÃ¡ÂºÂ­p thÃƒÂªm bÃ¡ÂºÂ£n sao" (SÃƒÂ¡ch cÃƒÂ³ sÃ¡ÂºÂµn)
+    // States cho tÃƒÆ’Ã‚Â­nh nÃƒâ€žÃ†â€™ng "NhÃƒÂ¡Ã‚ÂºÃ‚Â­p thÃƒÆ’Ã‚Âªm bÃƒÂ¡Ã‚ÂºÃ‚Â£n sao" (SÃƒÆ’Ã‚Â¡ch cÃƒÆ’Ã‚Â³ sÃƒÂ¡Ã‚ÂºÃ‚Âµn)
     const [inputMode, setInputMode] = useState<'new' | 'existing'>('new');
     const [selectableBooks, setSelectableBooks] = useState<string[]>([]);
     const [bookLabelToIdMap, setBookLabelToIdMap] = useState<Map<string, string>>(new Map());
@@ -284,10 +284,10 @@ export default function BooksPage() {
                     resTitleAuthors.json(),
                     resTitleBooks.json(),
                     resParameters.json()
-                ]) as [ApiBook[], ApiBookCopy[], ApiCategory[], ApiAuthor[], ApiTitleAuthor[], ApiTitleBook[], unknown[]];
+                ]) as [ApiBook[], ApiBookCopy[], ApiCategory[], ApiAuthor[], ApiTitleAuthor[], ApiTitleBook[], any[]];
 
-                // LÃ¡ÂºÂ¥y giÃƒÂ¡ trÃ¡Â»â€¹ KhoÃ¡ÂºÂ£ng cÃƒÂ¡ch nÃ„Æ’m xuÃ¡ÂºÂ¥t bÃ¡ÂºÂ£n tÃ¡Â»Â« parameters
-                const publishYearParam = parametersData.find((p: unknown) => p.paramName === 'QD2_PUBLISH_YEAR_DISTANCE');
+                // LÃƒÂ¡Ã‚ÂºÃ‚Â¥y giÃƒÆ’Ã‚Â¡ trÃƒÂ¡Ã‚Â»Ã¢â‚¬Â¹ KhoÃƒÂ¡Ã‚ÂºÃ‚Â£ng cÃƒÆ’Ã‚Â¡ch nÃƒâ€žÃ†â€™m xuÃƒÂ¡Ã‚ÂºÃ‚Â¥t bÃƒÂ¡Ã‚ÂºÃ‚Â£n tÃƒÂ¡Ã‚Â»Ã‚Â« parameters
+                const publishYearParam = parametersData.find((p: any) => p.paramName === 'QD2_PUBLISH_YEAR_DISTANCE');
                 if (publishYearParam && publishYearParam.paramValue) {
                     setPublishYearGap(parseInt(publishYearParam.paramValue));
                 }
@@ -391,7 +391,7 @@ export default function BooksPage() {
                          tTitle = titleBookMap.get(b.titleId as string)?.title || "Unknown";
                     }
 
-                    const label = `${tTitle} - ${b.publisher} (${b.publishYear}) - GiÃƒÂ¡: ${new Intl.NumberFormat('vi-VN').format(b.price)}Ã„â€˜`;
+                    const label = `${tTitle} - ${b.publisher} (${b.publishYear}) - GiÃƒÆ’Ã‚Â¡: ${new Intl.NumberFormat('vi-VN').format(b.price)}Ãƒâ€žÃ¢â‚¬Ëœ`;
                     bkLabelMap.set(label, b._id);
                     sBooks.push(label);
                 });
@@ -468,7 +468,7 @@ export default function BooksPage() {
     const [isSaving, setIsSaving] = useState(false);
     const [publishYearGap, setPublishYearGap] = useState<number>(8); // Default value
 
-    // Logic kiÃ¡Â»Æ’m tra QÃ„Â2
+    // Logic kiÃƒÂ¡Ã‚Â»Ã†â€™m tra QÃƒâ€žÃ‚Â2
     const currentYear = new Date().getFullYear();
     const minPublishYear = currentYear - publishYearGap;
 
@@ -509,7 +509,7 @@ export default function BooksPage() {
         setFilterCategory("all");
     };
 
-    const handleBulkImport = async (data: unknown[]) => {
+    const handleBulkImport = async (data: any[]) => {
         try {
             const payload = data.map(item => ({
                 title: item['Title'] || item['title'],
@@ -537,21 +537,21 @@ export default function BooksPage() {
             const results = await res.json();
             
             // Count success and error results
-            const successCount = results.filter((r: unknown) => r.status === 'success').length;
-            const errorCount = results.filter((r: unknown) => r.status === 'error').length;
+            const successCount = results.filter((r: any) => r.status === 'success').length;
+            const errorCount = results.filter((r: any) => r.status === 'error').length;
             
             if (errorCount > 0) {
                 const errorMessages = results
-                    .filter((r: unknown) => r.status === 'error')
-                    .map((r: unknown) => `Ã¢â‚¬Â¢ ${r.title}: ${r.message}`)
+                    .filter((r: any) => r.status === 'error')
+                    .map((r: any) => `ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ ${r.title}: ${r.message}`)
                     .join('\n');
                 
                 showToast(
-                    `HoÃƒÂ n thÃƒÂ nh: ${successCount} thÃƒÂ nh cÃƒÂ´ng, ${errorCount} bÃ¡Â»â€¹ lÃ¡Â»â€”i.\n${errorMessages}`,
+                    `HoÃƒÆ’Ã‚Â n thÃƒÆ’Ã‚Â nh: ${successCount} thÃƒÆ’Ã‚Â nh cÃƒÆ’Ã‚Â´ng, ${errorCount} bÃƒÂ¡Ã‚Â»Ã¢â‚¬Â¹ lÃƒÂ¡Ã‚Â»Ã¢â‚¬â€i.\n${errorMessages}`,
                     errorCount === results.length ? 'error' : 'warning'
                 );
             } else {
-                showToast(`Ã„ÂÃƒÂ£ nhÃ¡ÂºÂ­p thÃƒÂ nh cÃƒÂ´ng ${successCount} dÃƒÂ²ng dÃ¡Â»Â¯ liÃ¡Â»â€¡u.`, "success");
+                showToast(`Ãƒâ€žÃ‚ÂÃƒÆ’Ã‚Â£ nhÃƒÂ¡Ã‚ÂºÃ‚Â­p thÃƒÆ’Ã‚Â nh cÃƒÆ’Ã‚Â´ng ${successCount} dÃƒÆ’Ã‚Â²ng dÃƒÂ¡Ã‚Â»Ã‚Â¯ liÃƒÂ¡Ã‚Â»Ã¢â‚¬Â¡u.`, "success");
             }
             
             if (successCount > 0) {
@@ -559,23 +559,23 @@ export default function BooksPage() {
             }
         } catch (error) {
             console.error("Import error:", error);
-            showToast("LÃ¡Â»â€”i khi nhÃ¡ÂºÂ­p dÃ¡Â»Â¯ liÃ¡Â»â€¡u.", "error");
+            showToast("LÃƒÂ¡Ã‚Â»Ã¢â‚¬â€i khi nhÃƒÂ¡Ã‚ÂºÃ‚Â­p dÃƒÂ¡Ã‚Â»Ã‚Â¯ liÃƒÂ¡Ã‚Â»Ã¢â‚¬Â¡u.", "error");
         }
     };
 
-    // HÃƒÂ m lÃ†Â°u sÃƒÂ¡ch (TÃ¡ÂºÂ¡o mÃ¡Â»â€ºi hoÃ¡ÂºÂ·c CÃ¡ÂºÂ­p nhÃ¡ÂºÂ­t)
-    // HÃƒÂ m kiÃ¡Â»Æ’m tra hÃ¡Â»Â£p lÃ¡Â»â€¡
+    // HÃƒÆ’Ã‚Â m lÃƒâ€ Ã‚Â°u sÃƒÆ’Ã‚Â¡ch (TÃƒÂ¡Ã‚ÂºÃ‚Â¡o mÃƒÂ¡Ã‚Â»Ã¢â‚¬Âºi hoÃƒÂ¡Ã‚ÂºÃ‚Â·c CÃƒÂ¡Ã‚ÂºÃ‚Â­p nhÃƒÂ¡Ã‚ÂºÃ‚Â­t)
+    // HÃƒÆ’Ã‚Â m kiÃƒÂ¡Ã‚Â»Ã†â€™m tra hÃƒÂ¡Ã‚Â»Ã‚Â£p lÃƒÂ¡Ã‚Â»Ã¢â‚¬Â¡
     const validateForm = (): boolean => {
          // Validation chung
          if (!editingBookId && (!formQuantity || formQuantity < 1) && inputMode !== 'existing') {
-             showToast("SÃ¡Â»â€˜ lÃ†Â°Ã¡Â»Â£ng nhÃ¡ÂºÂ­p phÃ¡ÂºÂ£i ÃƒÂ­t nhÃ¡ÂºÂ¥t lÃƒÂ  1", 'warning');
+             showToast("SÃƒÂ¡Ã‚Â»Ã¢â‚¬Ëœ lÃƒâ€ Ã‚Â°ÃƒÂ¡Ã‚Â»Ã‚Â£ng nhÃƒÂ¡Ã‚ÂºÃ‚Â­p phÃƒÂ¡Ã‚ÂºÃ‚Â£i ÃƒÆ’Ã‚Â­t nhÃƒÂ¡Ã‚ÂºÃ‚Â¥t lÃƒÆ’Ã‚Â  1", 'warning');
              return false;
         }
 
         // EDIT MODE
         if (editingBookId) {
             if (!formBookName.trim()) { 
-                showToast("Vui lÃƒÂ²ng nhÃ¡ÂºÂ­p tÃƒÂªn sÃƒÂ¡ch", 'warning'); 
+                showToast("Vui lÃƒÆ’Ã‚Â²ng nhÃƒÂ¡Ã‚ÂºÃ‚Â­p tÃƒÆ’Ã‚Âªn sÃƒÆ’Ã‚Â¡ch", 'warning'); 
                 return false; 
             }
             return true;
@@ -584,12 +584,12 @@ export default function BooksPage() {
         // EXISTING BOOK MODE
         if (inputMode === 'existing') {
             if (!selectedBookLabel) {
-                showToast("Vui lÃƒÂ²ng chÃ¡Â»Ân sÃƒÂ¡ch cÃ¡ÂºÂ§n nhÃ¡ÂºÂ­p thÃƒÂªm", 'warning');
+                showToast("Vui lÃƒÆ’Ã‚Â²ng chÃƒÂ¡Ã‚Â»Ã‚Ân sÃƒÆ’Ã‚Â¡ch cÃƒÂ¡Ã‚ÂºÃ‚Â§n nhÃƒÂ¡Ã‚ÂºÃ‚Â­p thÃƒÆ’Ã‚Âªm", 'warning');
                 return false;
             }
             const existingBookId = bookLabelToIdMap.get(selectedBookLabel);
             if (!existingBookId) {
-                 showToast("SÃƒÂ¡ch Ã„â€˜ÃƒÂ£ chÃ¡Â»Ân khÃƒÂ´ng hÃ¡Â»Â£p lÃ¡Â»â€¡", 'error');
+                 showToast("SÃƒÆ’Ã‚Â¡ch Ãƒâ€žÃ¢â‚¬ËœÃƒÆ’Ã‚Â£ chÃƒÂ¡Ã‚Â»Ã‚Ân khÃƒÆ’Ã‚Â´ng hÃƒÂ¡Ã‚Â»Ã‚Â£p lÃƒÂ¡Ã‚Â»Ã¢â‚¬Â¡", 'error');
                  return false;
             }
             return true;
@@ -597,29 +597,29 @@ export default function BooksPage() {
 
         // NEW BOOK MODE
         if (!formBookName.trim()) {
-            showToast("Vui lÃƒÂ²ng nhÃ¡ÂºÂ­p tÃƒÂªn sÃƒÂ¡ch", 'warning');
+            showToast("Vui lÃƒÆ’Ã‚Â²ng nhÃƒÂ¡Ã‚ÂºÃ‚Â­p tÃƒÆ’Ã‚Âªn sÃƒÆ’Ã‚Â¡ch", 'warning');
             return false;
         }
         if (!formPrice || formPrice <= 0) {
-            showToast("Vui lÃƒÂ²ng nhÃ¡ÂºÂ­p trÃ¡Â»â€¹ giÃƒÂ¡ sÃƒÂ¡ch", 'warning');
+            showToast("Vui lÃƒÆ’Ã‚Â²ng nhÃƒÂ¡Ã‚ÂºÃ‚Â­p trÃƒÂ¡Ã‚Â»Ã¢â‚¬Â¹ giÃƒÆ’Ã‚Â¡ sÃƒÆ’Ã‚Â¡ch", 'warning');
             return false;
         }
         if (!formPublishYear) {
-            showToast("Vui lÃƒÂ²ng nhÃ¡ÂºÂ­p nÃ„Æ’m xuÃ¡ÂºÂ¥t bÃ¡ÂºÂ£n", 'warning');
+            showToast("Vui lÃƒÆ’Ã‚Â²ng nhÃƒÂ¡Ã‚ÂºÃ‚Â­p nÃƒâ€žÃ†â€™m xuÃƒÂ¡Ã‚ÂºÃ‚Â¥t bÃƒÂ¡Ã‚ÂºÃ‚Â£n", 'warning');
             return false;
         }
 
         const publishYear = parseInt(formPublishYear);
         if (publishYear < minPublishYear || publishYear > currentYear) {
-            showToast(`NÃ„Æ’m xuÃ¡ÂºÂ¥t bÃ¡ÂºÂ£n phÃ¡ÂºÂ£i tÃ¡Â»Â« ${minPublishYear} Ã„â€˜Ã¡ÂºÂ¿n ${currentYear} (QÃ„Â2)`, 'error');
+            showToast(`NÃƒâ€žÃ†â€™m xuÃƒÂ¡Ã‚ÂºÃ‚Â¥t bÃƒÂ¡Ã‚ÂºÃ‚Â£n phÃƒÂ¡Ã‚ÂºÃ‚Â£i tÃƒÂ¡Ã‚Â»Ã‚Â« ${minPublishYear} Ãƒâ€žÃ¢â‚¬ËœÃƒÂ¡Ã‚ÂºÃ‚Â¿n ${currentYear} (QÃƒâ€žÃ‚Â2)`, 'error');
             return false;
         }
         if (!formCategory.trim()) {
-            showToast("Vui lÃƒÂ²ng chÃ¡Â»Ân thÃ¡Â»Æ’ loÃ¡ÂºÂ¡i", 'warning');
+            showToast("Vui lÃƒÆ’Ã‚Â²ng chÃƒÂ¡Ã‚Â»Ã‚Ân thÃƒÂ¡Ã‚Â»Ã†â€™ loÃƒÂ¡Ã‚ÂºÃ‚Â¡i", 'warning');
             return false;
         }
         if (!formDateReceived) {
-            showToast("Vui lÃƒÂ²ng chÃ¡Â»Ân ngÃƒÂ y nhÃ¡ÂºÂ­p sÃƒÂ¡ch", 'warning');
+            showToast("Vui lÃƒÆ’Ã‚Â²ng chÃƒÂ¡Ã‚Â»Ã‚Ân ngÃƒÆ’Ã‚Â y nhÃƒÂ¡Ã‚ÂºÃ‚Â­p sÃƒÆ’Ã‚Â¡ch", 'warning');
             return false;
         }
         
@@ -627,71 +627,71 @@ export default function BooksPage() {
         return true;
     };
 
-    // HÃƒÂ m xÃ¡Â»Â­ lÃƒÂ½ khi bÃ¡ÂºÂ¥m nÃƒÂºt LÃ†Â°u (Trigger Validation & Dialog)
+    // HÃƒÆ’Ã‚Â m xÃƒÂ¡Ã‚Â»Ã‚Â­ lÃƒÆ’Ã‚Â½ khi bÃƒÂ¡Ã‚ÂºÃ‚Â¥m nÃƒÆ’Ã‚Âºt LÃƒâ€ Ã‚Â°u (Trigger Validation & Dialog)
     const handlePreSave = async () => {
         if (!validateForm()) {
             return;
         }
 
-        // KiÃ¡Â»Æ’m tra trÃƒÂ¹ng lÃ¡ÂºÂ·p CHÃ¡Â»Ë† khi TÃ¡ÂºÂ O MÃ¡Â»Å¡I (inputMode === 'new' vÃƒÂ  khÃƒÂ´ng editingBookId)
+        // KiÃƒÂ¡Ã‚Â»Ã†â€™m tra trÃƒÆ’Ã‚Â¹ng lÃƒÂ¡Ã‚ÂºÃ‚Â·p CHÃƒÂ¡Ã‚Â»Ã‹â€  khi TÃƒÂ¡Ã‚ÂºÃ‚Â O MÃƒÂ¡Ã‚Â»Ã…Â¡I (inputMode === 'new' vÃƒÆ’Ã‚Â  khÃƒÆ’Ã‚Â´ng editingBookId)
         if (inputMode === 'new' && !editingBookId) {
             try {
                 const token = Cookies.get('access_token');
                 const headers = { 'Authorization': `Bearer ${token}` };
                 const baseUrl = 'http://localhost:4000/api';
 
-                // CÃ¡ÂºÂ§n tÃ¡ÂºÂ¡o title trÃ†Â°Ã¡Â»â€ºc Ã„â€˜Ã¡Â»Æ’ kiÃ¡Â»Æ’m tra
+                // CÃƒÂ¡Ã‚ÂºÃ‚Â§n tÃƒÂ¡Ã‚ÂºÃ‚Â¡o title trÃƒâ€ Ã‚Â°ÃƒÂ¡Ã‚Â»Ã¢â‚¬Âºc Ãƒâ€žÃ¢â‚¬ËœÃƒÂ¡Ã‚Â»Ã†â€™ kiÃƒÂ¡Ã‚Â»Ã†â€™m tra
                 const categoryId = categoryNameToIdMap.get(formCategory);
                 if (!categoryId) {
-                    showToast('KhÃƒÂ´ng tÃƒÂ¬m thÃ¡ÂºÂ¥y ID thÃ¡Â»Æ’ loÃ¡ÂºÂ¡i. Vui lÃƒÂ²ng chÃ¡Â»Ân lÃ¡ÂºÂ¡i.', 'error');
+                    showToast('KhÃƒÆ’Ã‚Â´ng tÃƒÆ’Ã‚Â¬m thÃƒÂ¡Ã‚ÂºÃ‚Â¥y ID thÃƒÂ¡Ã‚Â»Ã†â€™ loÃƒÂ¡Ã‚ÂºÃ‚Â¡i. Vui lÃƒÆ’Ã‚Â²ng chÃƒÂ¡Ã‚Â»Ã‚Ân lÃƒÂ¡Ã‚ÂºÃ‚Â¡i.', 'error');
                     return;
                 }
 
                 const publishYear = parseInt(formPublishYear);
 
-                // KiÃ¡Â»Æ’m tra xem cÃƒÂ³ TitleBook vÃ¡Â»â€ºi tÃƒÂªn nÃƒÂ y chÃ†Â°a
+                // KiÃƒÂ¡Ã‚Â»Ã†â€™m tra xem cÃƒÆ’Ã‚Â³ TitleBook vÃƒÂ¡Ã‚Â»Ã¢â‚¬Âºi tÃƒÆ’Ã‚Âªn nÃƒÆ’Ã‚Â y chÃƒâ€ Ã‚Â°a
                 const allTitlesRes = await fetch(`${baseUrl}/title-books`, { headers });
                 if (allTitlesRes.ok) {
                     const allTitles = await allTitlesRes.json();
-                    const existingTitle = allTitles.find((t: unknown) => t.title === formBookName);
+                    const existingTitle = allTitles.find((t: any) => t.title === formBookName);
                     
                     if (existingTitle) {
                         const titleId = existingTitle._id;
                         
-                        // KiÃ¡Â»Æ’m tra xem Ã„â€˜ÃƒÂ£ cÃƒÂ³ Book vÃ¡Â»â€ºi cÃƒÂ¹ng titleId, publishYear, publisher chÃ†Â°a
+                        // KiÃƒÂ¡Ã‚Â»Ã†â€™m tra xem Ãƒâ€žÃ¢â‚¬ËœÃƒÆ’Ã‚Â£ cÃƒÆ’Ã‚Â³ Book vÃƒÂ¡Ã‚Â»Ã¢â‚¬Âºi cÃƒÆ’Ã‚Â¹ng titleId, publishYear, publisher chÃƒâ€ Ã‚Â°a
                         const allBooksRes = await fetch(`${baseUrl}/books`, { headers });
                         if (allBooksRes.ok) {
                             const allBooks = await allBooksRes.json();
-                            const duplicateBook = allBooks.find((book: unknown) => {
+                            const duplicateBook = allBooks.find((book: any) => {
                                 const bookTitleId = typeof book.titleId === 'object' ? book.titleId._id : book.titleId;
                                 return (
                                     bookTitleId === titleId &&
                                     book.publishYear === publishYear &&
-                                    book.publisher === (formPublisher || 'KhÃƒÂ´ng xÃƒÂ¡c Ã„â€˜Ã¡Â»â€¹nh')
+                                    book.publisher === (formPublisher || 'KhÃƒÆ’Ã‚Â´ng xÃƒÆ’Ã‚Â¡c Ãƒâ€žÃ¢â‚¬ËœÃƒÂ¡Ã‚Â»Ã¢â‚¬Â¹nh')
                                 );
                             });
 
                             if (duplicateBook) {
                                 showToast(
-                                    'SÃƒÂ¡ch nÃƒÂ y Ã„â€˜ÃƒÂ£ tÃ¡Â»â€œn tÃ¡ÂºÂ¡i vÃ¡Â»â€ºi cÃƒÂ¹ng thÃƒÂ´ng tin (tÃƒÂªn, tÃƒÂ¡c giÃ¡ÂºÂ£, thÃ¡Â»Æ’ loÃ¡ÂºÂ¡i, nÃ„Æ’m xuÃ¡ÂºÂ¥t bÃ¡ÂºÂ£n, nhÃƒÂ  xuÃ¡ÂºÂ¥t bÃ¡ÂºÂ£n). Vui lÃƒÂ²ng sÃ¡Â»Â­ dÃ¡Â»Â¥ng chÃ¡Â»Â©c nÃ„Æ’ng "NhÃ¡ÂºÂ­p thÃƒÂªm bÃ¡ÂºÂ£n sao" Ã„â€˜Ã¡Â»Æ’ tÃ„Æ’ng sÃ¡Â»â€˜ lÃ†Â°Ã¡Â»Â£ng.',
+                                    'SÃƒÆ’Ã‚Â¡ch nÃƒÆ’Ã‚Â y Ãƒâ€žÃ¢â‚¬ËœÃƒÆ’Ã‚Â£ tÃƒÂ¡Ã‚Â»Ã¢â‚¬Å“n tÃƒÂ¡Ã‚ÂºÃ‚Â¡i vÃƒÂ¡Ã‚Â»Ã¢â‚¬Âºi cÃƒÆ’Ã‚Â¹ng thÃƒÆ’Ã‚Â´ng tin (tÃƒÆ’Ã‚Âªn, tÃƒÆ’Ã‚Â¡c giÃƒÂ¡Ã‚ÂºÃ‚Â£, thÃƒÂ¡Ã‚Â»Ã†â€™ loÃƒÂ¡Ã‚ÂºÃ‚Â¡i, nÃƒâ€žÃ†â€™m xuÃƒÂ¡Ã‚ÂºÃ‚Â¥t bÃƒÂ¡Ã‚ÂºÃ‚Â£n, nhÃƒÆ’Ã‚Â  xuÃƒÂ¡Ã‚ÂºÃ‚Â¥t bÃƒÂ¡Ã‚ÂºÃ‚Â£n). Vui lÃƒÆ’Ã‚Â²ng sÃƒÂ¡Ã‚Â»Ã‚Â­ dÃƒÂ¡Ã‚Â»Ã‚Â¥ng chÃƒÂ¡Ã‚Â»Ã‚Â©c nÃƒâ€žÃ†â€™ng "NhÃƒÂ¡Ã‚ÂºÃ‚Â­p thÃƒÆ’Ã‚Âªm bÃƒÂ¡Ã‚ÂºÃ‚Â£n sao" Ãƒâ€žÃ¢â‚¬ËœÃƒÂ¡Ã‚Â»Ã†â€™ tÃƒâ€žÃ†â€™ng sÃƒÂ¡Ã‚Â»Ã¢â‚¬Ëœ lÃƒâ€ Ã‚Â°ÃƒÂ¡Ã‚Â»Ã‚Â£ng.',
                                     'warning'
                                 );
-                                return; // ChÃ¡ÂºÂ·n luÃƒÂ´n, KHÃƒâ€NG mÃ¡Â»Å¸ dialog confirm
+                                return; // ChÃƒÂ¡Ã‚ÂºÃ‚Â·n luÃƒÆ’Ã‚Â´n, KHÃƒÆ’Ã¢â‚¬ÂNG mÃƒÂ¡Ã‚Â»Ã…Â¸ dialog confirm
                             }
                         }
                     }
                 }
             } catch (error) {
                 console.error('Error checking duplicates:', error);
-                // NÃ¡ÂºÂ¿u lÃ¡Â»â€”i khi kiÃ¡Â»Æ’m tra, vÃ¡ÂºÂ«n cho phÃƒÂ©p tiÃ¡ÂºÂ¿p tÃ¡Â»Â¥c (backend sÃ¡ÂºÂ½ kiÃ¡Â»Æ’m tra lÃ¡ÂºÂ¡i)
+                // NÃƒÂ¡Ã‚ÂºÃ‚Â¿u lÃƒÂ¡Ã‚Â»Ã¢â‚¬â€i khi kiÃƒÂ¡Ã‚Â»Ã†â€™m tra, vÃƒÂ¡Ã‚ÂºÃ‚Â«n cho phÃƒÆ’Ã‚Â©p tiÃƒÂ¡Ã‚ÂºÃ‚Â¿p tÃƒÂ¡Ã‚Â»Ã‚Â¥c (backend sÃƒÂ¡Ã‚ÂºÃ‚Â½ kiÃƒÂ¡Ã‚Â»Ã†â€™m tra lÃƒÂ¡Ã‚ÂºÃ‚Â¡i)
             }
         }
 
-        // NÃ¡ÂºÂ¿u pass hÃ¡ÂºÂ¿t validation vÃƒÂ  khÃƒÂ´ng trÃƒÂ¹ng, mÃ¡Â»Å¸ dialog confirm
+        // NÃƒÂ¡Ã‚ÂºÃ‚Â¿u pass hÃƒÂ¡Ã‚ÂºÃ‚Â¿t validation vÃƒÆ’Ã‚Â  khÃƒÆ’Ã‚Â´ng trÃƒÆ’Ã‚Â¹ng, mÃƒÂ¡Ã‚Â»Ã…Â¸ dialog confirm
         setIsConfirmDialogOpen(true);
     };
 
-    // HÃƒÂ m thÃ¡Â»Â±c thi lÃ†Â°u (Sau khi confirm)
+    // HÃƒÆ’Ã‚Â m thÃƒÂ¡Ã‚Â»Ã‚Â±c thi lÃƒâ€ Ã‚Â°u (Sau khi confirm)
     const handleConfirmSave = async () => {
         setIsConfirmDialogOpen(false);
         
@@ -699,7 +699,7 @@ export default function BooksPage() {
         const headers = { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' };
         const baseUrl = 'http://localhost:4000/api';
 
-        // === LOGIC CÃ¡ÂºÂ¬P NHÃ¡ÂºÂ¬T (EDIT) ===
+        // === LOGIC CÃƒÂ¡Ã‚ÂºÃ‚Â¬P NHÃƒÂ¡Ã‚ÂºÃ‚Â¬T (EDIT) ===
         if (editingBookId && editingBookData) {
             setIsSaving(true);
             try {
@@ -746,19 +746,19 @@ export default function BooksPage() {
                     });
                 }
                 
-                showToast("CÃ¡ÂºÂ­p nhÃ¡ÂºÂ­t thÃƒÂ´ng tin sÃƒÂ¡ch thÃƒÂ nh cÃƒÂ´ng!", "success");
+                showToast("CÃƒÂ¡Ã‚ÂºÃ‚Â­p nhÃƒÂ¡Ã‚ÂºÃ‚Â­t thÃƒÆ’Ã‚Â´ng tin sÃƒÆ’Ã‚Â¡ch thÃƒÆ’Ã‚Â nh cÃƒÆ’Ã‚Â´ng!", "success");
                 window.location.reload();
 
             } catch (error) {
                 console.error(error);
-                showToast("LÃ¡Â»â€”i khi cÃ¡ÂºÂ­p nhÃ¡ÂºÂ­t", "error");
+                showToast("LÃƒÂ¡Ã‚Â»Ã¢â‚¬â€i khi cÃƒÂ¡Ã‚ÂºÃ‚Â­p nhÃƒÂ¡Ã‚ÂºÃ‚Â­t", "error");
             } finally {
                 setIsSaving(false);
             }
             return;
         }
         
-        // === LOGIC CHO CHÃ¡ÂºÂ¾ Ã„ÂÃ¡Â»Ëœ "SÃƒÂCH CÃƒâ€œ SÃ¡ÂºÂ´N" ===
+        // === LOGIC CHO CHÃƒÂ¡Ã‚ÂºÃ‚Â¾ Ãƒâ€žÃ‚ÂÃƒÂ¡Ã‚Â»Ã‹Å“ "SÃƒÆ’Ã‚ÂCH CÃƒÆ’Ã¢â‚¬Å“ SÃƒÂ¡Ã‚ÂºÃ‚Â´N" ===
         if (inputMode === 'existing') {
             const existingBookId = bookLabelToIdMap.get(selectedBookLabel);
             // Re-check id validity though checked in validateForm
@@ -770,7 +770,7 @@ export default function BooksPage() {
                 const headers = { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' };
                 const baseUrl = 'http://localhost:4000/api';
 
-                console.log(`[Existing Mode] ThÃƒÂªm ${formQuantity} bÃ¡ÂºÂ£n sao cho Book ID: ${existingBookId}`);
+                console.log(`[Existing Mode] ThÃƒÆ’Ã‚Âªm ${formQuantity} bÃƒÂ¡Ã‚ÂºÃ‚Â£n sao cho Book ID: ${existingBookId}`);
                 
                 const copyPromises = [];
                 for (let i = 0; i < formQuantity; i++) {
@@ -787,7 +787,7 @@ export default function BooksPage() {
                 }
                 
                 await Promise.all(copyPromises);
-                showToast(`Ã„ÂÃƒÂ£ thÃƒÂªm ${formQuantity} bÃ¡ÂºÂ£n sao thÃƒÂ nh cÃƒÂ´ng!`, 'success');
+                showToast(`Ãƒâ€žÃ‚ÂÃƒÆ’Ã‚Â£ thÃƒÆ’Ã‚Âªm ${formQuantity} bÃƒÂ¡Ã‚ÂºÃ‚Â£n sao thÃƒÆ’Ã‚Â nh cÃƒÆ’Ã‚Â´ng!`, 'success');
                 
                 // Reset & Reload
                 setSelectedBookLabel("");
@@ -797,14 +797,14 @@ export default function BooksPage() {
 
             } catch (error) {
                 console.error(error);
-                showToast("LÃ¡Â»â€”i khi thÃƒÂªm bÃ¡ÂºÂ£n sao", 'error');
+                showToast("LÃƒÂ¡Ã‚Â»Ã¢â‚¬â€i khi thÃƒÆ’Ã‚Âªm bÃƒÂ¡Ã‚ÂºÃ‚Â£n sao", 'error');
             } finally {
                 setIsSaving(false);
             }
             return;
         }
 
-        // === LOGIC CHO CHÃ¡ÂºÂ¾ Ã„ÂÃ¡Â»Ëœ "SÃƒÂCH MÃ¡Â»Å¡I" (Code cÃ…Â©) ===
+        // === LOGIC CHO CHÃƒÂ¡Ã‚ÂºÃ‚Â¾ Ãƒâ€žÃ‚ÂÃƒÂ¡Ã‚Â»Ã‹Å“ "SÃƒÆ’Ã‚ÂCH MÃƒÂ¡Ã‚Â»Ã…Â¡I" (Code cÃƒâ€¦Ã‚Â©) ===
         const publishYear = parseInt(formPublishYear);
 
         setIsSaving(true);
@@ -816,20 +816,20 @@ export default function BooksPage() {
                 'Content-Type': 'application/json',
             };
 
-            // Convert categoryName Ã¢â€ â€™ categoryId
+            // Convert categoryName ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ categoryId
             const categoryId = categoryNameToIdMap.get(formCategory);
             if (!categoryId) {
-                throw new Error('KhÃƒÂ´ng tÃƒÂ¬m thÃ¡ÂºÂ¥y ID thÃ¡Â»Æ’ loÃ¡ÂºÂ¡i. Vui lÃƒÂ²ng chÃ¡Â»Ân lÃ¡ÂºÂ¡i.');
+                throw new Error('KhÃƒÆ’Ã‚Â´ng tÃƒÆ’Ã‚Â¬m thÃƒÂ¡Ã‚ÂºÃ‚Â¥y ID thÃƒÂ¡Ã‚Â»Ã†â€™ loÃƒÂ¡Ã‚ÂºÃ‚Â¡i. Vui lÃƒÆ’Ã‚Â²ng chÃƒÂ¡Ã‚Â»Ã‚Ân lÃƒÂ¡Ã‚ÂºÃ‚Â¡i.');
             }
 
-            // 1. XÃ¡Â»Â­ lÃƒÂ½ Author trÃ†Â°Ã¡Â»â€ºc (kiÃ¡Â»Æ’m tra hoÃ¡ÂºÂ·c tÃ¡ÂºÂ¡o mÃ¡Â»â€ºi)
+            // 1. XÃƒÂ¡Ã‚Â»Ã‚Â­ lÃƒÆ’Ã‚Â½ Author trÃƒâ€ Ã‚Â°ÃƒÂ¡Ã‚Â»Ã¢â‚¬Âºc (kiÃƒÂ¡Ã‚Â»Ã†â€™m tra hoÃƒÂ¡Ã‚ÂºÃ‚Â·c tÃƒÂ¡Ã‚ÂºÃ‚Â¡o mÃƒÂ¡Ã‚Â»Ã¢â‚¬Âºi)
             let authorId: string | undefined;
             if (formAuthor.trim()) {
                 authorId = authorNameToIdMap.get(formAuthor);
                 
-                // NÃ¡ÂºÂ¿u tÃƒÂ¡c giÃ¡ÂºÂ£ chÃ†Â°a tÃ¡Â»â€œn tÃ¡ÂºÂ¡i, tÃ¡ÂºÂ¡o mÃ¡Â»â€ºi
+                // NÃƒÂ¡Ã‚ÂºÃ‚Â¿u tÃƒÆ’Ã‚Â¡c giÃƒÂ¡Ã‚ÂºÃ‚Â£ chÃƒâ€ Ã‚Â°a tÃƒÂ¡Ã‚Â»Ã¢â‚¬Å“n tÃƒÂ¡Ã‚ÂºÃ‚Â¡i, tÃƒÂ¡Ã‚ÂºÃ‚Â¡o mÃƒÂ¡Ã‚Â»Ã¢â‚¬Âºi
                 if (!authorId) {
-                    console.log('TÃ¡ÂºÂ¡o tÃƒÂ¡c giÃ¡ÂºÂ£ mÃ¡Â»â€ºi:', formAuthor);
+                    console.log('TÃƒÂ¡Ã‚ÂºÃ‚Â¡o tÃƒÆ’Ã‚Â¡c giÃƒÂ¡Ã‚ÂºÃ‚Â£ mÃƒÂ¡Ã‚Â»Ã¢â‚¬Âºi:', formAuthor);
                     const newAuthorRes = await fetch(`${baseUrl}/authors`, {
                         method: 'POST',
                         headers,
@@ -841,20 +841,20 @@ export default function BooksPage() {
                     if (newAuthorRes.ok) {
                         const newAuthorData = await newAuthorRes.json();
                         authorId = newAuthorData._id || newAuthorData.id;
-                        console.log('Ã¢Å“â€œ TÃ¡ÂºÂ¡o tÃƒÂ¡c giÃ¡ÂºÂ£ thÃƒÂ nh cÃƒÂ´ng, ID:', authorId);
+                        console.log('ÃƒÂ¢Ã…â€œÃ¢â‚¬Å“ TÃƒÂ¡Ã‚ÂºÃ‚Â¡o tÃƒÆ’Ã‚Â¡c giÃƒÂ¡Ã‚ÂºÃ‚Â£ thÃƒÆ’Ã‚Â nh cÃƒÆ’Ã‚Â´ng, ID:', authorId);
                     } else {
                         const errorData = await newAuthorRes.json().catch(() => ({}));
-                        console.error('Ã¢Å“â€” LÃ¡Â»â€”i tÃ¡ÂºÂ¡o tÃƒÂ¡c giÃ¡ÂºÂ£:', errorData);
-                        throw new Error('KhÃƒÂ´ng thÃ¡Â»Æ’ tÃ¡ÂºÂ¡o tÃƒÂ¡c giÃ¡ÂºÂ£');
+                        console.error('ÃƒÂ¢Ã…â€œÃ¢â‚¬â€ LÃƒÂ¡Ã‚Â»Ã¢â‚¬â€i tÃƒÂ¡Ã‚ÂºÃ‚Â¡o tÃƒÆ’Ã‚Â¡c giÃƒÂ¡Ã‚ÂºÃ‚Â£:', errorData);
+                        throw new Error('KhÃƒÆ’Ã‚Â´ng thÃƒÂ¡Ã‚Â»Ã†â€™ tÃƒÂ¡Ã‚ÂºÃ‚Â¡o tÃƒÆ’Ã‚Â¡c giÃƒÂ¡Ã‚ÂºÃ‚Â£');
                     }
                 } else {
-                    console.log('Ã¢Å“â€œ SÃ¡Â»Â­ dÃ¡Â»Â¥ng tÃƒÂ¡c giÃ¡ÂºÂ£ cÃƒÂ³ sÃ¡ÂºÂµn, ID:', authorId);
+                    console.log('ÃƒÂ¢Ã…â€œÃ¢â‚¬Å“ SÃƒÂ¡Ã‚Â»Ã‚Â­ dÃƒÂ¡Ã‚Â»Ã‚Â¥ng tÃƒÆ’Ã‚Â¡c giÃƒÂ¡Ã‚ÂºÃ‚Â£ cÃƒÆ’Ã‚Â³ sÃƒÂ¡Ã‚ÂºÃ‚Âµn, ID:', authorId);
                 }
             }
 
-            // 2. TÃ¡ÂºÂ¡o Title Book
+            // 2. TÃƒÂ¡Ã‚ÂºÃ‚Â¡o Title Book
             let titleBookId: string;
-            console.log('TÃ¡ÂºÂ¡o Title Book:', formBookName);
+            console.log('TÃƒÂ¡Ã‚ÂºÃ‚Â¡o Title Book:', formBookName);
             
             const titleRes = await fetch(`${baseUrl}/title-books`, {
                 method: 'POST',
@@ -868,16 +868,16 @@ export default function BooksPage() {
             if (!titleRes.ok) {
                 const errorData = await titleRes.json().catch(() => ({}));
                 console.error('Title creation response:', errorData);
-                throw new Error(`KhÃƒÂ´ng thÃ¡Â»Æ’ tÃ¡ÂºÂ¡o tÃƒÂªn sÃƒÂ¡ch: ${titleRes.status}`);
+                throw new Error(`KhÃƒÆ’Ã‚Â´ng thÃƒÂ¡Ã‚Â»Ã†â€™ tÃƒÂ¡Ã‚ÂºÃ‚Â¡o tÃƒÆ’Ã‚Âªn sÃƒÆ’Ã‚Â¡ch: ${titleRes.status}`);
             }
 
             const titleData = await titleRes.json();
             titleBookId = titleData._id || titleData.id;
-            console.log('Ã¢Å“â€œ TÃ¡ÂºÂ¡o Title Book thÃƒÂ nh cÃƒÂ´ng, ID:', titleBookId);
+            console.log('ÃƒÂ¢Ã…â€œÃ¢â‚¬Å“ TÃƒÂ¡Ã‚ÂºÃ‚Â¡o Title Book thÃƒÆ’Ã‚Â nh cÃƒÆ’Ã‚Â´ng, ID:', titleBookId);
 
-            // 3. TÃ¡ÂºÂ¡o Title-Author (liÃƒÂªn kÃ¡ÂºÂ¿t tÃƒÂ¡c giÃ¡ÂºÂ£ vÃ¡Â»â€ºi sÃƒÂ¡ch)
+            // 3. TÃƒÂ¡Ã‚ÂºÃ‚Â¡o Title-Author (liÃƒÆ’Ã‚Âªn kÃƒÂ¡Ã‚ÂºÃ‚Â¿t tÃƒÆ’Ã‚Â¡c giÃƒÂ¡Ã‚ÂºÃ‚Â£ vÃƒÂ¡Ã‚Â»Ã¢â‚¬Âºi sÃƒÆ’Ã‚Â¡ch)
             if (authorId) {
-                console.log('TÃ¡ÂºÂ¡o liÃƒÂªn kÃ¡ÂºÂ¿t Title-Author:', { titleId: titleBookId, authorId });
+                console.log('TÃƒÂ¡Ã‚ÂºÃ‚Â¡o liÃƒÆ’Ã‚Âªn kÃƒÂ¡Ã‚ÂºÃ‚Â¿t Title-Author:', { titleId: titleBookId, authorId });
                 const titleAuthorRes = await fetch(`${baseUrl}/title-authors`, {
                     method: 'POST',
                     headers,
@@ -889,23 +889,23 @@ export default function BooksPage() {
 
                 if (!titleAuthorRes.ok) {
                     const errorData = await titleAuthorRes.json().catch(() => ({}));
-                    console.error('Ã¢Å“â€” LÃ¡Â»â€”i tÃ¡ÂºÂ¡o liÃƒÂªn kÃ¡ÂºÂ¿t tÃƒÂ¡c giÃ¡ÂºÂ£:', errorData);
-                    throw new Error('KhÃƒÂ´ng thÃ¡Â»Æ’ liÃƒÂªn kÃ¡ÂºÂ¿t tÃƒÂ¡c giÃ¡ÂºÂ£ vÃ¡Â»â€ºi sÃƒÂ¡ch');
+                    console.error('ÃƒÂ¢Ã…â€œÃ¢â‚¬â€ LÃƒÂ¡Ã‚Â»Ã¢â‚¬â€i tÃƒÂ¡Ã‚ÂºÃ‚Â¡o liÃƒÆ’Ã‚Âªn kÃƒÂ¡Ã‚ÂºÃ‚Â¿t tÃƒÆ’Ã‚Â¡c giÃƒÂ¡Ã‚ÂºÃ‚Â£:', errorData);
+                    throw new Error('KhÃƒÆ’Ã‚Â´ng thÃƒÂ¡Ã‚Â»Ã†â€™ liÃƒÆ’Ã‚Âªn kÃƒÂ¡Ã‚ÂºÃ‚Â¿t tÃƒÆ’Ã‚Â¡c giÃƒÂ¡Ã‚ÂºÃ‚Â£ vÃƒÂ¡Ã‚Â»Ã¢â‚¬Âºi sÃƒÆ’Ã‚Â¡ch');
                 } else {
                     const linkData = await titleAuthorRes.json();
-                    console.log('Ã¢Å“â€œ LiÃƒÂªn kÃ¡ÂºÂ¿t tÃƒÂ¡c giÃ¡ÂºÂ£ thÃƒÂ nh cÃƒÂ´ng:', linkData);
+                    console.log('ÃƒÂ¢Ã…â€œÃ¢â‚¬Å“ LiÃƒÆ’Ã‚Âªn kÃƒÂ¡Ã‚ÂºÃ‚Â¿t tÃƒÆ’Ã‚Â¡c giÃƒÂ¡Ã‚ÂºÃ‚Â£ thÃƒÆ’Ã‚Â nh cÃƒÆ’Ã‚Â´ng:', linkData);
                 }
             }
 
-            // 4. TÃ¡ÂºÂ¡o Book (Edition)
-            console.log('TÃ¡ÂºÂ¡o Book (Edition)');
+            // 4. TÃƒÂ¡Ã‚ÂºÃ‚Â¡o Book (Edition)
+            console.log('TÃƒÂ¡Ã‚ÂºÃ‚Â¡o Book (Edition)');
             const bookRes = await fetch(`${baseUrl}/books`, {
                 method: 'POST',
                 headers,
                 body: JSON.stringify({
                     titleId: titleBookId,
                     publishYear,
-                    publisher: formPublisher || 'KhÃƒÂ´ng xÃƒÂ¡c Ã„â€˜Ã¡Â»â€¹nh',
+                    publisher: formPublisher || 'KhÃƒÆ’Ã‚Â´ng xÃƒÆ’Ã‚Â¡c Ãƒâ€žÃ¢â‚¬ËœÃƒÂ¡Ã‚Â»Ã¢â‚¬Â¹nh',
                     importDate: formDateReceived,
                     price: formPrice,
                 })
@@ -914,14 +914,14 @@ export default function BooksPage() {
             if (!bookRes.ok) {
                 const errorData = await bookRes.json().catch(() => ({}));
                 console.error('Book creation response:', errorData);
-                throw new Error(`KhÃƒÂ´ng thÃ¡Â»Æ’ tÃ¡ÂºÂ¡o bÃ¡ÂºÂ£n sÃƒÂ¡ch: ${bookRes.status}`);
+                throw new Error(`KhÃƒÆ’Ã‚Â´ng thÃƒÂ¡Ã‚Â»Ã†â€™ tÃƒÂ¡Ã‚ÂºÃ‚Â¡o bÃƒÂ¡Ã‚ÂºÃ‚Â£n sÃƒÆ’Ã‚Â¡ch: ${bookRes.status}`);
             }
 
             const bookData = await bookRes.json();
             const bookId = bookData._id || bookData.id;
 
-            // 5. TÃ¡ÂºÂ¡o Book Copy (theo sÃ¡Â»â€˜ lÃ†Â°Ã¡Â»Â£ng)
-            console.log(`TÃ¡ÂºÂ¡o ${formQuantity} bÃ¡ÂºÂ£n sao sÃƒÂ¡ch...`);
+            // 5. TÃƒÂ¡Ã‚ÂºÃ‚Â¡o Book Copy (theo sÃƒÂ¡Ã‚Â»Ã¢â‚¬Ëœ lÃƒâ€ Ã‚Â°ÃƒÂ¡Ã‚Â»Ã‚Â£ng)
+            console.log(`TÃƒÂ¡Ã‚ÂºÃ‚Â¡o ${formQuantity} bÃƒÂ¡Ã‚ÂºÃ‚Â£n sao sÃƒÆ’Ã‚Â¡ch...`);
             const copyPromises = [];
             for (let i = 0; i < formQuantity; i++) {
                 copyPromises.push(
@@ -935,7 +935,7 @@ export default function BooksPage() {
                     }).then(async (res) => {
                          if (!res.ok) {
                              const err = await res.json().catch(() => ({}));
-                             throw new Error(`LÃ¡Â»â€”i tÃ¡ÂºÂ¡o bÃ¡ÂºÂ£n sao ${i+1}: ${err.message || res.status}`);
+                             throw new Error(`LÃƒÂ¡Ã‚Â»Ã¢â‚¬â€i tÃƒÂ¡Ã‚ÂºÃ‚Â¡o bÃƒÂ¡Ã‚ÂºÃ‚Â£n sao ${i+1}: ${err.message || res.status}`);
                          }
                          return res.json();
                     })
@@ -943,8 +943,8 @@ export default function BooksPage() {
             }
 
             await Promise.all(copyPromises);
-            console.log(`Ã¢Å“â€œ TÃ¡ÂºÂ¡o ${formQuantity} Book Copy thÃƒÂ nh cÃƒÂ´ng`);
-            showToast('LÃ†Â°u sÃƒÂ¡ch thÃƒÂ nh cÃƒÂ´ng!', 'success');
+            console.log(`ÃƒÂ¢Ã…â€œÃ¢â‚¬Å“ TÃƒÂ¡Ã‚ÂºÃ‚Â¡o ${formQuantity} Book Copy thÃƒÆ’Ã‚Â nh cÃƒÆ’Ã‚Â´ng`);
+            showToast('LÃƒâ€ Ã‚Â°u sÃƒÆ’Ã‚Â¡ch thÃƒÆ’Ã‚Â nh cÃƒÆ’Ã‚Â´ng!', 'success');
 
             // Reset form
             setFormBookName("");
@@ -967,7 +967,7 @@ export default function BooksPage() {
 
         } catch (error) {
             console.error('Error saving book:', error);
-            showToast(`LÃ¡Â»â€”i: ${error instanceof Error ? error.message : 'KhÃƒÂ´ng thÃ¡Â»Æ’ lÃ†Â°u sÃƒÂ¡ch'}`, 'error');
+            showToast(`LÃƒÂ¡Ã‚Â»Ã¢â‚¬â€i: ${error instanceof Error ? error.message : 'KhÃƒÆ’Ã‚Â´ng thÃƒÂ¡Ã‚Â»Ã†â€™ lÃƒâ€ Ã‚Â°u sÃƒÆ’Ã‚Â¡ch'}`, 'error');
         } finally {
             setIsSaving(false);
         }
@@ -996,30 +996,30 @@ export default function BooksPage() {
             const token = Cookies.get('access_token');
             const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
             
-            // KiÃ¡Â»Æ’m tra Ã„â€˜iÃ¡Â»Âu kiÃ¡Â»â€¡n xÃƒÂ³a
+            // KiÃƒÂ¡Ã‚Â»Ã†â€™m tra Ãƒâ€žÃ¢â‚¬ËœiÃƒÂ¡Ã‚Â»Ã‚Âu kiÃƒÂ¡Ã‚Â»Ã¢â‚¬Â¡n xÃƒÆ’Ã‚Â³a
             const checkRes = await fetch(`${baseUrl}/title-books/${book.id}/check-delete`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             
             if (!checkRes.ok) {
-                showToast('KhÃƒÂ´ng thÃ¡Â»Æ’ kiÃ¡Â»Æ’m tra Ã„â€˜iÃ¡Â»Âu kiÃ¡Â»â€¡n xÃƒÂ³a', 'error');
+                showToast('KhÃƒÆ’Ã‚Â´ng thÃƒÂ¡Ã‚Â»Ã†â€™ kiÃƒÂ¡Ã‚Â»Ã†â€™m tra Ãƒâ€žÃ¢â‚¬ËœiÃƒÂ¡Ã‚Â»Ã‚Âu kiÃƒÂ¡Ã‚Â»Ã¢â‚¬Â¡n xÃƒÆ’Ã‚Â³a', 'error');
                 return;
             }
             
             const checkData = await checkRes.json();
             
-            // NÃ¡ÂºÂ¿u cÃƒÂ³ sÃƒÂ¡ch Ã„â€˜ang mÃ†Â°Ã¡Â»Â£n, khÃƒÂ´ng cho xÃƒÂ³a
+            // NÃƒÂ¡Ã‚ÂºÃ‚Â¿u cÃƒÆ’Ã‚Â³ sÃƒÆ’Ã‚Â¡ch Ãƒâ€žÃ¢â‚¬Ëœang mÃƒâ€ Ã‚Â°ÃƒÂ¡Ã‚Â»Ã‚Â£n, khÃƒÆ’Ã‚Â´ng cho xÃƒÆ’Ã‚Â³a
             if (!checkData.canDelete) {
-                showToast(`KhÃƒÂ´ng thÃ¡Â»Æ’ xÃƒÂ³a: CÃƒÂ²n ${checkData.borrowedCount} cuÃ¡Â»â€˜n sÃƒÂ¡ch Ã„â€˜ang Ã„â€˜Ã†Â°Ã¡Â»Â£c mÃ†Â°Ã¡Â»Â£n. Vui lÃƒÂ²ng Ã„â€˜Ã¡Â»Â£i trÃ¡ÂºÂ£ hÃ¡ÂºÂ¿t sÃƒÂ¡ch trÃ†Â°Ã¡Â»â€ºc khi xÃƒÂ³a.`, 'error');
+                showToast(`KhÃƒÆ’Ã‚Â´ng thÃƒÂ¡Ã‚Â»Ã†â€™ xÃƒÆ’Ã‚Â³a: CÃƒÆ’Ã‚Â²n ${checkData.borrowedCount} cuÃƒÂ¡Ã‚Â»Ã¢â‚¬Ëœn sÃƒÆ’Ã‚Â¡ch Ãƒâ€žÃ¢â‚¬Ëœang Ãƒâ€žÃ¢â‚¬ËœÃƒâ€ Ã‚Â°ÃƒÂ¡Ã‚Â»Ã‚Â£c mÃƒâ€ Ã‚Â°ÃƒÂ¡Ã‚Â»Ã‚Â£n. Vui lÃƒÆ’Ã‚Â²ng Ãƒâ€žÃ¢â‚¬ËœÃƒÂ¡Ã‚Â»Ã‚Â£i trÃƒÂ¡Ã‚ÂºÃ‚Â£ hÃƒÂ¡Ã‚ÂºÃ‚Â¿t sÃƒÆ’Ã‚Â¡ch trÃƒâ€ Ã‚Â°ÃƒÂ¡Ã‚Â»Ã¢â‚¬Âºc khi xÃƒÆ’Ã‚Â³a.`, 'error');
                 return;
             }
             
-            // Cho phÃƒÂ©p xÃƒÂ³a - luÃƒÂ´n xÃƒÂ³a mÃ¡Â»Âm
+            // Cho phÃƒÆ’Ã‚Â©p xÃƒÆ’Ã‚Â³a - luÃƒÆ’Ã‚Â´n xÃƒÆ’Ã‚Â³a mÃƒÂ¡Ã‚Â»Ã‚Âm
             setDeletingBookId(book.id);
             setIsDeleteDialogOpen(true);
         } catch (error) {
             console.error('Error checking delete conditions:', error);
-            showToast('LÃ¡Â»â€”i khi kiÃ¡Â»Æ’m tra Ã„â€˜iÃ¡Â»Âu kiÃ¡Â»â€¡n xÃƒÂ³a', 'error');
+            showToast('LÃƒÂ¡Ã‚Â»Ã¢â‚¬â€i khi kiÃƒÂ¡Ã‚Â»Ã†â€™m tra Ãƒâ€žÃ¢â‚¬ËœiÃƒÂ¡Ã‚Â»Ã‚Âu kiÃƒÂ¡Ã‚Â»Ã¢â‚¬Â¡n xÃƒÆ’Ã‚Â³a', 'error');
         }
     };
 
@@ -1036,10 +1036,10 @@ export default function BooksPage() {
             });
             
             if (!res.ok) {
-                throw new Error('KhÃƒÂ´ng thÃ¡Â»Æ’ xÃƒÂ³a sÃƒÂ¡ch');
+                throw new Error('KhÃƒÆ’Ã‚Â´ng thÃƒÂ¡Ã‚Â»Ã†â€™ xÃƒÆ’Ã‚Â³a sÃƒÆ’Ã‚Â¡ch');
             }
             
-            showToast('Ã„ÂÃƒÂ£ xÃƒÂ³a sÃƒÂ¡ch thÃƒÂ nh cÃƒÂ´ng', 'success');
+            showToast('Ãƒâ€žÃ‚ÂÃƒÆ’Ã‚Â£ xÃƒÆ’Ã‚Â³a sÃƒÆ’Ã‚Â¡ch thÃƒÆ’Ã‚Â nh cÃƒÆ’Ã‚Â´ng', 'success');
             setIsDeleteDialogOpen(false);
             setDeletingBookId(null);
             
@@ -1047,7 +1047,7 @@ export default function BooksPage() {
             window.location.reload();
         } catch (error) {
             console.error('Error deleting book:', error);
-            showToast('LÃ¡Â»â€”i khi xÃƒÂ³a sÃƒÂ¡ch', 'error');
+            showToast('LÃƒÂ¡Ã‚Â»Ã¢â‚¬â€i khi xÃƒÆ’Ã‚Â³a sÃƒÆ’Ã‚Â¡ch', 'error');
         }
     };
 
@@ -1056,57 +1056,57 @@ export default function BooksPage() {
             {/* --- HEADER --- */}
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div>
-                    <h1 className="text-2xl font-bold text-slate-800 tracking-tight">QuÃ¡ÂºÂ£n lÃƒÂ½ SÃƒÂ¡ch</h1>
-                    <p className="text-sm text-slate-500">TiÃ¡ÂºÂ¿p nhÃ¡ÂºÂ­n sÃƒÂ¡ch mÃ¡Â»â€ºi (BM2) vÃƒÂ  tra cÃ¡Â»Â©u thÃƒÂ´ng tin (BM3).</p>
+                    <h1 className="text-2xl font-bold text-slate-800 tracking-tight">QuÃƒÂ¡Ã‚ÂºÃ‚Â£n lÃƒÆ’Ã‚Â½ SÃƒÆ’Ã‚Â¡ch</h1>
+                    <p className="text-sm text-slate-500">TiÃƒÂ¡Ã‚ÂºÃ‚Â¿p nhÃƒÂ¡Ã‚ÂºÃ‚Â­n sÃƒÆ’Ã‚Â¡ch mÃƒÂ¡Ã‚Â»Ã¢â‚¬Âºi (BM2) vÃƒÆ’Ã‚Â  tra cÃƒÂ¡Ã‚Â»Ã‚Â©u thÃƒÆ’Ã‚Â´ng tin (BM3).</p>
                 </div>
                 <div className="flex gap-2">
                     <ExcelImporter 
-                        buttonLabel="NhÃ¡ÂºÂ­p Excel" 
+                        buttonLabel="NhÃƒÂ¡Ã‚ÂºÃ‚Â­p Excel" 
                         onImport={handleBulkImport}
                         templateHeaders={['Title', 'Author', 'Category', 'Price', 'Quantity']}
                     />
                     <Button onClick={() => setIsDialogOpen(true)} className="bg-blue-600 hover:bg-blue-700 shadow-sm">
-                        <Plus className="w-4 h-4 mr-2" /> TiÃ¡ÂºÂ¿p nhÃ¡ÂºÂ­n sÃƒÂ¡ch
+                        <Plus className="w-4 h-4 mr-2" /> TiÃƒÂ¡Ã‚ÂºÃ‚Â¿p nhÃƒÂ¡Ã‚ÂºÃ‚Â­n sÃƒÆ’Ã‚Â¡ch
                     </Button>
                 </div>
             </div>
 
-            {/* --- BÃ¡Â»Ëœ LÃ¡Â»Å’C TRA CÃ¡Â»Â¨U (BM3) --- */}
+            {/* --- BÃƒÂ¡Ã‚Â»Ã‹Å“ LÃƒÂ¡Ã‚Â»Ã…â€™C TRA CÃƒÂ¡Ã‚Â»Ã‚Â¨U (BM3) --- */}
             <Card className="shadow-sm border-slate-200">
                 <CardContent className="p-4">
                     <div className="space-y-3">
                         {/* Row 1: Search Filters */}
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                            {/* TÃƒÂªn sÃƒÂ¡ch */}
+                            {/* TÃƒÆ’Ã‚Âªn sÃƒÆ’Ã‚Â¡ch */}
                             <div className="space-y-1">
-                                <label className="text-xs font-medium text-slate-600">TÃƒÂªn sÃƒÂ¡ch</label>
+                                <label className="text-xs font-medium text-slate-600">TÃƒÆ’Ã‚Âªn sÃƒÆ’Ã‚Â¡ch</label>
                                 <SearchableInput
                                     options={suggestedTitles}
                                     value={filterTitle}
                                     onChange={setFilterTitle}
-                                    placeholder="NhÃ¡ÂºÂ­p tÃƒÂªn sÃƒÂ¡ch..."
+                                    placeholder="NhÃƒÂ¡Ã‚ÂºÃ‚Â­p tÃƒÆ’Ã‚Âªn sÃƒÆ’Ã‚Â¡ch..."
                                 />
                             </div>
                             
-                            {/* TÃƒÂ¡c giÃ¡ÂºÂ£ */}
+                            {/* TÃƒÆ’Ã‚Â¡c giÃƒÂ¡Ã‚ÂºÃ‚Â£ */}
                             <div className="space-y-1">
-                                <label className="text-xs font-medium text-slate-600">TÃƒÂ¡c giÃ¡ÂºÂ£</label>
+                                <label className="text-xs font-medium text-slate-600">TÃƒÆ’Ã‚Â¡c giÃƒÂ¡Ã‚ÂºÃ‚Â£</label>
                                 <SearchableInput
                                     options={suggestedAuthors}
                                     value={filterAuthor}
                                     onChange={setFilterAuthor}
-                                    placeholder="NhÃ¡ÂºÂ­p tÃƒÂªn tÃƒÂ¡c giÃ¡ÂºÂ£..."
+                                    placeholder="NhÃƒÂ¡Ã‚ÂºÃ‚Â­p tÃƒÆ’Ã‚Âªn tÃƒÆ’Ã‚Â¡c giÃƒÂ¡Ã‚ÂºÃ‚Â£..."
                                 />
                             </div>
                             
-                            {/* NhÃƒÂ  xuÃ¡ÂºÂ¥t bÃ¡ÂºÂ£n */}
+                            {/* NhÃƒÆ’Ã‚Â  xuÃƒÂ¡Ã‚ÂºÃ‚Â¥t bÃƒÂ¡Ã‚ÂºÃ‚Â£n */}
                             <div className="space-y-1">
-                                <label className="text-xs font-medium text-slate-600">NhÃƒÂ  xuÃ¡ÂºÂ¥t bÃ¡ÂºÂ£n</label>
+                                <label className="text-xs font-medium text-slate-600">NhÃƒÆ’Ã‚Â  xuÃƒÂ¡Ã‚ÂºÃ‚Â¥t bÃƒÂ¡Ã‚ÂºÃ‚Â£n</label>
                                 <SearchableInput
                                     options={suggestedPublishers}
                                     value={filterPublisher}
                                     onChange={setFilterPublisher}
-                                    placeholder="NhÃ¡ÂºÂ­p nhÃƒÂ  xuÃ¡ÂºÂ¥t bÃ¡ÂºÂ£n..."
+                                    placeholder="NhÃƒÂ¡Ã‚ÂºÃ‚Â­p nhÃƒÆ’Ã‚Â  xuÃƒÂ¡Ã‚ÂºÃ‚Â¥t bÃƒÂ¡Ã‚ÂºÃ‚Â£n..."
                                 />
                             </div>
                         </div>
@@ -1114,13 +1114,13 @@ export default function BooksPage() {
                         {/* Row 2: Category + Clear Button */}
                         <div className="flex items-center gap-3">
                             <div className="flex-1 flex items-center gap-2">
-                                <label className="text-xs font-medium text-slate-600 whitespace-nowrap">ThÃ¡Â»Æ’ loÃ¡ÂºÂ¡i:</label>
+                                <label className="text-xs font-medium text-slate-600 whitespace-nowrap">ThÃƒÂ¡Ã‚Â»Ã†â€™ loÃƒÂ¡Ã‚ÂºÃ‚Â¡i:</label>
                                 <Select value={filterCategory} onValueChange={setFilterCategory}>
                                     <SelectTrigger className="w-[200px]">
-                                        <SelectValue placeholder="ThÃ¡Â»Æ’ loÃ¡ÂºÂ¡i" />
+                                        <SelectValue placeholder="ThÃƒÂ¡Ã‚Â»Ã†â€™ loÃƒÂ¡Ã‚ÂºÃ‚Â¡i" />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="all">TÃ¡ÂºÂ¥t cÃ¡ÂºÂ£ thÃ¡Â»Æ’ loÃ¡ÂºÂ¡i</SelectItem>
+                                        <SelectItem value="all">TÃƒÂ¡Ã‚ÂºÃ‚Â¥t cÃƒÂ¡Ã‚ÂºÃ‚Â£ thÃƒÂ¡Ã‚Â»Ã†â€™ loÃƒÂ¡Ã‚ÂºÃ‚Â¡i</SelectItem>
                                         {suggestedCategories.map((cat, idx) => (
                                             <SelectItem key={idx} value={cat}>{cat}</SelectItem>
                                         ))}
@@ -1134,33 +1134,33 @@ export default function BooksPage() {
                                 onClick={clearFilters}
                                 className="text-slate-600"
                             >
-                                <X className="w-4 h-4 mr-1" /> XÃƒÂ³a bÃ¡Â»â„¢ lÃ¡Â»Âc
+                                <X className="w-4 h-4 mr-1" /> XÃƒÆ’Ã‚Â³a bÃƒÂ¡Ã‚Â»Ã¢â€žÂ¢ lÃƒÂ¡Ã‚Â»Ã‚Âc
                             </Button>
                         </div>
                     </div>
                 </CardContent>
             </Card>
 
-            {/* --- DANH SÃƒÂCH SÃƒÂCH (BM3) --- */}
+            {/* --- DANH SÃƒÆ’Ã‚ÂCH SÃƒÆ’Ã‚ÂCH (BM3) --- */}
             <Card className="shadow-sm border-slate-200">
                 <CardHeader className="px-6 py-4 border-b border-slate-100 flex flex-row items-center justify-between">
-                    <CardTitle className="text-base font-semibold text-slate-800">Kho sÃƒÂ¡ch hiÃ¡Â»â€¡n cÃƒÂ³</CardTitle>
-                    <div className="text-xs text-slate-500 bg-slate-100 px-2 py-1 rounded">TÃ¡Â»â€¢ng: {filteredBooks.length} cuÃ¡Â»â€˜n</div>
+                    <CardTitle className="text-base font-semibold text-slate-800">Kho sÃƒÆ’Ã‚Â¡ch hiÃƒÂ¡Ã‚Â»Ã¢â‚¬Â¡n cÃƒÆ’Ã‚Â³</CardTitle>
+                    <div className="text-xs text-slate-500 bg-slate-100 px-2 py-1 rounded">TÃƒÂ¡Ã‚Â»Ã¢â‚¬Â¢ng: {filteredBooks.length} cuÃƒÂ¡Ã‚Â»Ã¢â‚¬Ëœn</div>
                 </CardHeader>
                 <div className="overflow-x-auto">
                     <Table>
                         <TableHeader className="bg-slate-50">
                             <TableRow>
-                                    <TableHead>TiÃƒÂªu Ã„â€˜Ã¡Â»Â</TableHead>
-                                    <TableHead>ThÃ¡Â»Æ’ loÃ¡ÂºÂ¡i</TableHead>
-                                    <TableHead>TÃƒÂ¡c giÃ¡ÂºÂ£</TableHead>
-                                    <TableHead>NÃ„Æ’m XB</TableHead>
+                                    <TableHead>TiÃƒÆ’Ã‚Âªu Ãƒâ€žÃ¢â‚¬ËœÃƒÂ¡Ã‚Â»Ã‚Â</TableHead>
+                                    <TableHead>ThÃƒÂ¡Ã‚Â»Ã†â€™ loÃƒÂ¡Ã‚ÂºÃ‚Â¡i</TableHead>
+                                    <TableHead>TÃƒÆ’Ã‚Â¡c giÃƒÂ¡Ã‚ÂºÃ‚Â£</TableHead>
+                                    <TableHead>NÃƒâ€žÃ†â€™m XB</TableHead>
                                     <TableHead className="truncate max-w-[120px]">NXB</TableHead>
-                                    <TableHead className="text-center">TÃ¡Â»â€¢ng sÃ¡Â»â€˜</TableHead>
-                                    <TableHead className="text-center">CÃƒÂ²n trÃ¡Â»â€˜ng</TableHead>
-                                    <TableHead className="text-center">Ã„Âang mÃ†Â°Ã¡Â»Â£n</TableHead>
-                                    <TableHead className="text-center">Ã„ÂÃƒÂ£ mÃ¡ÂºÂ¥t</TableHead>
-                                    <TableHead className="text-right">Thao tÃƒÂ¡c</TableHead>
+                                    <TableHead className="text-center">TÃƒÂ¡Ã‚Â»Ã¢â‚¬Â¢ng sÃƒÂ¡Ã‚Â»Ã¢â‚¬Ëœ</TableHead>
+                                    <TableHead className="text-center">CÃƒÆ’Ã‚Â²n trÃƒÂ¡Ã‚Â»Ã¢â‚¬Ëœng</TableHead>
+                                    <TableHead className="text-center">Ãƒâ€žÃ‚Âang mÃƒâ€ Ã‚Â°ÃƒÂ¡Ã‚Â»Ã‚Â£n</TableHead>
+                                    <TableHead className="text-center">Ãƒâ€žÃ‚ÂÃƒÆ’Ã‚Â£ mÃƒÂ¡Ã‚ÂºÃ‚Â¥t</TableHead>
+                                    <TableHead className="text-right">Thao tÃƒÆ’Ã‚Â¡c</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
@@ -1207,15 +1207,15 @@ export default function BooksPage() {
                                                 </Button>
                                             </DropdownMenuTrigger>
                                             <DropdownMenuContent align="end">
-                                                <DropdownMenuLabel>TÃƒÂ¡c vÃ¡Â»Â¥</DropdownMenuLabel>
+                                                <DropdownMenuLabel>TÃƒÆ’Ã‚Â¡c vÃƒÂ¡Ã‚Â»Ã‚Â¥</DropdownMenuLabel>
                                                 <DropdownMenuItem onClick={() => handleEdit(book)}>
-                                                    <Edit className="mr-2 h-4 w-4" /> SÃ¡Â»Â­a thÃƒÂ´ng tin
+                                                    <Edit className="mr-2 h-4 w-4" /> SÃƒÂ¡Ã‚Â»Ã‚Â­a thÃƒÆ’Ã‚Â´ng tin
                                                 </DropdownMenuItem>
                                                 <DropdownMenuItem 
                                                     onClick={() => handleDelete(book)}
                                                     className="text-red-600 focus:text-red-600"
                                                 >
-                                                    <Trash2 className="mr-2 h-4 w-4" /> XÃƒÂ³a sÃƒÂ¡ch
+                                                    <Trash2 className="mr-2 h-4 w-4" /> XÃƒÆ’Ã‚Â³a sÃƒÆ’Ã‚Â¡ch
                                                 </DropdownMenuItem>
                                             </DropdownMenuContent>
                                         </DropdownMenu>
@@ -1231,9 +1231,9 @@ export default function BooksPage() {
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                 <DialogContent className="sm:max-w-[700px]">
                     <DialogHeader>
-                        <DialogTitle>{editingBookId ? "CÃ¡ÂºÂ­p nhÃ¡ÂºÂ­t ThÃƒÂ´ng tin SÃƒÂ¡ch" : "TiÃ¡ÂºÂ¿p nhÃ¡ÂºÂ­n sÃƒÂ¡ch mÃ¡Â»â€ºi (BM2)"}</DialogTitle>
+                        <DialogTitle>{editingBookId ? "CÃƒÂ¡Ã‚ÂºÃ‚Â­p nhÃƒÂ¡Ã‚ÂºÃ‚Â­t ThÃƒÆ’Ã‚Â´ng tin SÃƒÆ’Ã‚Â¡ch" : "TiÃƒÂ¡Ã‚ÂºÃ‚Â¿p nhÃƒÂ¡Ã‚ÂºÃ‚Â­n sÃƒÆ’Ã‚Â¡ch mÃƒÂ¡Ã‚Â»Ã¢â‚¬Âºi (BM2)"}</DialogTitle>
                         <DialogDescription>
-                            {editingBookId ? "ChÃ¡Â»â€°nh sÃ¡Â»Â­a thÃƒÂ´ng tin chi tiÃ¡ÂºÂ¿t." : "NhÃ¡ÂºÂ­p thÃƒÂ´ng tin chi tiÃ¡ÂºÂ¿t cÃ¡Â»Â§a sÃƒÂ¡ch. LÃ†Â°u ÃƒÂ½ quy Ã„â€˜Ã¡Â»â€¹nh vÃ¡Â»Â nÃ„Æ’m xuÃ¡ÂºÂ¥t bÃ¡ÂºÂ£n."}
+                            {editingBookId ? "ChÃƒÂ¡Ã‚Â»Ã¢â‚¬Â°nh sÃƒÂ¡Ã‚Â»Ã‚Â­a thÃƒÆ’Ã‚Â´ng tin chi tiÃƒÂ¡Ã‚ÂºÃ‚Â¿t." : "NhÃƒÂ¡Ã‚ÂºÃ‚Â­p thÃƒÆ’Ã‚Â´ng tin chi tiÃƒÂ¡Ã‚ÂºÃ‚Â¿t cÃƒÂ¡Ã‚Â»Ã‚Â§a sÃƒÆ’Ã‚Â¡ch. LÃƒâ€ Ã‚Â°u ÃƒÆ’Ã‚Â½ quy Ãƒâ€žÃ¢â‚¬ËœÃƒÂ¡Ã‚Â»Ã¢â‚¬Â¹nh vÃƒÂ¡Ã‚Â»Ã‚Â nÃƒâ€žÃ†â€™m xuÃƒÂ¡Ã‚ÂºÃ‚Â¥t bÃƒÂ¡Ã‚ÂºÃ‚Â£n."}
                         </DialogDescription>
                     </DialogHeader>
 
@@ -1245,36 +1245,36 @@ export default function BooksPage() {
                                 className={`flex-1 py-1.5 text-sm font-medium rounded-md transition-all ${inputMode === 'new' ? 'bg-white text-blue-700 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
                                 onClick={() => setInputMode('new')}
                             >
-                                NhÃ¡ÂºÂ­p Ã„ÂÃ¡ÂºÂ§u SÃƒÂ¡ch MÃ¡Â»â€ºi
+                                NhÃƒÂ¡Ã‚ÂºÃ‚Â­p Ãƒâ€žÃ‚ÂÃƒÂ¡Ã‚ÂºÃ‚Â§u SÃƒÆ’Ã‚Â¡ch MÃƒÂ¡Ã‚Â»Ã¢â‚¬Âºi
                             </button>
                             <button
                                 className={`flex-1 py-1.5 text-sm font-medium rounded-md transition-all ${inputMode === 'existing' ? 'bg-white text-blue-700 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
                                 onClick={() => setInputMode('existing')}
                             >
-                                NhÃ¡ÂºÂ­p ThÃƒÂªm BÃ¡ÂºÂ£n Sao
+                                NhÃƒÂ¡Ã‚ÂºÃ‚Â­p ThÃƒÆ’Ã‚Âªm BÃƒÂ¡Ã‚ÂºÃ‚Â£n Sao
                             </button>
                         </div>
                         )}
 
-                        {/* --- FORM CHÃ¡ÂºÂ¾ Ã„ÂÃ¡Â»Ëœ: SÃƒÂCH CÃƒâ€œ SÃ¡ÂºÂ´N --- */}
+                        {/* --- FORM CHÃƒÂ¡Ã‚ÂºÃ‚Â¾ Ãƒâ€žÃ‚ÂÃƒÂ¡Ã‚Â»Ã‹Å“: SÃƒÆ’Ã‚ÂCH CÃƒÆ’Ã¢â‚¬Å“ SÃƒÂ¡Ã‚ÂºÃ‚Â´N --- */}
                         {inputMode === 'existing' && (
                             <div className="space-y-4 animate-in fade-in zoom-in duration-300">
                                 <div className="p-3 bg-blue-50 border border-blue-100 rounded text-sm text-blue-700 mb-2">
-                                    <span className="font-semibold">ChÃ¡ÂºÂ¿ Ã„â€˜Ã¡Â»â„¢ nÃƒÂ y dÃƒÂ¹ng Ã„â€˜Ã¡Â»Æ’:</span> NhÃ¡ÂºÂ­p thÃƒÂªm sÃ¡Â»â€˜ lÃ†Â°Ã¡Â»Â£ng cho mÃ¡Â»â„¢t cuÃ¡Â»â€˜n sÃƒÂ¡ch (Ã¡ÂºÂ¥n bÃ¡ÂºÂ£n) Ã„â€˜ÃƒÂ£ cÃƒÂ³ sÃ¡ÂºÂµn trong kho.
+                                    <span className="font-semibold">ChÃƒÂ¡Ã‚ÂºÃ‚Â¿ Ãƒâ€žÃ¢â‚¬ËœÃƒÂ¡Ã‚Â»Ã¢â€žÂ¢ nÃƒÆ’Ã‚Â y dÃƒÆ’Ã‚Â¹ng Ãƒâ€žÃ¢â‚¬ËœÃƒÂ¡Ã‚Â»Ã†â€™:</span> NhÃƒÂ¡Ã‚ÂºÃ‚Â­p thÃƒÆ’Ã‚Âªm sÃƒÂ¡Ã‚Â»Ã¢â‚¬Ëœ lÃƒâ€ Ã‚Â°ÃƒÂ¡Ã‚Â»Ã‚Â£ng cho mÃƒÂ¡Ã‚Â»Ã¢â€žÂ¢t cuÃƒÂ¡Ã‚Â»Ã¢â‚¬Ëœn sÃƒÆ’Ã‚Â¡ch (ÃƒÂ¡Ã‚ÂºÃ‚Â¥n bÃƒÂ¡Ã‚ÂºÃ‚Â£n) Ãƒâ€žÃ¢â‚¬ËœÃƒÆ’Ã‚Â£ cÃƒÆ’Ã‚Â³ sÃƒÂ¡Ã‚ÂºÃ‚Âµn trong kho.
                                 </div>
                                 <div className="space-y-2">
-                                    <Label className="after:content-['*'] after:ml-0.5 after:text-red-500">ChÃ¡Â»Ân sÃƒÂ¡ch cÃƒÂ³ sÃ¡ÂºÂµn</Label>
+                                    <Label className="after:content-['*'] after:ml-0.5 after:text-red-500">ChÃƒÂ¡Ã‚Â»Ã‚Ân sÃƒÆ’Ã‚Â¡ch cÃƒÆ’Ã‚Â³ sÃƒÂ¡Ã‚ÂºÃ‚Âµn</Label>
                                     <SearchableInput
                                         id="existingBook"
                                         options={selectableBooks}
                                         value={selectedBookLabel}
                                         onChange={setSelectedBookLabel}
-                                        placeholder="TÃƒÂ¬m theo TÃƒÂªn sÃƒÂ¡ch - NXB - NÃ„Æ’m XB..."
+                                        placeholder="TÃƒÆ’Ã‚Â¬m theo TÃƒÆ’Ã‚Âªn sÃƒÆ’Ã‚Â¡ch - NXB - NÃƒâ€žÃ†â€™m XB..."
                                     />
-                                    <p className="text-xs text-slate-500">GÃƒÂµ tÃƒÂªn sÃƒÂ¡ch Ã„â€˜Ã¡Â»Æ’ tÃƒÂ¬m kiÃ¡ÂºÂ¿m nhanh.</p>
+                                    <p className="text-xs text-slate-500">GÃƒÆ’Ã‚Âµ tÃƒÆ’Ã‚Âªn sÃƒÆ’Ã‚Â¡ch Ãƒâ€žÃ¢â‚¬ËœÃƒÂ¡Ã‚Â»Ã†â€™ tÃƒÆ’Ã‚Â¬m kiÃƒÂ¡Ã‚ÂºÃ‚Â¿m nhanh.</p>
                                 </div>
                                 <div className="space-y-2">
-                                    <Label htmlFor="quantityExisting" className="after:content-['*'] after:ml-0.5 after:text-red-500">SÃ¡Â»â€˜ lÃ†Â°Ã¡Â»Â£ng nhÃ¡ÂºÂ­p thÃƒÂªm</Label>
+                                    <Label htmlFor="quantityExisting" className="after:content-['*'] after:ml-0.5 after:text-red-500">SÃƒÂ¡Ã‚Â»Ã¢â‚¬Ëœ lÃƒâ€ Ã‚Â°ÃƒÂ¡Ã‚Â»Ã‚Â£ng nhÃƒÂ¡Ã‚ÂºÃ‚Â­p thÃƒÆ’Ã‚Âªm</Label>
                                     <Input
                                         id="quantityExisting"
                                         type="number"
@@ -1288,48 +1288,48 @@ export default function BooksPage() {
                             </div>
                         )}
 
-                        {/* --- FORM CHÃ¡ÂºÂ¾ Ã„ÂÃ¡Â»Ëœ: SÃƒÂCH MÃ¡Â»Å¡I (Form cÃ…Â©) --- */}
+                        {/* --- FORM CHÃƒÂ¡Ã‚ÂºÃ‚Â¾ Ãƒâ€žÃ‚ÂÃƒÂ¡Ã‚Â»Ã‹Å“: SÃƒÆ’Ã‚ÂCH MÃƒÂ¡Ã‚Â»Ã…Â¡I (Form cÃƒâ€¦Ã‚Â©) --- */}
                         {inputMode === 'new' && (
                             <div className="space-y-4 animate-in fade-in zoom-in duration-300">
-                        {/* HÃƒÂ ng 1: TÃƒÂªn sÃƒÂ¡ch + ThÃ¡Â»Æ’ loÃ¡ÂºÂ¡i */}
+                        {/* HÃƒÆ’Ã‚Â ng 1: TÃƒÆ’Ã‚Âªn sÃƒÆ’Ã‚Â¡ch + ThÃƒÂ¡Ã‚Â»Ã†â€™ loÃƒÂ¡Ã‚ÂºÃ‚Â¡i */}
                         <div className="grid grid-cols-4 gap-4">
                             <div className="col-span-3 space-y-2">
                                 <Label htmlFor="bookName" className="after:content-['*'] after:ml-0.5 after:text-red-500">
-                                    TÃƒÂªn sÃƒÂ¡ch
+                                    TÃƒÆ’Ã‚Âªn sÃƒÆ’Ã‚Â¡ch
                                 </Label>
                                 <Input 
                                     id="bookName" 
-                                    placeholder="VD: NhÃ¡ÂºÂ­p mÃƒÂ´n CNPM"
+                                    placeholder="VD: NhÃƒÂ¡Ã‚ÂºÃ‚Â­p mÃƒÆ’Ã‚Â´n CNPM"
                                     value={formBookName}
                                     onChange={(e) => setFormBookName(e.target.value)}
                                 />
                             </div>
                             <div className="space-y-2">
-                                <Label htmlFor="category">ThÃ¡Â»Æ’ loÃ¡ÂºÂ¡i</Label>
+                                <Label htmlFor="category">ThÃƒÂ¡Ã‚Â»Ã†â€™ loÃƒÂ¡Ã‚ÂºÃ‚Â¡i</Label>
                                 <SearchableInput
                                     id="category"
                                     options={suggestedCategories}
                                     value={formCategory}
                                     onChange={setFormCategory}
-                                    placeholder="ChÃ¡Â»Ân/NhÃ¡ÂºÂ­p"
+                                    placeholder="ChÃƒÂ¡Ã‚Â»Ã‚Ân/NhÃƒÂ¡Ã‚ÂºÃ‚Â­p"
                                 />
                             </div>
                         </div>
 
-                        {/* HÃƒÂ ng 2: TÃƒÂ¡c giÃ¡ÂºÂ£ + NÃ„Æ’m XB */}
+                        {/* HÃƒÆ’Ã‚Â ng 2: TÃƒÆ’Ã‚Â¡c giÃƒÂ¡Ã‚ÂºÃ‚Â£ + NÃƒâ€žÃ†â€™m XB */}
                         <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-2">
-                                <Label htmlFor="author">TÃƒÂ¡c giÃ¡ÂºÂ£</Label>
+                                <Label htmlFor="author">TÃƒÆ’Ã‚Â¡c giÃƒÂ¡Ã‚ÂºÃ‚Â£</Label>
                                 <SearchableInput
                                     id="author"
                                     options={suggestedAuthors}
                                     value={formAuthor}
                                     onChange={setFormAuthor}
-                                    placeholder="NhÃ¡ÂºÂ­p hoÃ¡ÂºÂ·c chÃ¡Â»Ân..."
+                                    placeholder="NhÃƒÂ¡Ã‚ÂºÃ‚Â­p hoÃƒÂ¡Ã‚ÂºÃ‚Â·c chÃƒÂ¡Ã‚Â»Ã‚Ân..."
                                 />
                             </div>
                             <div className="space-y-2">
-                                <Label htmlFor="publishYear">NÃ„Æ’m xuÃ¡ÂºÂ¥t bÃ¡ÂºÂ£n</Label>
+                                <Label htmlFor="publishYear">NÃƒâ€žÃ†â€™m xuÃƒÂ¡Ã‚ÂºÃ‚Â¥t bÃƒÂ¡Ã‚ÂºÃ‚Â£n</Label>
                                 <Input
                                     id="publishYear"
                                     type="number"
@@ -1341,24 +1341,24 @@ export default function BooksPage() {
                                 />
                                 <div className="flex items-center text-xs text-amber-600 mt-1 bg-amber-50 p-1.5 rounded border border-amber-100">
                                     <AlertCircle className="w-3 h-3 mr-1" />
-                                    QÃ„Â2: ChÃ¡Â»â€° nhÃ¡ÂºÂ­n sÃƒÂ¡ch tÃ¡Â»Â« nÃ„Æ’m {minPublishYear} trÃ¡Â»Å¸ lÃ¡ÂºÂ¡i Ã„â€˜ÃƒÂ¢y.
+                                    QÃƒâ€žÃ‚Â2: ChÃƒÂ¡Ã‚Â»Ã¢â‚¬Â° nhÃƒÂ¡Ã‚ÂºÃ‚Â­n sÃƒÆ’Ã‚Â¡ch tÃƒÂ¡Ã‚Â»Ã‚Â« nÃƒâ€žÃ†â€™m {minPublishYear} trÃƒÂ¡Ã‚Â»Ã…Â¸ lÃƒÂ¡Ã‚ÂºÃ‚Â¡i Ãƒâ€žÃ¢â‚¬ËœÃƒÆ’Ã‚Â¢y.
                                 </div>
                             </div>
                         </div>
 
-                        {/* HÃƒÂ ng 3: NXB + NgÃƒÂ y nhÃ¡ÂºÂ­p */}
+                        {/* HÃƒÆ’Ã‚Â ng 3: NXB + NgÃƒÆ’Ã‚Â y nhÃƒÂ¡Ã‚ÂºÃ‚Â­p */}
                         <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-2">
-                                <Label htmlFor="publisher">NhÃƒÂ  xuÃ¡ÂºÂ¥t bÃ¡ÂºÂ£n</Label>
+                                <Label htmlFor="publisher">NhÃƒÆ’Ã‚Â  xuÃƒÂ¡Ã‚ÂºÃ‚Â¥t bÃƒÂ¡Ã‚ÂºÃ‚Â£n</Label>
                                 <Input 
                                     id="publisher" 
-                                    placeholder="VD: NXB TrÃ¡ÂºÂ»"
+                                    placeholder="VD: NXB TrÃƒÂ¡Ã‚ÂºÃ‚Â»"
                                     value={formPublisher}
                                     onChange={(e) => setFormPublisher(e.target.value)}
                                 />
                             </div>
                             <div className="space-y-2">
-                                <Label htmlFor="dateReceived" className="after:content-['*'] after:ml-0.5 after:text-red-500">NgÃƒÂ y nhÃ¡ÂºÂ­p</Label>
+                                <Label htmlFor="dateReceived" className="after:content-['*'] after:ml-0.5 after:text-red-500">NgÃƒÆ’Ã‚Â y nhÃƒÂ¡Ã‚ÂºÃ‚Â­p</Label>
                                 <Input
                                     id="dateReceived"
                                     type="date"
@@ -1368,11 +1368,11 @@ export default function BooksPage() {
                             </div>
                         </div>
 
-                        {/* HÃƒÂ ng 4: TrÃ¡Â»â€¹ giÃƒÂ¡ + SÃ¡Â»â€˜ lÃ†Â°Ã¡Â»Â£ng */}
+                        {/* HÃƒÆ’Ã‚Â ng 4: TrÃƒÂ¡Ã‚Â»Ã¢â‚¬Â¹ giÃƒÆ’Ã‚Â¡ + SÃƒÂ¡Ã‚Â»Ã¢â‚¬Ëœ lÃƒâ€ Ã‚Â°ÃƒÂ¡Ã‚Â»Ã‚Â£ng */}
                         <div className="grid grid-cols-2 gap-4">
                             <div className={editingBookId ? "col-span-2 space-y-2" : "space-y-2"}>
                                 <Label htmlFor="price" className="after:content-['*'] after:ml-0.5 after:text-red-500">
-                                    TrÃ¡Â»â€¹ giÃƒÂ¡
+                                    TrÃƒÂ¡Ã‚Â»Ã¢â‚¬Â¹ giÃƒÆ’Ã‚Â¡
                                 </Label>
 
                                 <CurrencyInput
@@ -1380,13 +1380,13 @@ export default function BooksPage() {
                                     placeholder="0"
                                     value={formPrice}
                                     onChange={setFormPrice}
-                                    max={100000000} // GiÃ¡Â»â€ºi hÃ¡ÂºÂ¡n max lÃƒÂ  100 triÃ¡Â»â€¡u
+                                    max={100000000} // GiÃƒÂ¡Ã‚Â»Ã¢â‚¬Âºi hÃƒÂ¡Ã‚ÂºÃ‚Â¡n max lÃƒÆ’Ã‚Â  100 triÃƒÂ¡Ã‚Â»Ã¢â‚¬Â¡u
                                 />
 
-                                {/* HiÃ¡Â»Æ’n thÃ¡Â»â€¹ Helper text */}
+                                {/* HiÃƒÂ¡Ã‚Â»Ã†â€™n thÃƒÂ¡Ã‚Â»Ã¢â‚¬Â¹ Helper text */}
                                 <div className="flex justify-between items-center mt-1">
                                     <span className="text-[10px] text-slate-400">
-                                        TÃ¡Â»â€˜i Ã„â€˜a: 100.000.000 VNÃ„Â
+                                        TÃƒÂ¡Ã‚Â»Ã¢â‚¬Ëœi Ãƒâ€žÃ¢â‚¬Ëœa: 100.000.000 VNÃƒâ€žÃ‚Â
                                     </span>
                                     {formPrice > 0 && (
                                         <span className="text-[11px] text-blue-600 font-medium italic">
@@ -1399,7 +1399,7 @@ export default function BooksPage() {
                             {!editingBookId && (
                             <div className="space-y-2">
                                 <Label htmlFor="quantity" className="after:content-['*'] after:ml-0.5 after:text-red-500">
-                                    SÃ¡Â»â€˜ lÃ†Â°Ã¡Â»Â£ng
+                                    SÃƒÂ¡Ã‚Â»Ã¢â‚¬Ëœ lÃƒâ€ Ã‚Â°ÃƒÂ¡Ã‚Â»Ã‚Â£ng
                                 </Label>
                                 <Input
                                     id="quantity"
@@ -1418,14 +1418,14 @@ export default function BooksPage() {
 
                     <DialogFooter>
                         <Button variant="outline" onClick={() => setIsDialogOpen(false)}>
-                            HÃ¡Â»Â§y bÃ¡Â»Â
+                            HÃƒÂ¡Ã‚Â»Ã‚Â§y bÃƒÂ¡Ã‚Â»Ã‚Â
                         </Button>
                         <Button 
                             onClick={handlePreSave} 
                             className="bg-blue-600 hover:bg-blue-700"
                             disabled={isSaving}
                         >
-                            {isSaving ? (editingBookId ? 'Ã„Âang cÃ¡ÂºÂ­p nhÃ¡ÂºÂ­t...' : 'Ã„Âang lÃ†Â°u...') : (editingBookId ? 'CÃ¡ÂºÂ­p nhÃ¡ÂºÂ­t' : 'LÃ†Â°u thÃƒÂ´ng tin')}
+                            {isSaving ? (editingBookId ? 'Ãƒâ€žÃ‚Âang cÃƒÂ¡Ã‚ÂºÃ‚Â­p nhÃƒÂ¡Ã‚ÂºÃ‚Â­t...' : 'Ãƒâ€žÃ‚Âang lÃƒâ€ Ã‚Â°u...') : (editingBookId ? 'CÃƒÂ¡Ã‚ÂºÃ‚Â­p nhÃƒÂ¡Ã‚ÂºÃ‚Â­t' : 'LÃƒâ€ Ã‚Â°u thÃƒÆ’Ã‚Â´ng tin')}
                         </Button>
                     </DialogFooter>
                 </DialogContent>
@@ -1435,17 +1435,17 @@ export default function BooksPage() {
             <Dialog open={isConfirmDialogOpen} onOpenChange={setIsConfirmDialogOpen}>
                 <DialogContent className="sm:max-w-[425px]">
                     <DialogHeader>
-                        <DialogTitle>XÃƒÂ¡c nhÃ¡ÂºÂ­n lÃ†Â°u</DialogTitle>
+                        <DialogTitle>XÃƒÆ’Ã‚Â¡c nhÃƒÂ¡Ã‚ÂºÃ‚Â­n lÃƒâ€ Ã‚Â°u</DialogTitle>
                         <DialogDescription>
-                            BÃ¡ÂºÂ¡n cÃƒÂ³ chÃ¡ÂºÂ¯c chÃ¡ÂºÂ¯n muÃ¡Â»â€˜n lÃ†Â°u thÃƒÂ´ng tin nÃƒÂ y vÃƒÂ o hÃ¡Â»â€¡ thÃ¡Â»â€˜ng?
+                            BÃƒÂ¡Ã‚ÂºÃ‚Â¡n cÃƒÆ’Ã‚Â³ chÃƒÂ¡Ã‚ÂºÃ‚Â¯c chÃƒÂ¡Ã‚ÂºÃ‚Â¯n muÃƒÂ¡Ã‚Â»Ã¢â‚¬Ëœn lÃƒâ€ Ã‚Â°u thÃƒÆ’Ã‚Â´ng tin nÃƒÆ’Ã‚Â y vÃƒÆ’Ã‚Â o hÃƒÂ¡Ã‚Â»Ã¢â‚¬Â¡ thÃƒÂ¡Ã‚Â»Ã¢â‚¬Ëœng?
                         </DialogDescription>
                     </DialogHeader>
                     <DialogFooter>
                         <Button variant="outline" onClick={() => setIsConfirmDialogOpen(false)}>
-                            HÃ¡Â»Â§y bÃ¡Â»Â
+                            HÃƒÂ¡Ã‚Â»Ã‚Â§y bÃƒÂ¡Ã‚Â»Ã‚Â
                         </Button>
                         <Button onClick={handleConfirmSave} className="bg-blue-600 hover:bg-blue-700">
-                            XÃƒÂ¡c nhÃ¡ÂºÂ­n
+                            XÃƒÆ’Ã‚Â¡c nhÃƒÂ¡Ã‚ÂºÃ‚Â­n
                         </Button>
                     </DialogFooter>
                 </DialogContent>
@@ -1455,8 +1455,8 @@ export default function BooksPage() {
             <ConfirmDialog
                 isOpen={isDeleteDialogOpen}
                 onOpenChange={setIsDeleteDialogOpen}
-                title="XÃƒÂ¡c nhÃ¡ÂºÂ­n xÃƒÂ³a sÃƒÂ¡ch"
-                description="BÃ¡ÂºÂ¡n cÃƒÂ³ chÃ¡ÂºÂ¯c chÃ¡ÂºÂ¯n muÃ¡Â»â€˜n xÃƒÂ³a sÃƒÂ¡ch nÃƒÂ y? HÃ¡Â»â€¡ thÃ¡Â»â€˜ng sÃ¡ÂºÂ½ thÃ¡Â»Â±c hiÃ¡Â»â€¡n xÃƒÂ³a."
+                title="XÃƒÆ’Ã‚Â¡c nhÃƒÂ¡Ã‚ÂºÃ‚Â­n xÃƒÆ’Ã‚Â³a sÃƒÆ’Ã‚Â¡ch"
+                description="BÃƒÂ¡Ã‚ÂºÃ‚Â¡n cÃƒÆ’Ã‚Â³ chÃƒÂ¡Ã‚ÂºÃ‚Â¯c chÃƒÂ¡Ã‚ÂºÃ‚Â¯n muÃƒÂ¡Ã‚Â»Ã¢â‚¬Ëœn xÃƒÆ’Ã‚Â³a sÃƒÆ’Ã‚Â¡ch nÃƒÆ’Ã‚Â y? HÃƒÂ¡Ã‚Â»Ã¢â‚¬Â¡ thÃƒÂ¡Ã‚Â»Ã¢â‚¬Ëœng sÃƒÂ¡Ã‚ÂºÃ‚Â½ thÃƒÂ¡Ã‚Â»Ã‚Â±c hiÃƒÂ¡Ã‚Â»Ã¢â‚¬Â¡n xÃƒÆ’Ã‚Â³a."
                 onConfirm={confirmDelete}
                 variant="destructive"
             />
